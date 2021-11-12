@@ -1,0 +1,290 @@
+
+            <!-- ============================================================== -->
+            <!-- Start Page Content here -->
+            <!-- ============================================================== -->
+{% extends "extend.html" %}
+{% block tittle %}Edit Account - ECOMMFLOW{% endblock tittle %}
+{% block css %}<link rel="stylesheet" type="text/css" href="static/css/editaccount.css">{% endblock css %}
+ {% block js %}
+ <!-- Right bar overlay-->
+        <div class="rightbar-overlay"></div>
+
+        <!-- Vendor js -->
+        <script src="static/js/vendor.min.js"></script>
+
+        <!-- Bootstrap Tables js -->
+        <script src="static/libs/bootstrap-table/bootstrap-table.min.js"></script>
+
+        <!-- Init js -->
+        <script src="static/js/pages/bootstrap-tables.init.js"></script>
+
+        <!-- App js -->
+        <script src="static/js/app.min.js"></script>
+ {% endblock js %}
+
+{% block body %}
+             <div class="content-page" style="display:none;"  id="loader" align="center">
+                 <div class="spinner-border text-success " style="margin-top:20%" role="status"></div>
+             </div>
+            <div class="content-page" id="test">
+
+                <div class="content">
+
+                    <!-- Start Content-->
+                    <div class="container-fluid">
+
+                        <!-- start page title -->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="page-title-box">
+                                    <h4 class="page-title">Edit Account</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end page title -->
+                      <form id="editaccount">
+                      {% for x in accountdata %}
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card-box">
+                                    <div class="alert alert-warning d-none fade show">
+                                        <h4>Oh snap!</h4>
+                                        <p class="mb-0">This form seems to be invalid :(</p>
+                                    </div>
+
+                                    <div class="alert alert-info d-none fade show">
+                                        <h4>Yay!</h4>
+                                        <p class="mb-0">Everything seems to be ok :)</p>
+                                    </div>
+
+                                    <form id="demo-form" data-parsley-validate="">
+                                        <div class="form-group">
+                                            <label for="fullname">Business Name :</label>
+                                            <input type="text" value={{x.buisnessName}} class="form-control" name="businessname" id="businessname" required="">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="email">Primary Contact Name :</label>
+                                            <input type="text" id="contactname" value={{x.contactName}}  class="form-control" name="contactname" data-parsley-trigger="change" required="">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="email">Primary Contact Email :</label>
+                                            <input type="email" id="email" value={{x.Email}} class="form-control" name="email" data-parsley-trigger="change" required="">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="email">Primary Contact Phone :</label>
+                                            <input type="Phone" id="phoneno" value={{x.phone}} class="form-control" name="phoneno" data-parsley-trigger="change" required="">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-md-8">
+                                                    <label for="password1">Password :</label>
+                                                    <input type="password" value={{x.Password}} class="form-control" name="password" required="" id="password1">
+                                                </div>
+
+                                                <div class="col-md-2 float-right" style="margin-top: 35px;">
+                                                    <input type="checkbox" onchange="showPassword()" id="pwdcheck">
+                                                    <label class="mb-1">Show Password</label>
+                                                </div>
+
+                                                <div class="col-md-2" style="margin-top: 28px;">
+                                                    <input type="button" class="btn btn-success"  value="Update Password" onclick="confirmPassword()">
+                                                </div>
+                                            </div>                                            
+                                        </div>
+
+                                        <div class="form-group" style="display: none;" id="confirmpwd">
+                                            <label for="confirmpwd">Confirm Password :</label>
+                                            <input type="password" id="conpassword" onkeyup="validatePassword()" class="form-control" name="conpassword" required="" >
+                                        </div>
+
+                                    </form>
+
+                                </div> <!-- end card-box-->
+                            </div> <!-- end col-->
+                        </div>
+                        <!-- end row-->
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="header-title">Module Access</h4>
+                                        <!-- Rounded switch -->
+                                        <div class="row">
+
+                                            <label for="switch1" class="mt-1 col-md-1">User </label>
+                                            <div class="col-md-3 form-group">
+                                                <label class="switch" >
+                                                   <input type="checkbox" value="1" id="addUser" name="user" {% if 1 == x.addUser%} checked {%endif%}>
+                                                   <span class="slider round"></span>
+                                                </label>
+                                            </div>
+
+
+                                            <label for="switch1" class="mt-1 col-md-1">Gift Cards </label>
+                                            <div class="col-md-3 form-group">
+                                                <label class="switch" >
+                                                   <input type="checkbox" value="1" id="giftCards" name="giftCards" {% if 1 == x.giftCards%} checked {%endif%}>
+                                                   <span class="slider round"></span>
+                                                </label>
+                                            </div>
+
+
+                                            <label for="switch1" class="mt-1 col-md-1">Order Tracking </label>
+                                            <div class="col-md-3 form-group">
+                                                <label class="switch" id="switch1">
+                                                   <input type="checkbox" value="1" id="orderTracking" name="orderTracking" {% if 1 == x.orderTracking%} checked {%endif%}>
+                                                   <span class="slider round"></span>
+                                                </label>
+                                            </div>
+
+                                            <label for="switch1" class="mt-1 col-md-1">Buyer Manager </label>
+                                            <div class="col-md-3 form-group">
+                                                <label class="switch" id="switch1">
+                                                   <input type="checkbox" value="1" id="buyerManager" name="buyerManager" {% if 1 == x.buyerManager%} checked {%endif%}>
+                                                   <span class="slider round"></span>
+                                                </label>
+                                            </div>
+
+                                            <label for="switch1" class="mt-1 col-md-1">Price Monitor </label>
+                                            <div class="col-md-3 form-group">
+                                                <label class="switch" id="switch1">
+                                                   <input type="checkbox" value="1" id="priceMonitor" name="priceMonitor" {% if 1 == x.PriceMonitor%} checked {%endif%}>
+                                                   <span class="slider round"></span>
+                                                </label>
+                                            </div>
+
+                                            <label for="switch1" class="mt-1 col-md-1">Inventory </label>
+                                            <div class="col-md-3 form-group">
+                                                <label class="switch" id="switch1">
+                                                   <input type="checkbox" value="1" id="inventory" name="inventory" {% if 1 == x.inventory%} checked {%endif%}>
+                                                   <span class="slider round"></span>
+                                                </label>
+                                            </div>
+
+                                            <label for="switch1" class="mt-1 col-md-1">Cashflow </label>
+                                            <div class="col-md-3 form-group">
+                                                <label class="switch" id="switch1">
+                                                   <input type="checkbox" value="1" id="cashFlow" name="cashFlow" {% if 1 == x.cashFlow%} checked {%endif%}>
+                                                   <span class="slider round"></span>
+                                                </label>
+                                            </div>
+
+                                            <label for="switch1" class="mt-1 col-md-1">Reports </label>
+                                            <div class="col-md-3 form-group">
+                                                <label class="switch" id="switch1">
+                                                   <input type="checkbox" value="1" id="reports" name="reports" {% if 1 == x.reports%} checked {%endif%}>
+                                                   <span class="slider round"></span>
+                                                </label>
+                                            </div>
+
+                                            <label for="switch1" class="mt-1 col-md-1">Cashback </label>
+                                            <div class="col-md-3 form-group">
+                                                <label class="switch" id="switch1">
+                                                   <input type="checkbox" value="1" id="cashback" name="cashback" {% if 1 == x.cashback%} checked {%endif%}>
+                                                   <span class="slider round"></span>
+                                                </label>
+                                            </div>
+
+
+                                        </div>
+
+                                    </div> <!-- end card-body -->
+                                </div> <!-- end card-->
+                            </div> <!-- end col -->
+                        </div>
+                      {% endfor %}
+
+                        <div class="form-group mb-0 row ">
+                                <input name="save" type="submit" value="Save" id="save" onclick="editFunction()" class="btn btn-success waves-effect waves-light" value="Save">
+                        <div id="msg" style="display:none;color:black;padding-left:10px;padding-top:5px;" >Account Update</div>
+                        </div>
+
+                      </form>
+
+                    </div> <!-- container -->
+
+                </div> <!-- content -->
+
+
+        <script type="text/javascript">
+            function showPassword(){
+                var x = document.getElementById("password1");
+                if (x.type === "password") {
+                    x.type = "text";
+                } 
+                else {
+                    x.type = "password";
+                }
+            }
+            function confirmPassword(){
+                var y = document.getElementById("confirmpwd");
+                if (y.style.display === "block") {
+                    y.style.display = "none";
+                    document.getElementById("save").disabled = false;
+                } 
+                else {
+                    y.style.display = "block";
+                }
+            }
+
+           <!-- send data to post method-->
+           function editFunction() {
+               document.getElementById("test").style.display = "none";
+               document.getElementById("loader").style.display = "block";
+               {% for x in accountdata %}
+                    var id={{x.companyID}}
+               {% endfor %}
+               $.ajax({
+                  type:'POST',
+                  url:'/accountEdit/'+id,
+                  data:{
+                     <!-- userdata-->
+                     businessname:$('#businessname').val(),
+                     contactname:$('#contactname').val(),
+                     email:$('#email').val(),
+                     phoneno:$('#phoneno').val(),
+                     password:$('#password1').val(),
+                     conpassword:$('#conpassword').val(),
+
+                     <!--accessdata-->
+                     user: $('input#addUser').prop('checked'),
+                     giftCard: $('input#giftCards').prop('checked'),
+                     orderTracking: $('input#orderTracking').prop('checked'),
+                     buyerManager: $('input#buyerManager').prop('checked'),
+                     priceMonitor: $('input#priceMonitor').prop('checked'),
+                     inventory: $('input#inventory').prop('checked'),
+                     cashFlow: $('input#cashFlow').prop('checked'),
+                     reports: $('input#reports').prop('checked'),
+                     cashback: $('input#cashback').prop('checked')
+                  },
+                  success:function(){
+                  myVar = setTimeout(setTime, 1000);
+                  }
+               });
+           }
+           function setTime() {
+                document.getElementById("test").style.display = "block";
+                document.getElementById("msg").style.display = "block";
+                document.getElementById("loader").style.display = "none";
+           }
+</script>
+<script>
+
+    function validatePassword(){
+        var password = document.getElementById("password1"),confirm_password = document.getElementById("conpassword");
+        if(password.value != confirm_password.value){
+            document.getElementById("conpassword").style.borderColor = "red";
+            document.getElementById("save").disabled = true;
+        } else {
+            document.getElementById("conpassword").style.borderColor = "green";
+            document.getElementById("save").disabled = false;
+        }
+    }
+
+</script>
+  {% endblock %}

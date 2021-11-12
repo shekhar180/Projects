@@ -1,0 +1,154 @@
+{% extends "extend.html" %}
+{% block tittle %}Import Gift Card - RASM{% endblock tittle %}
+{% block css %}
+ <!-- Plugins css -->
+      <link href="static/libs/flatpickr/flatpickr.min.css" rel="stylesheet" type="text/css" />
+      <link href="static/libs/bootstrap-colorpicker/bootstrap-colorpicker.min.css" rel="stylesheet" type="text/css" />
+      <link href="static/libs/clockpicker/bootstrap-clockpicker.min.css" rel="stylesheet" type="text/css" />
+      <link href="static/libs/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="static/css/importgiftcard.css">
+{% endblock css %}
+
+{% block js %}
+
+        <!-- App js -->
+        <script src="static/js/app.min.js"></script>
+
+        <!-- Modal-Effect -->
+        <script src="static/libs/custombox/custombox.min.js"></script>
+
+        <!-- Right bar overlay-->
+        <div class="rightbar-overlay"></div>
+
+        <!-- Plugins js-->
+        <script src="static/libs/flatpickr/flatpickr.min.js"></script>
+        <script src="static/libs/bootstrap-colorpicker/bootstrap-colorpicker.min.js"></script>
+        <script src="static/libs/clockpicker/bootstrap-clockpicker.min.js"></script>
+        <script src="static/libs/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+
+
+{% endblock js %}
+
+{% block body %}
+            <!-- ============================================================== -->
+            <!-- Start Page Content here -->
+            <!-- ============================================================== -->
+
+            <div class="content-page">
+                <div class="content">
+
+                    <!-- Start Content-->
+                    <div class="container-fluid">
+                        
+                        <!-- start page title -->
+                        <div class="row">
+                            <div class="col-12">
+                                
+                                <div class="page-title-box">
+         
+                                    <h4 class="page-title">Import Gift Cards</h4>
+                                     <div id="con-close-modal" class="modal fade mt-3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Import Cards</h4>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                </div>
+                                                <div class="modal-body">
+                                       <div class="form-group">
+                                          <label>Upload File</label>
+                                          <div class="input-group">
+                                             <div class="custom-file">
+                                                <input type="file" class="custom-file-input" id="inputGroupFile01"
+                                                   aria-describedby="inputGroupFileAddon01">
+                                                <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                                             </div>
+                                             <button type="button" class="btn ml-2 btn-info waves-effect waves-light">Upload File</button>
+                                          </div>
+                                       </div>
+                                    </div>
+                                                <div class="modal-footer">
+                                                    
+                                                    
+                                                    <button type="button" class="btn btn-info waves-effect waves-light">Download CSV List Template</button>
+                                                    <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                     <div class="float-right modal-cusm">
+                                            <button type="button" class="btn btn-success waves-effect waves-light" data-toggle="modal" data-target="#con-close-modal">Import Card</button>
+                                            
+                                        </div>
+                                </div>
+                            </div>
+                        </div>     
+                        <!-- end page title --> 
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card-box">
+                                    <!-- Logo & title -->
+                                    
+
+                                    <!-- end row -->
+        
+                                    
+                                    <div class="table-responsive row">
+                                            <table class="table table-centered mb-0" >
+                                                <thead>
+                                                    <tr>
+                                                        <th><input type="checkbox" name="check1" id="cb-bulk"></th>
+                                                        <th>DOP</th>
+                                                        <th>Order #</th>
+                                                        <th>Order Total</th>
+                                                        <th>Order Status</th>
+                                                        <th>Amount Used</th>
+                                                        <th>Balance</th>
+                                                    </tr>
+                                                </thead>
+                                                
+                                                <tbody id="myTable">
+                                                    <tr>
+                                                        <td><input type="checkbox" name="check[]" class="cb-single"></input></td>
+                                                        <td>01/10/20</td>
+                                                        <td>435687</td>
+                                                        <td>$475.54</td>
+                                                        <td>Delivered</td>
+                                                        <td contenteditable='true'>- $200</td>
+                                                        <td contenteditable='true'>+$300</td>
+                                                    </tr>
+                                                    
+                                                </tbody>
+                                            </table>
+                                        </div> <!-- end .table-responsive-->
+        
+
+                                    
+        
+                                    
+                                </div> <!-- end card-box -->
+                            </div> <!-- end col -->
+                        </div>
+                        <!-- end row --> 
+                        
+                    </div> <!-- container -->
+
+                </div> <!-- content -->
+
+
+       
+        <!-- Vendor js -->
+        <script src="static/js/vendor.min.js"></script>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+  $("#myInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#myTable tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+</script>
+ {% endblock %}

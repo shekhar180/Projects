@@ -1,0 +1,1042 @@
+{% extends "extend.html" %}
+{% block tittle %}Gift Card For Sale - ECOMMFLOW{% endblock tittle %}
+{% block css %}
+ <!-- Plugins css -->
+      <!-- <link href="static/libs/flatpickr/flatpickr.min.css" rel="stylesheet" type="text/css" />
+      <link href="static/libs/bootstrap-colorpicker/bootstrap-colorpicker.min.css" rel="stylesheet" type="text/css" />
+      <link href="static/libs/clockpicker/bootstrap-clockpicker.min.css" rel="stylesheet" type="text/css" />
+      <link href="static/libs/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" /> -->
+
+       <!-- third party css -->
+       <link href="static/libs/datatables/dataTables.bootstrap4.css" rel="stylesheet" type="text/css" />
+       <link href="static/libs/datatables/responsive.bootstrap4.css" rel="stylesheet" type="text/css" />
+       <link href="static/libs/datatables/buttons.bootstrap4.css" rel="stylesheet" type="text/css" />
+       <link href="static/libs/datatables/select.bootstrap4.css" rel="stylesheet" type="text/css" />
+       <!-- third party css end -->
+
+      
+        <!-- editable table datepicker css -->
+        <link href="static/libs/flatpickr/flatpickr.min.css" rel="stylesheet" type="text/css" />
+
+        <!-- upperdropdown datepicker css -->
+        <link href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+
+         <!-- custom css -->
+         <link rel="stylesheet" type="text/css" href="static/css/giftcard.css">
+
+
+    <style>
+
+    .p-datepicker {
+        border: none !important;
+    }
+    .p-datepicker:focus {
+        border: 1px solid;
+    }
+
+   select {
+         border: none;
+    }
+
+    
+
+
+   
+   #snackbar {
+     visibility: hidden;
+     min-width: 250px;
+     margin-left: -125px;
+     background: #f7b84b !important;
+     z-index: 999 !important;
+     color: #000 !important;
+     text-align: center;
+     border-radius: 2px;
+     padding: 16px;
+     position: fixed;
+     z-index: 1;
+     left: 50%;
+     top: 30px;
+     font-size: 17px;
+   }
+
+   #snackbar.show {
+     visibility: visible;
+     -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+     animation: fadein 0.5s, fadeout 0.5s 2.5s;
+   }
+
+   @-webkit-keyframes fadein {
+     from {top: 0; opacity: 0;}
+     to {top: 30px; opacity: 1;}
+   }
+
+   @keyframes fadein {
+     from {top: 0; opacity: 0;}
+     to {top: 30px; opacity: 1;}
+   }
+
+   @-webkit-keyframes fadeout {
+     from {top: 30px; opacity: 1;}
+     to {top: 0; opacity: 0;}
+   }
+
+   @keyframes fadeout {
+     from {top: 30px; opacity: 1;}
+     to {top: 0; opacity: 0;}
+   }
+
+   .bootstrap-select .inner {
+    overflow-y: auto !important;
+}
+
+#showcustomdate{
+    position: relative;
+    left: 11rem;
+    top: 25px;
+    border: 1px solid;
+    padding: 5px;
+    border-radius: 5px;
+    display:none;
+}
+
+#showselectedbox{
+    position: relative;
+    left: 12rem;
+    top: 25px;
+    border: 1px solid;
+    border-radius: 5px;
+    padding: 4px;
+    display:none;
+}
+
+/* CSS FOR upperdropdown datepicker */
+.ui-widget-header {
+	border: none !important;
+	background: transparent !important;
+}
+
+.ui-state-default,
+.ui-widget-content .ui-state-default {
+	border-radius: 4px !important;
+	border: none !important;
+}
+
+/*
+.ui-state-highlight,
+.ui-widget-content .ui-state-highlight {
+	background: #6658dd!important;
+	color: #fff;
+}*/
+
+.ui-datepicker td a {
+	text-align: center;
+}
+
+.ui-widget-content {
+	border: none;
+	background: #ffffff;
+	color: #212529;
+	font-size: 16px;
+	font-weight: initial;
+	line-height: 1.5;
+}
+
+.ui-widget {
+	font-family: Nunito, sans-serif;
+}
+
+.ui-widget.ui-widget-content {
+	border: none;
+}
+
+.ui-datepicker {
+	width: 13em;
+}
+
+</style>
+{% endblock css %}
+
+{% block js %}
+
+      <!-- Bootstrap Tables js -->
+      <!-- <script src="static/libs/bootstrap-table/bootstrap-table.min.js"></script> -->
+      <!-- Init js -->
+      <!-- <script src="static/js/pages/bootstrap-tables.init.js"></script> -->
+
+      <!-- bootstrap filter js -->
+      <script src="static/libs/bootstrap-select/bootstrap-select.min.js"></script>
+
+
+        <!---------- cell editable js ---------------->
+       <!-- https://stackoverflow.com/questions/35869054/using-jeditable-and-getting-typeerror-editable-is-not-a-function-what-t -->
+        <script src="http://www.appelsiini.net/download/jquery.jeditable.mini.js"></script>
+
+        <!-- third party js -->
+        <script src="static/libs/datatables/jquery.dataTables.min.js"></script>
+        <script src="static/libs/datatables/dataTables.bootstrap4.js"></script>
+        <script src="static/libs/datatables/dataTables.responsive.min.js"></script>
+        <script src="static/libs/datatables/responsive.bootstrap4.min.js"></script>
+        <script src="static/libs/datatables/dataTables.buttons.min.js"></script>
+        <script src="static/libs/datatables/buttons.bootstrap4.min.js"></script>
+        <script src="static/libs/datatables/buttons.html5.min.js"></script>
+        <script src="static/libs/datatables/dataTables.keyTable.min.js"></script>
+
+        
+
+        <!-- third party js ends -->
+
+        <!-- Datatables init -->
+        <script src="static/js/pages/datatables.init.js"></script>
+
+        <!-- App js -->
+        <script src="static/js/app.min.js"></script>
+
+        
+         <!-- editable table datepicker js -->
+         <script src="static/libs/flatpickr/flatpickr.min.js"></script>
+
+         
+         <!-- upper dropdown datepicker js -->
+         <script src="static/libs/jquery-ui/jquery-ui.min.js"></script>
+
+         <!-- Sweetalert -->
+         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+{% endblock js %}
+{% block body %}
+<div id="snackbar">Some text some message..</div>
+         <!-- ============================================================== -->
+         <!-- Start Page Content here -->
+         <!-- ============================================================== -->
+         <div class="content-page">
+            <div class="content">
+               <!-- Start Content-->
+               <div class="container-fluid">
+                  <!-- start page title -->
+                  <div class="row">
+                     <div class="col-12">
+                        <div class="page-title-box">
+                           <h4 class="page-title">Gift Card Sales</h4>
+                        </div>
+                     </div>
+                  </div>
+                  <!-- end page title -->
+                  <div class="row">
+                     <div id="modal-date-custom" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                        <div class="modal-dialog">
+                           <div class="modal-content">
+                              <div class="modal-header">
+                                 <h4 class="modal-title">Select Date Range</h4>
+                                 <button type="button" class="close" data-dismiss="modal" onclick="closemodal()" aria-hidden="true">×</button>
+                              </div>
+                              <div class="modal-body p-4">
+                                 <div class="form-group mb-0">
+                                    <div class="input-group">
+                                       <div class="form-group">
+                                          <div class="row">
+                                             <div class="col-md-6">
+                                                <label>From:</label>
+                                                <input type="text" id="dp-from" class="form-control" data-provide="datepicker" placeholder="Start Date">
+                                             </div>
+                                             <div class="col-md-6">
+                                                <label>To:</label>
+                                                <input type="text" id="dp-to" class="form-control" data-provide="datepicker" placeholder="End Date">
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="modal-footer">
+                                 <button type="button" id = 'dateButton' class="btn btn-info waves-effect waves-light" onclick="customDate()">Submit</button>
+                                 <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal" onclick="closemodal()">Close</button>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <!-- /.modal -->
+                  <div class="row">
+                     <div class="col-sm-12">
+                        <div class="card-box">
+                           <div class="form-inline mb-2">
+                              <!-- /btn-group -->
+                              <div class="form-group mr-2">    
+                                 <button type="button" id="Delete" onclick='deleteRow()'  class="btn btn-danger waves-effect waves-light btn-block ">Remove</button>
+                              </div>
+                              <div class="form-group mr-2 boxline1">
+                                 <div class="btn-group btn-block">
+                                    <button type="button" class="btn btn-info dropdown-toggle " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Bulk Action <i class="mdi mdi-chevron-down"></i></button>
+                                    <div class="dropdown-menu">
+                                       <a class="dropdown-item" onclick='marksold()' style="cursor:pointer;" id="markbtn" data-target="#con-close-modal-new" data-toggle="modal">Mark Sold</a>
+                                    </div>
+                                 </div>
+                              </div>
+                              
+                              <div class="form-group mr-2">
+                                 <select class="selectpicker" id="timefilter" onchange="dateFilter(this)">
+                                    <option value="Date Range">Date Range</option>
+                                    <option value="Last7days">Last 7 days</option>
+                                    <option value="ThisWeek">This Week</option>
+                                    <option value="Last30days">Last 30 days</option>
+                                    <option value="LastMonth">Last Month</option>
+                                    <option value="ThisMonth">This Month</option>
+                                    <option value="Custom">Custom</option>
+                                 </select>
+                              </div>
+                         
+                              <div class="form-group mr-2">
+                                 <select class="selectpicker" id="retailersFilter"  onchange="retailerFilter(this)">
+                                    <option>Retailers</option>
+                                       {% for ret in distinct_retailer %}
+                                    <option value="{{ret.0}}">{{ret.0}}</option>
+                                       {% endfor %}
+                                    <!-- <option value="Cabela''s">Cabela’s</option> --> 
+                                 </select>
+                              </div>
+
+                              <div class="form-group mr-2">
+                                 <select class="selectpicker" onchange="statusFilter(this)">
+                                    <option >Status</option>
+                                    <option value="Unsold">Unsold</option>
+                                    <option value="Sold">Sold</option>
+                                    <option value="Request">Request</option>
+                                    <option value="Paid">Paid</option>
+                                 </select>
+                              </div>
+                           </div>
+                           <div class="row">
+                              <div class="col-md-12" style='overflow-x: auto'>
+                                <table id="giftcardSaleTable" class="table w-100 nowrap table-bordered table-hover">
+                                 <span id="showcustomdate"></span>
+                                 <span id="showselectedbox"></span>
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th class="no-sort"><input type="checkbox" name="check1" id="cb-bulk" class="cb-tab"></th>
+                                            <th>Retailer</th>
+                                            <th>Gift Card #</th>
+                                            <th>Value</th>
+                                            <th>Cost</th>
+                                            <th>Price</th>
+                                            <th>Status</th>
+                                            <th>Purchase Date</th>
+                                            <th>Purchased By</th>
+                                            <th>Profit</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tfoot>
+                                       <th></th>
+                                       <th><b>Total</b></th>
+                                       <th></th>
+                                       <th></th>
+                                       <th></th>
+                                       <th></th>
+                                       <th></th>
+                                       <th></th>
+                                       <th></th>
+                                       <th><b></b></th>
+                                    </tfoot>
+                                </table>
+                              </div>
+                           </div>
+                           <!-- end .table-responsive-->                                
+                        </div>
+                     </div>
+                     <!-- end card-box -->
+                  </div>
+                  <!-- end col -->
+               </div>
+            </div>
+            <!-- container -->
+         </div>
+         <!-- content -->
+         <!-- Footer Start -->
+         <footer class="footer">
+            <div class="container-fluid">
+               <div class="row">
+                  <div class="col-md-6">
+                     2020 &copy; Prime Electronics, LLC
+                  </div>
+                  <div class="col-md-6">
+                     <div class="text-md-right footer-links d-none d-sm-block">
+                        <a href="javascript:void(0);">About Us</a>
+                        <a href="javascript:void(0);">Help</a>
+                        <a href="javascript:void(0);">Contact Us</a>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </footer>
+         <!-- end Footer -->
+      </div>
+      <!-- ============================================================== -->
+      <!-- End Page content -->
+      <!-- ============================================================== -->
+      </div>
+      <!-- END wrapper -->
+      <!-- Right Sidebar -->
+      <div class="right-bar">
+         <div class="rightbar-title">
+            <a href="javascript:void(0);" class="right-bar-toggle float-right">
+            <i class="dripicons-cross noti-icon"></i>
+            </a>
+            <h5 class="m-0 text-white">Settings</h5>
+         </div>
+         <div class="slimscroll-menu">
+            <!-- User box -->
+            <div class="user-box">
+               <div class="user-img">
+                  <img src="static/images/users/user-1.jpg" alt="user-img" title="Mat Helme" class="rounded-circle img-fluid">
+                  <a href="javascript:void(0);" class="user-edit"><i class="mdi mdi-pencil"></i></a>
+               </div>
+               <h5><a href="javascript: void(0);">Geneva Kennedy</a> </h5>
+               <p class="text-muted mb-0"><small>Admin Head</small></p>
+            </div>
+            <!-- Settings -->
+            <hr class="mt-0" />
+            <h5 class="pl-3">Basic Settings</h5>
+            <hr class="mb-0" />
+            <div class="p-3">
+               <div class="checkbox checkbox-primary mb-2">
+                  <input id="Rcheckbox1" type="checkbox" checked>
+                  <label for="Rcheckbox1">
+                  Notifications
+                  </label>
+               </div>
+               <div class="checkbox checkbox-primary mb-2">
+                  <input id="Rcheckbox2" type="checkbox" checked>
+                  <label for="Rcheckbox2">
+                  API Access
+                  </label>
+               </div>
+               <div class="checkbox checkbox-primary mb-2">
+                  <input id="Rcheckbox3" type="checkbox">
+                  <label for="Rcheckbox3">
+                  Auto Updates
+                  </label>
+               </div>
+               <div class="checkbox checkbox-primary mb-2">
+                  <input id="Rcheckbox4" type="checkbox" checked>
+                  <label for="Rcheckbox4">
+                  Online Status
+                  </label>
+               </div>
+               <div class="checkbox checkbox-primary mb-0">
+                  <input id="Rcheckbox5" type="checkbox" checked>
+                  <label for="Rcheckbox5">
+                  Auto Payout
+                  </label>
+               </div>
+            </div>
+            <!-- Timeline -->
+            <hr class="mt-0" />
+            <h5 class="px-3">Messages <span class="float-right badge badge-pill badge-danger">25</span></h5>
+            <hr class="mb-0" />
+            <div class="p-3">
+               <div class="inbox-widget">
+                  <div class="inbox-item">
+                     <div class="inbox-item-img"><img src="static/images/users/user-2.jpg" class="rounded-circle" alt=""></div>
+                     <p class="inbox-item-author"><a href="javascript: void(0);" class="text-dark">Tomaslau</a></p>
+                     <p class="inbox-item-text">I've finished it! See you so...</p>
+                  </div>
+                  <div class="inbox-item">
+                     <div class="inbox-item-img"><img src="static/images/users/user-3.jpg" class="rounded-circle" alt=""></div>
+                     <p class="inbox-item-author"><a href="javascript: void(0);" class="text-dark">Stillnotdavid</a></p>
+                     <p class="inbox-item-text">This theme is awesome!</p>
+                  </div>
+                  <div class="inbox-item">
+                     <div class="inbox-item-img"><img src="static/images/users/user-4.jpg" class="rounded-circle" alt=""></div>
+                     <p class="inbox-item-author"><a href="javascript: void(0);" class="text-dark">Kurafire</a></p>
+                     <p class="inbox-item-text">Nice to meet you</p>
+                  </div>
+                  <div class="inbox-item">
+                     <div class="inbox-item-img"><img src="static/images/users/user-5.jpg" class="rounded-circle" alt=""></div>
+                     <p class="inbox-item-author"><a href="javascript: void(0);" class="text-dark">Shahedk</a></p>
+                     <p class="inbox-item-text">Hey! there I'm available...</p>
+                  </div>
+                  <div class="inbox-item">
+                     <div class="inbox-item-img"><img src="static/images/users/user-6.jpg" class="rounded-circle" alt=""></div>
+                     <p class="inbox-item-author"><a href="javascript: void(0);" class="text-dark">Adhamdannaway</a></p>
+                     <p class="inbox-item-text">This theme is awesome!</p>
+                  </div>
+               </div>
+               <!-- end inbox-widget -->
+            </div>
+            <!-- end .p-3-->
+         </div>
+         <!-- end slimscroll-menu-->
+      </div>
+      <!-- /Right-bar -->
+      <!-- Right bar overlay-->
+      <div class="rightbar-overlay"></div>
+      <!-- Vendor js -->
+      <script src="static/js/vendor.min.js"></script>
+
+<script type="text/javascript">
+   function closemodal(){
+            // get modals
+            const modals = document.getElementsByClassName('modal');
+   
+            // on every modal change state like in hidden modal
+            for(let i=0; i<modals.length; i++) {
+               modals[i].classList.remove('show');
+               modals[i].setAttribute('aria-hidden', 'true');
+               modals[i].setAttribute('style', 'display: none');
+            }
+   }
+</script>  
+
+      
+<!------- toast functionality  ------->     
+<script>
+    function showSnackbar(text) {
+    var x = document.getElementById("snackbar");
+    x.innerHTML = text;
+    x.className = "show";
+    setTimeout(function(){ x.className = x.className.replace("show", ''); }, 3000);
+    }
+</script>
+
+ <!-- checkbox functionality ------------>
+ <script type="text/javascript">
+   $(document).on("click", "#cb-bulk", function(){
+      $(".cb-single").prop("checked", $(this).prop("checked"));
+      if($(this).prop("checked")) {
+
+         if($(".cb-single").length != 0){
+            let total_checked =  "You’ve Selected "+ $(".cb-single").length + " Items"
+            document.getElementById("showselectedbox").innerHTML = total_checked;
+            document.getElementById("showselectedbox").style.display= 'inline';
+         }
+         
+      } else  {
+         document.getElementById("showselectedbox").style.display= 'none';
+      }
+   });
+
+   $(document).on("click", ".cb-single", function(){
+      var all = $(".cb-single").length;
+
+      var checked = $(".cb-single:checked").length;
+      //this works for selecting each check-box
+      let total_checked =  "You’ve Selected "+ checked + " Items"
+      document.getElementById("showselectedbox").innerHTML = total_checked;
+      document.getElementById("showselectedbox").style.display= 'inline';
+
+      if(all == checked){
+         $(".cb-tab").prop("checked", true);
+      }else{
+         $(".cb-tab").prop("checked", false);
+      }
+   });
+</script>
+
+<!----- upper dropdown custom date picker functionality -------->
+<script type="text/javascript">
+	$(function(){
+           $("#dp-from").datepicker({
+              dateFormat: "mm-dd-yy",
+               "endDate": "today",
+                maxDate: 0,
+                onSelect: function(selected) {
+                  $("#dp-to").datepicker("option","minDate", selected)
+                }
+           });
+             $("#dp-to").datepicker({
+                dateFormat: "mm-dd-yy",
+                "endDate": "today",
+                maxDate: 0,
+                onSelect: function(selected) {
+                   $("#dp-from").datepicker("option","maxDate", selected)
+                }
+           });
+       });
+
+      $('#dp-from').keydown(function(e) {
+               e.preventDefault();
+               return false;
+            });
+            $('#dp-to').keydown(function(e) {
+               e.preventDefault();
+               return false;
+            });
+   </script>
+
+
+<!-- flat datepicker functionality -->
+<script>
+   function initDP() {
+            var today = new Date();
+            $(".p-datepicker").flatpickr({
+                dateFormat:"m-d-Y",
+                disableMobile: true,
+                maxDate: today
+            });
+    }
+</script>
+
+
+
+
+<!-- append status -->
+<script>
+     
+      function  getStatusSelectFilter(data, row) {
+         let htmlString   =  '<select onchange="changeStatus(this)" class="hd3">'+
+               '<option value='+row.id+'>'+data+'</option>';
+
+               if (data !== "Unsold")
+               htmlString = htmlString + "<option value='" + row.id +"'>Unsold</option>";
+
+               if (data !== "Sold")
+               htmlString = htmlString + "<option value='" + row.id +"'>Sold</option>";
+
+               if (data !== "Request")
+               htmlString = htmlString + "<option value='" + row.id +"'>Request</option>";
+
+               if (data !== "Paid")
+               htmlString = htmlString + "<option value='" + row.id +"'>Paid</option>";
+
+         htmlString = htmlString + '</select>';
+         
+         return htmlString
+
+      }
+
+
+</script>
+
+
+
+<script>
+    var giftcardSaleTable = undefined;
+    $(document).ready(function() {
+         giftcardSaleTable = $('#giftcardSaleTable').DataTable({
+            serverSide: true,
+            ordering: true,
+            searching: true,
+            searchDelay: 1000, //milli seconds
+            columns: [  
+                        {   
+                        data:"", orderable: false,
+                        "render": function ( data, type, row, meta ) {
+                              return '<input type="checkbox" name="check[]" value="' + row.id + '" class="cb-single">'}
+                        },
+                        {"data": "retailler"}, 
+                        {"data": "gift_card_no"},
+                        {"data": "gift_card_value"},
+                        {"data": "amount_paid"},
+                        {"data": "price"},
+                        {"data": "selling_status",
+                        "render": function( data, type, row, meta ) {
+                                return getStatusSelectFilter(data, row);
+                                }
+                        },
+                        {"data": "purchased_date",
+                        "render": function ( data, type, row, meta ) {
+                            return '<input type="text" onchange="changeDate(this)" class="hd3 p-datepicker ' + row.id + '" value="' + data + '">';
+                           }
+                        },
+                        {"data": "purchased_by"},
+                        {"data": "profit", orderable: false,
+                        "render": function( data, type, row, meta ) {
+                                    return (data+'%')}
+                        },
+
+                     ],
+            "ajax": {
+                        'type': 'post',
+                        'url': '/giftcardsaledatatable',
+                        'dataType': 'json',
+                        "contentType": "application/json",
+                        "data": function ( d ) {
+                                    console.log(d)
+                                    return JSON.stringify(d)       
+                                }
+                     },
+                        "drawCallback": function( settings ) {
+                        //make checkbox display header none
+                        document.getElementById("showselectedbox").style.display= 'none';
+                        //make uppercheckbox none
+                        $(".cb-tab").prop("checked", false);                           
+                        initDP();
+
+                           //function for round of the value upto 2 place decimal
+                           function roundToTwo(num) {    
+                              return +(Math.round(num + "e+2")  + "e-2");
+                           }
+
+                           var api = this.api()
+                           //summation of column value
+                           let valueArray = giftcardSaleTable.column(3).data()
+                           var totalvalue = valueArray.reduce(function(a, b){
+                                                         return parseFloat(a) + parseFloat(b);
+                                                      }, 0);
+
+                           //summation of cost 
+                           let costArray = giftcardSaleTable.column(4).data()
+                           var totalcost = costArray.reduce(function(a, b){
+                                                         return parseFloat(a) + parseFloat(b);
+                                                      }, 0);
+                           
+                           //summation of price
+                           let priceArray = giftcardSaleTable.column(5).data()
+                           var totalprice = priceArray.reduce(function(a, b){
+                                                         return parseFloat(a) + parseFloat(b);
+                                                      }, 0);
+
+                           //summation of profit
+                           let profitArray = giftcardSaleTable.column(9).data()
+                           var totalprofit = profitArray.reduce(function(a, b){
+                                                        return a + b;
+                                                      }, 0);
+
+                           $( api.column( 3 ).footer() ).html(totalvalue.toFixed(2));
+                           $( api.column( 4 ).footer() ).html(totalcost.toFixed(2));
+                           $( api.column( 5 ).footer() ).html(totalprice.toFixed(2));
+                           $( api.column( 9 ).footer() ).html(roundToTwo(totalprofit)+'%');
+
+                        }
+
+         });
+
+
+            //code for making the cell editable 
+               // //https://datatables.net/reference/api/cell().data()
+               $('#giftcardSaleTable tbody').on( 'click', 'td', function (ev) {
+
+                  $('#giftcardSaleTable td:not(:first-child, :nth-child(2), :nth-child(3), :nth-child(4), :nth-child(5), :nth-child(7), :nth-child(8) , :nth-child(10))').editable( function( sValue, settings ) {
+                     /* Get the position of the current data from the node */
+                     var aPos = oTable.fnGetPosition( this );
+                     
+                     /* Get the data array for this row */
+                     var aData = oTable.fnGetData( aPos[0] );
+                     
+                     /* Update the data array and return the value */
+                     aData[ aPos[1] ] = sValue;
+
+                     // call this code only when previous value(prev val contain in this.revert) is not equal to current new value after change
+                     if (this.revert !== sValue) {
+                        // **UPDATE CODE TO CALL API TO UPDATE IN DATABASE**
+                        const cellIndex =  this.cellIndex; // used to identify cell - which cell is clicked
+                        // set column list to get cell name by index
+                        columnlist = [
+                              "checkbox",
+                              "retailler",
+                              "gift_card_no",
+                              "gift_card_value",
+                              "amount_paid",
+                              "price",
+                              "selling_status",
+                              "purchased_date",
+                              "purchased_by",
+                              "profit"
+
+                        ]
+                        const cellName = columnlist[cellIndex]; // name of the column which is updated
+                        const id = aData.id; // get id of this row toidentify row
+                        const newValue = sValue; // new value of the coulmn updated by user from input
+                        const updateValue = { "cellName":cellName, "id":id, "newValue":newValue };
+
+                        $.ajax({
+                              type: "put",
+                              url: "/updategiftcardsales",
+                              data: JSON.stringify(updateValue),
+                              success: function(d) {
+                                console.log('Success', d);
+                                if (d.column =='gift_card_no') {var x = 'Giftcard no.'} else if (d.column =='gift_card_value') {var x = 'Giftcard value'} else if (d.column =='amount_paid') {var x = 'Cost'} else if (d.column =='purchased_by') {var x = 'Purchased by'} else {var x = d.column }
+                                showSnackbar(x+' Updated')
+                              },
+                              dataType: 'json',
+                              contentType: "application/json"
+                        });
+                        // **API CODE END**
+                     }
+                     return sValue;
+                  }, { "onblur": 'submit' } ); /* Submit the form when bluring a field */
+
+                  /* Init DataTables */
+                  oTable = $('#giftcardSaleTable').dataTable();
+
+                  });
+
+   });
+</script>
+
+<!-- function for updating the retailer
+<script>
+           function changeRetailer(selectedObject) {
+            //id of the selected retailer
+            var id = selectedObject.value;
+            //name of the retailer
+            var selectedRetailer =  selectedObject.options[selectedObject.selectedIndex].text;
+            console.log(id)
+            console.log(selectedRetailer)
+
+            const updateValue = { "cellName":"retailler", "id":id, "newValue":selectedRetailer };
+            // call API here to update date in database
+            $.ajax({
+                type: "put",
+                url: "/updategiftcardsales",
+                data: JSON.stringify(updateValue),
+                success: function(d) {
+                    console.log('Success', d);
+                    showSnackbar('retailer updated')
+                },
+                dataType: 'json',
+                contentType: "application/json"
+            });
+            // **API CODE END**
+        }
+        
+</script> -->
+
+<!-- function for updating the status -->
+<script>
+   function changeStatus(selectedObject) {
+    //id of the selected retailer
+    var id = selectedObject.value;
+    //name of the retailer
+    var selectedStatus =  selectedObject.options[selectedObject.selectedIndex].text;
+    console.log(id)
+    console.log(selectedStatus)
+
+    const updateValue = { "cellName":"selling_status", "id":id, "newValue":selectedStatus };
+    // call API here to update date in database
+    $.ajax({
+        type: "put",
+        url: "/updategiftcardsales",
+        data: JSON.stringify(updateValue),
+        success: function(d) {
+            console.log('Success', d);
+            showSnackbar('Status Updated')
+            giftcardSaleTable.draw()
+        },
+        dataType: 'json',
+        contentType: "application/json"
+    });
+    // **API CODE END**
+}
+
+</script>
+
+
+<!-- function for updating date from the datepicker -->
+<script>
+    function changeDate(selectedDate) {
+            //id of the selected date 
+            var selectedDateId = selectedDate.classList[2];
+            console.log(selectedDateId)
+            //getting a selected date from the date-picker
+            var newDate = selectedDate.value;
+            console.log(newDate)
+            const updateValue = {"cellName":"purchased_date", "selectedDateId":selectedDateId, "newDate":newDate };
+            // call API here to update date in database
+            $.ajax({
+                type: "put",
+                url: "/updatesalesdate",
+                data: JSON.stringify(updateValue),
+                success: function(d) {
+                    console.log('Success', d);
+                    showSnackbar('Purchase Date Updated')
+
+                },
+                dataType: 'json',
+                contentType: "application/json"
+            });
+        }
+</script>
+
+
+<!------------------------------ all top select filters comes here --------------------------------------->
+<script>
+    //function for the filtering the retailer from the upperdropdown
+    this.retailer = '';
+   function retailerFilter(selectedRetailer) {
+      this.retailer = selectedRetailer.value;
+      console.log('selectedRetailer', this.retailer);
+      // apply search to table 'giftcardTable' by passing value to the search function
+      // and filter process will automatically manage by datatable
+      giftcardSaleTable.columns(1).search(this.retailer).draw();
+   }
+   //---------function end retailerFilter-------------// 
+
+   //function for the filtering the status from the upperdropdown
+   this.status = '';
+   function statusFilter(selectedStatus){
+   this.status = selectedStatus.value;
+   console.log('selectedStatus', this.status)
+   giftcardSaleTable.columns(6).search(this.status).draw();
+   }
+
+   //---------function end statusFilter-------------// 
+
+
+
+   //function for the filtering the date from the upperdropdown
+   this.dateValue='';
+   function dateFilter(filteredDate){
+        //get value of vendor from the filter
+         this.dateValue = filteredDate.value;
+         // console.log(this.dateValue)
+
+         if (this.dateValue != 'Custom'){
+            // console.log('selectedStatus',  this.dateValue)
+            //this is used for hiding the custom date
+            document.getElementById("showcustomdate").style.display= 'none';
+            giftcardSaleTable.columns(7).search(this.dateValue).draw();
+         }
+         else{
+            if (this.dateValue == 'Custom'){
+            $("#timefilter").find('option[value="Custom"]').prop("selected", true);
+            $("#modal-date-custom").modal("show");
+            }
+         }
+   }
+
+
+   //get model pop date range and send to the datatable through search value
+   function customDate(){
+     let date1=document.getElementById("dp-from").value
+     let date2=document.getElementById("dp-to").value
+     if(date1 == "" || date2 == ""){
+      return 
+     }else{
+      $('#dateButton').attr("data-dismiss","modal"); 
+     }
+   //   console.log(date1)
+   //   console.log(date2)
+     this.dateValue = ["Custom", date1, date2]
+      //this is used for displaying the custom date range
+      let customdate = ["<b>Date Range</b>: " + date1 + " to " + date2];
+     document.getElementById("showcustomdate").innerHTML = customdate;
+     document.getElementById("showcustomdate").style.display= 'inline';
+     //this is used for date table code
+     giftcardSaleTable.columns(7).search([this.dateValue]).draw()
+   }
+
+   //-------------------------function end dateFilter --------------------//
+
+
+    //function for deleting the row
+    function deleteRow(){
+      var checkboxes = document.getElementsByName("check[]");
+      var checkboxesArray = [];
+      var trSelectorArray = [];
+      // loop over them all
+      for (var i=0; i<checkboxes.length; i++) {
+         // And stick the checked ones onto an array...
+         if (checkboxes[i].checked) {
+            checkboxesArray.push(checkboxes[i].value);
+            const id = checkboxes[i].value;
+
+            const tr = checkboxes[i].parentElement.parentElement;
+            trSelectorArray.push(tr);
+         }
+      }
+
+
+      var data = {"checkboxesArray":checkboxesArray}
+      // console.log(data)
+
+      if (data.checkboxesArray.length != 0) {
+
+         swal({
+               title: "Are you sure?",
+               text: "Once removed, the sale status of the selected card will changed in giftcardlist page!",
+               icon: "warning",
+               buttons: true,
+               dangerMode: true,
+            }).then((willDelete) =>{
+               if (willDelete) {
+
+                     $.ajax({
+                              type: "DELETE",
+                              url: "/deletesalesrows",
+                              data: JSON.stringify(data),
+                              success: function(d) {
+                                 console.log('Success', d);
+                                 // remove row from view
+                                 giftcardSaleTable.rows(trSelectorArray).remove().draw(false);
+                                 //make uppercheckbox none
+                                 $(".cb-tab").prop("checked", false); 
+
+                                 if(checkboxesArray.length == 1){
+                                        showSnackbar(checkboxesArray.length + " item is removed");
+                                 }else{
+                                       showSnackbar(checkboxesArray.length + " items are removed");
+                                 }
+                                 
+                              },
+                              dataType: 'json',
+                              contentType: "application/json"
+                        });
+                     }
+               })
+         
+      }else{
+         showSnackbar('Please select an item')
+
+      }
+
+   }
+</script>
+
+
+
+
+<!-- function for changing status from unsold to sold -->
+<script>
+   function marksold() {
+      var checkboxes = document.getElementsByName("check[]");
+
+            var checkboxesArray = [];
+            // loop over them all
+            for (var i=0; i<checkboxes.length; i++) {
+                     // And stick the checked ones onto an array...
+               if (checkboxes[i].checked) {
+                  checkboxesArray.push(checkboxes[i].value);
+               }
+            }
+      
+         let data = {"arr":checkboxesArray}
+         console.log(data)
+
+         if (data.arr.length!=0) {
+            $.ajax({
+                  type: "post",
+                  url: "/marksold",
+                  data: JSON.stringify(data),
+                  dataType: 'json',
+                  contentType: "application/json",
+                  success:function() {
+                     giftcardSaleTable.draw(false)
+                           },
+            });
+
+         }
+         
+   }
+</script>
+
+<script type="text/javascript">
+   setTimeout(function(){
+   if($(".no-sort").hasClass("sorting_asc")){
+       $(".no-sort").removeClass("sorting_asc");
+   }},2000)
+</script>
+
+<!-- <script type="text/javascript">
+
+   $( document ).ready(function() {
+      $('.metismenu li').removeClass('active');
+      $('.metismenu ul').removeClass('in');
+   });
+   $(".button-menu-mobile").click(function () {
+        $('.metismenu li').removeClass('active');
+        $('.metismenu ul').removeClass('in');
+   });
+</script> -->
+    
+{% endblock %}

@@ -1,0 +1,642 @@
+{% extends "extend.html" %}
+{% block tittle %}View Gift Card for Sales - ECOMMFLOW{% endblock tittle %}
+{% block css %}
+ <!-- Plugins css -->
+      <!-- <link href="static/libs/flatpickr/flatpickr.min.css" rel="stylesheet" type="text/css" />
+      <link href="static/libs/bootstrap-colorpicker/bootstrap-colorpicker.min.css" rel="stylesheet" type="text/css" />
+      <link href="static/libs/clockpicker/bootstrap-clockpicker.min.css" rel="stylesheet" type="text/css" />
+      <link href="static/libs/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" /> -->
+
+       <!-- third party css -->
+       <link href="static/libs/datatables/dataTables.bootstrap4.css" rel="stylesheet" type="text/css" />
+       <link href="static/libs/datatables/responsive.bootstrap4.css" rel="stylesheet" type="text/css" />
+       <link href="static/libs/datatables/buttons.bootstrap4.css" rel="stylesheet" type="text/css" />
+       <link href="static/libs/datatables/select.bootstrap4.css" rel="stylesheet" type="text/css" />
+       <!-- third party css end -->
+
+       <!-- flat picker css -->
+       <link href="static/libs/flatpickr/flatpickr.min.css" rel="stylesheet" type="text/css" />
+
+      <!-- upper dropdown datepicker css -->
+      <link href="static/libs/clockpicker/bootstrap-clockpicker.min.css" rel="stylesheet" type="text/css" />
+
+       <link href="static/libs/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" />
+
+      <!-- custom css -->
+      <link rel="stylesheet" type="text/css" href="static/css/giftcard.css">
+
+
+
+    <style>
+
+    .p-datepicker {
+        border: none !important;
+    }
+    .p-datepicker:focus {
+        border: 1px solid;
+    }
+
+   select {
+         border: none;
+    }
+
+    
+
+
+   
+   #snackbar {
+     visibility: hidden;
+     min-width: 250px;
+     margin-left: -125px;
+     background: #f7b84b !important;
+     z-index: 999 !important;
+     color: #000 !important;
+     text-align: center;
+     border-radius: 2px;
+     padding: 16px;
+     position: fixed;
+     z-index: 1;
+     left: 50%;
+     top: 30px;
+     font-size: 17px;
+   }
+
+   #snackbar.show {
+     visibility: visible;
+     -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+     animation: fadein 0.5s, fadeout 0.5s 2.5s;
+   }
+
+   @-webkit-keyframes fadein {
+     from {top: 0; opacity: 0;}
+     to {top: 30px; opacity: 1;}
+   }
+
+   @keyframes fadein {
+     from {top: 0; opacity: 0;}
+     to {top: 30px; opacity: 1;}
+   }
+
+   @-webkit-keyframes fadeout {
+     from {top: 30px; opacity: 1;}
+     to {top: 0; opacity: 0;}
+   }
+
+   @keyframes fadeout {
+     from {top: 30px; opacity: 1;}
+     to {top: 0; opacity: 0;}
+   }
+
+   .bootstrap-select .inner {
+    overflow-y: auto !important;
+}
+
+#showselectedbox{
+    position: relative;
+    left: 12rem;
+    top: 25px;
+    border: 1px solid;
+    border-radius: 5px;
+    padding: 4px;
+    display:none;
+}
+
+</style>
+{% endblock css %}
+
+{% block js %}
+
+      <!-- Bootstrap Tables js -->
+      <!-- <script src="static/libs/bootstrap-table/bootstrap-table.min.js"></script> -->
+      <!-- Init js -->
+      <!-- <script src="static/js/pages/bootstrap-tables.init.js"></script> -->
+
+      <!-- bootstrap filter js -->
+      <script src="static/libs/bootstrap-select/bootstrap-select.min.js"></script>
+
+
+        <!---------- cell editable js ---------------->
+       <!-- https://stackoverflow.com/questions/35869054/using-jeditable-and-getting-typeerror-editable-is-not-a-function-what-t -->
+        <script src="http://www.appelsiini.net/download/jquery.jeditable.mini.js"></script>
+
+        <!-- third party js -->
+        <script src="static/libs/datatables/jquery.dataTables.min.js"></script>
+        <script src="static/libs/datatables/dataTables.bootstrap4.js"></script>
+        <script src="static/libs/datatables/dataTables.responsive.min.js"></script>
+        <script src="static/libs/datatables/responsive.bootstrap4.min.js"></script>
+        <script src="static/libs/datatables/dataTables.buttons.min.js"></script>
+        <script src="static/libs/datatables/buttons.bootstrap4.min.js"></script>
+        <script src="static/libs/datatables/buttons.html5.min.js"></script>
+        <script src="static/libs/datatables/dataTables.keyTable.min.js"></script>
+
+        
+
+        <!-- third party js ends -->
+
+        <!-- Datatables init -->
+        <script src="static/js/pages/datatables.init.js"></script>
+
+        <!-- App js -->
+        <script src="static/js/app.min.js"></script>
+
+        
+
+        <!-- flatpicker js -->
+        <script src="static/libs/flatpickr/flatpickr.min.js"></script>
+
+        <!-- upper dropdown datepicker js -->
+        <script src="static/libs/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+
+{% endblock js %}
+{% block body %}
+<div id="snackbar">Some text some message..</div>
+         <!-- ============================================================== -->
+         <!-- Start Page Content here -->
+         <!-- ============================================================== -->
+         <div class="content-page">
+            <div class="content">
+               <!-- Start Content-->
+               <div class="container-fluid">
+                   <!-- start page title -->
+                   <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box">
+                            <div class="page-title-right">
+                                <div class="clearfix le">
+                                    <div id="con-close-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">I’d like to request to purchase the selected Gift Cards</h4>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                </div>
+                                                <div class="modal-body p-4">
+                                                    <div class="form-group mb-0">
+                                                        <div class="row">
+                                                            <label class="col-md-2 mt-1">Name:</label>
+                                                            <input type="text"  class="form-control col-md-5" id='requestname' placeholder="Name input here">    
+                                                        </div>
+                                                    </div>               
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-info waves-effect waves-light"  data-dismiss="modal" onclick="purchaseRequest()" id='mySubmit'>Submit</button>
+                                                    <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div><!-- /.modal -->
+                                </div>
+                            </div>
+                            <h4 class="page-title">View Gift Card For Sale</h4>
+                        </div> 
+                    </div>
+                </div>
+                <!-- end page title -->
+                  <div class="row">
+                     <div id="modal-date-custom" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                        <div class="modal-dialog">
+                           <div class="modal-content">
+                              <div class="modal-header">
+                                 <h4 class="modal-title">Select Date Range</h4>
+                                 <button type="button" class="close" data-dismiss="modal" onclick="closemodal()" aria-hidden="true">×</button>
+                              </div>
+                              <div class="modal-body p-4">
+                                 <div class="form-group mb-0">
+                                    <div class="input-group">
+                                       <div class="form-group">
+                                          <div class="row">
+                                             <div class="col-md-6">
+                                                <label>From:</label>
+                                                <input type="text" id="dp-from" class="form-control" data-provide="datepicker">
+                                             </div>
+                                             <div class="col-md-6">
+                                                <label>To:</label>
+                                                <input type="text" id="dp-to" class="form-control" data-provide="datepicker">
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="modal-footer">
+                                 <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal" onclick="customDate()">Submit</button>
+                                 <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal" onclick="closemodal()">Close</button>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <!-- /.modal -->
+                  <div class="row">
+                     <div class="col-sm-12">
+                        <div class="card-box">
+                           <div class="form-inline mb-2">
+                            <div class="col-md-2  btn-group">
+                                <button type="button" class="btn btn-info waves-effect waves-light" id = 'purchaserequestid' onclick = 'purchase(event)' data-toggle="modal" data-target="#con-close-modal">Purchase Request</button> 
+                            </div>
+                              <!-- /btn-group -->
+                              
+                              <div class="form-group mr-2">
+                                 <select class="selectpicker" id="retailersFilter"  onchange="retailerFilter(this)">
+                                    <option>Retailers</option>
+                                       {% for ret in distinct_retailer %}
+                                    <option value="{{ret.0}}">{{ret.0}}</option>
+                                       {% endfor %}
+                                    <!-- <option value="Cabela''s">Cabela’s</option> --> 
+                                 </select>
+                              </div>
+
+                              <div class="form-group mr-2">
+                                <select class="selectpicker" id="valueFilter" onchange="valueFilter(this)">
+                                   <option>Value</option>
+                                   <option value="0-50">0-50</option>
+                                    <option value="50-100">50-100</option>
+                                    <option value="100-250">100-250</option>
+                                    <option value="250-500">250-500</option>
+                                    <option value="500">500+</option>
+                                    
+                                </select>
+                             </div>
+                           </div>
+                           <div class=" row">
+                              <div class="col-md-12" style='overflow-x: auto'>
+                                <table id="giftcardSaleTable" class="table w-100 nowrap table-bordered table-hover">
+                                    <span id="showselectedbox"></span>
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th class="no-sort"><input type="checkbox" name="check1" id="cb-bulk" class="cb-tab"></th>
+                                            <th>Retailer</th>
+                                            <th>Value</th>
+                                            <th>Price</th>
+                                            <th>Discount</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                              </div>
+                           </div>
+                           <!-- end .table-responsive-->                                
+                        </div>
+                     </div>
+                     <!-- end card-box -->
+                  </div>
+                  <!-- end col -->
+               </div>
+            </div>
+            <!-- container -->
+         </div>
+         <!-- content -->
+         <!-- Footer Start -->
+         <footer class="footer">
+            <div class="container-fluid">
+               <div class="row">
+                  <div class="col-md-6">
+                     2020 &copy; Prime Electronics, LLC
+                  </div>
+                  <div class="col-md-6">
+                     <div class="text-md-right footer-links d-none d-sm-block">
+                        <a href="javascript:void(0);">About Us</a>
+                        <a href="javascript:void(0);">Help</a>
+                        <a href="javascript:void(0);">Contact Us</a>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </footer>
+         <!-- end Footer -->
+      </div>
+      <!-- ============================================================== -->
+      <!-- End Page content -->
+      <!-- ============================================================== -->
+      </div>
+      <!-- END wrapper -->
+      <!-- Right Sidebar -->
+      <div class="right-bar">
+         <div class="rightbar-title">
+            <a href="javascript:void(0);" class="right-bar-toggle float-right">
+            <i class="dripicons-cross noti-icon"></i>
+            </a>
+            <h5 class="m-0 text-white">Settings</h5>
+         </div>
+         <div class="slimscroll-menu">
+            <!-- User box -->
+            <div class="user-box">
+               <div class="user-img">
+                  <img src="static/images/users/user-1.jpg" alt="user-img" title="Mat Helme" class="rounded-circle img-fluid">
+                  <a href="javascript:void(0);" class="user-edit"><i class="mdi mdi-pencil"></i></a>
+               </div>
+               <h5><a href="javascript: void(0);">Geneva Kennedy</a> </h5>
+               <p class="text-muted mb-0"><small>Admin Head</small></p>
+            </div>
+            <!-- Settings -->
+            <hr class="mt-0" />
+            <h5 class="pl-3">Basic Settings</h5>
+            <hr class="mb-0" />
+            <div class="p-3">
+               <div class="checkbox checkbox-primary mb-2">
+                  <input id="Rcheckbox1" type="checkbox" checked>
+                  <label for="Rcheckbox1">
+                  Notifications
+                  </label>
+               </div>
+               <div class="checkbox checkbox-primary mb-2">
+                  <input id="Rcheckbox2" type="checkbox" checked>
+                  <label for="Rcheckbox2">
+                  API Access
+                  </label>
+               </div>
+               <div class="checkbox checkbox-primary mb-2">
+                  <input id="Rcheckbox3" type="checkbox">
+                  <label for="Rcheckbox3">
+                  Auto Updates
+                  </label>
+               </div>
+               <div class="checkbox checkbox-primary mb-2">
+                  <input id="Rcheckbox4" type="checkbox" checked>
+                  <label for="Rcheckbox4">
+                  Online Status
+                  </label>
+               </div>
+               <div class="checkbox checkbox-primary mb-0">
+                  <input id="Rcheckbox5" type="checkbox" checked>
+                  <label for="Rcheckbox5">
+                  Auto Payout
+                  </label>
+               </div>
+            </div>
+            <!-- Timeline -->
+            <hr class="mt-0" />
+            <h5 class="px-3">Messages <span class="float-right badge badge-pill badge-danger">25</span></h5>
+            <hr class="mb-0" />
+            <div class="p-3">
+               <div class="inbox-widget">
+                  <div class="inbox-item">
+                     <div class="inbox-item-img"><img src="static/images/users/user-2.jpg" class="rounded-circle" alt=""></div>
+                     <p class="inbox-item-author"><a href="javascript: void(0);" class="text-dark">Tomaslau</a></p>
+                     <p class="inbox-item-text">I've finished it! See you so...</p>
+                  </div>
+                  <div class="inbox-item">
+                     <div class="inbox-item-img"><img src="static/images/users/user-3.jpg" class="rounded-circle" alt=""></div>
+                     <p class="inbox-item-author"><a href="javascript: void(0);" class="text-dark">Stillnotdavid</a></p>
+                     <p class="inbox-item-text">This theme is awesome!</p>
+                  </div>
+                  <div class="inbox-item">
+                     <div class="inbox-item-img"><img src="static/images/users/user-4.jpg" class="rounded-circle" alt=""></div>
+                     <p class="inbox-item-author"><a href="javascript: void(0);" class="text-dark">Kurafire</a></p>
+                     <p class="inbox-item-text">Nice to meet you</p>
+                  </div>
+                  <div class="inbox-item">
+                     <div class="inbox-item-img"><img src="static/images/users/user-5.jpg" class="rounded-circle" alt=""></div>
+                     <p class="inbox-item-author"><a href="javascript: void(0);" class="text-dark">Shahedk</a></p>
+                     <p class="inbox-item-text">Hey! there I'm available...</p>
+                  </div>
+                  <div class="inbox-item">
+                     <div class="inbox-item-img"><img src="static/images/users/user-6.jpg" class="rounded-circle" alt=""></div>
+                     <p class="inbox-item-author"><a href="javascript: void(0);" class="text-dark">Adhamdannaway</a></p>
+                     <p class="inbox-item-text">This theme is awesome!</p>
+                  </div>
+               </div>
+               <!-- end inbox-widget -->
+            </div>
+            <!-- end .p-3-->
+         </div>
+         <!-- end slimscroll-menu-->
+      </div>
+      <!-- /Right-bar -->
+      <!-- Right bar overlay-->
+      <div class="rightbar-overlay"></div>
+      <!-- Vendor js -->
+      <script src="static/js/vendor.min.js"></script>
+
+      
+
+
+<!------- toast functionality  ------->     
+<script>
+    function showSnackbar(text) {
+    var x = document.getElementById("snackbar");
+    x.innerHTML = text;
+    x.className = "show";
+    setTimeout(function(){ x.className = x.className.replace("show", ''); }, 3000);
+    }
+</script>
+
+<!-- !-- checkbox functionality ------------> 
+ <script type="text/javascript">
+   $(document).on("click", "#cb-bulk", function(){
+      $(".cb-single").prop("checked", $(this).prop("checked"));
+      if($(this).prop("checked")) {
+         if($(".cb-single").length != 0){
+            let total_checked =  "You’ve Selected "+ $(".cb-single").length + " Items"
+            document.getElementById("showselectedbox").innerHTML = total_checked;
+            document.getElementById("showselectedbox").style.display= 'inline';
+         }
+      } else  {
+         document.getElementById("showselectedbox").style.display= 'none';
+
+      }
+   });
+
+   $(document).on("click", ".cb-single", function(){
+      var all = $(".cb-single").length;
+
+      var checked = $(".cb-single:checked").length;
+      //this works for selecting each check-box
+      let total_checked =  "You’ve Selected "+ checked + " Items"
+      document.getElementById("showselectedbox").innerHTML = total_checked;
+      document.getElementById("showselectedbox").style.display= 'inline';
+
+      if(all == checked){
+         $(".cb-tab").prop("checked", true);
+      }else{
+         $(".cb-tab").prop("checked", false);
+         if (checked == 0){
+            document.getElementById("showselectedbox").style.display= 'none';
+
+         }
+
+      }
+   });
+</script>
+
+
+<script>
+    var giftcardSaleTable = undefined;
+    $(document).ready(function() {
+         giftcardSaleTable = $('#giftcardSaleTable').DataTable({
+            serverSide: true,
+            ordering: true,
+            searching: true,
+            searchDelay: 1500, //milli seconds
+            columns: [  
+                        {   
+                        data:"", orderable: false,
+                        "render": function ( data, type, row, meta ) {
+                              return '<input type="checkbox" name="check[]" value="' + row.id + '" class="cb-single">'}
+                        },
+                        {"data": "retailler"},                 
+                        {"data": "gift_card_value"},
+                        {"data": "price"},
+                        {"data": "discount", orderable: false,
+                        "render": function( data, type, row, meta ) {
+                                    return (data+'%')}
+                        
+                        },
+
+                     ],
+            "ajax": {
+                        'type': 'post',
+                        'url': '/viewgiftcardsaledatatable',
+                        'dataType': 'json',
+                        "contentType": "application/json",
+                        "data": function ( d ) {
+                                    console.log(d)
+                                    return JSON.stringify(d)       
+                                }
+                     },
+                        "drawCallback": function(settings) {
+                        document.getElementById("showselectedbox").style.display= 'none';
+                  }
+                        
+         });
+
+
+        
+
+   });
+</script>
+
+
+<!------------------------------ all top select filters comes here --------------------------------------->
+<script>
+
+   //function for the filtering the retailer from the upperdropdown
+   this.retailer = '';
+   function retailerFilter(selectedRetailer) {
+      this.retailer = selectedRetailer.value;
+      console.log('selectedRetailer', this.retailer);
+      // apply search to table  by passing value to the search function
+      // and filter process will automatically manage by datatable
+      giftcardSaleTable.columns(1).search(this.retailer).draw();
+   }
+
+
+
+
+   //function for the filtering the value from the upperdropdown
+   this.filtervalue = ''
+   function valueFilter(selectedvalue){
+      this.filtervalue =  selectedvalue.value;
+      console.log('selectedValue', this.filtervalue)
+      giftcardSaleTable.columns(2).search(this.filtervalue).draw();
+   }
+      
+   
+</script>
+
+
+<script>
+   function purchase(ev){
+      var checkboxes = document.getElementsByName("check[]");
+      
+      var checkboxesArray = [];
+      // loop over them all
+      for (var i=0; i<checkboxes.length; i++) {
+               // And stick the checked ones onto an array...
+         if (checkboxes[i].checked) {
+            checkboxesArray.push(checkboxes[i].value);
+         }
+      }
+
+      console.log('checkboxesArray', checkboxesArray)
+
+      if (checkboxesArray.length == 0){
+         ev.stopPropagation();
+         showSnackbar("Please select atleast a gift card")
+      }
+   }
+
+
+</script>
+
+<script>
+   function purchaseRequest(){
+      var checkboxes = document.getElementsByName("check[]");
+
+      var checkboxesArray = [];
+      // loop over them all
+      for (var i=0; i<checkboxes.length; i++) {
+               // And stick the checked ones onto an array...
+         if (checkboxes[i].checked) {
+            checkboxesArray.push(checkboxes[i].value);
+         }
+      }
+
+      let id = {"arr":checkboxesArray}
+      console.log(id)
+
+      //if checkbox selected
+      if (id.arr.length !=0){
+         let requestname = document.getElementById('requestname').value
+         console.log(requestname.length)
+               //if na,e will be inputed
+               if (requestname.length !=0){
+                     console.log(requestname)
+                     const updateValue = {"cellName":"purchased_by", "id":id, "requestname":requestname };
+                     //ajax request
+                     $.ajax({
+                     type: "put",
+                     url: "/purchasedbyrequest",
+                     data: JSON.stringify(updateValue),
+                     dataType: 'json',
+                     contentType: "application/json",
+                     success:function() {
+                           showSnackbar("Your request was successfully submitted")
+                           },
+            });
+
+                  
+               
+               }else{
+                  alert('Please input your name')
+                  
+               }
+
+      }else{
+         alert('Please Select Giftcard')
+      }
+
+
+   
+
+   }
+</script>
+
+<script type="text/javascript">  
+   $(document).ready(function(){
+              function checkfirstcolumn(){
+                  if($(".no-sort").hasClass("sorting_asc")){
+                      $(".no-sort").removeClass("sorting_asc");
+                  }
+                  setTimeout(function(){
+                  checkfirstcolumn();
+                  },500)}
+             checkfirstcolumn();
+          });
+  </script>
+  
+
+<script type="text/javascript">
+
+   $( document ).ready(function() {
+      $('.metismenu li').removeClass('active');
+      $('.metismenu ul').removeClass('in');
+   });
+   $(".button-menu-mobile").click(function () {
+        $('.metismenu li').removeClass('active');
+        $('.metismenu ul').removeClass('in');
+   });
+</script>
+
+
+    
+{% endblock %}

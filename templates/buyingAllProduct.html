@@ -1,0 +1,829 @@
+{% extends "extend.html" %}
+{% block tittle %}Buying Manager Product - RASM{%endblock tittle%}
+{% block css %}
+ <!-- Plugins css -->
+      <!-- <link href="static/libs/flatpickr/flatpickr.min.css" rel="stylesheet" type="text/css" />
+      <link href="static/libs/bootstrap-colorpicker/bootstrap-colorpicker.min.css" rel="stylesheet" type="text/css" />
+      <link href="static/libs/clockpicker/bootstrap-clockpicker.min.css" rel="stylesheet" type="text/css" />
+      <link href="static/libs/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" /> -->
+
+       <!-- third party css -->
+       <link href="static/libs/datatables/dataTables.bootstrap4.css" rel="stylesheet" type="text/css" />
+       <link href="static/libs/datatables/responsive.bootstrap4.css" rel="stylesheet" type="text/css" />
+       <link href="static/libs/datatables/buttons.bootstrap4.css" rel="stylesheet" type="text/css" />
+       <link href="static/libs/datatables/select.bootstrap4.css" rel="stylesheet" type="text/css" />
+       <!-- third party css end -->
+
+       <!-- flat picker css -->
+       <link href="static/libs/flatpickr/flatpickr.min.css" rel="stylesheet" type="text/css" />
+
+      <!-- upper dropdown datepicker css -->
+      <link href="static/libs/clockpicker/bootstrap-clockpicker.min.css" rel="stylesheet" type="text/css" />
+
+       <link href="static/libs/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" />
+
+      <!-- custom css -->
+      <link rel="stylesheet" type="text/css" href="static/css/buyingmanager.css">
+
+    <style>
+      .dataTables_filter, .dataTables_length { display: none; }
+   span.select2.select2-container.select2-container--default.select2-container--focus{
+          width: 100% !important;
+         }
+         li.select2-selection__choice {
+            color: #000 !important;
+        }
+        .select2-selection__rendered{
+            width: 350px !important;
+        }
+    .p-datepicker {
+        border: none !important;
+    }
+    .p-datepicker:focus {
+        border: 1px solid;
+    }
+   select {
+         border: none;
+    }
+   
+   #snackbar {
+     visibility: hidden;
+     min-width: 250px;
+     margin-left: -125px;
+     background: #f7b84b !important;
+     z-index: 999 !important;
+     color: #000 !important;
+     text-align: center;
+     border-radius: 2px;
+     padding: 16px;
+     position: fixed;
+     z-index: 1;
+     left: 50%;
+     top: 30px;
+     font-size: 17px;
+   }
+
+   #snackbar.show {
+     visibility: visible;
+     -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+     animation: fadein 0.5s, fadeout 0.5s 2.5s;
+   }
+
+   @-webkit-keyframes fadein {
+     from {top: 0; opacity: 0;}
+     to {top: 30px; opacity: 1;}
+   }
+
+   @keyframes fadein {
+     from {top: 0; opacity: 0;}
+     to {top: 30px; opacity: 1;}
+   }
+
+   @-webkit-keyframes fadeout {
+     from {top: 30px; opacity: 1;}
+     to {top: 0; opacity: 0;}
+   }
+
+   @keyframes fadeout {
+     from {top: 30px; opacity: 1;}
+     to {top: 0; opacity: 0;}
+   }
+
+</style>
+{% endblock css %}
+
+{% block js %}
+
+      <!-- Bootstrap Tables js -->
+      <!-- <script src="static/libs/bootstrap-table/bootstrap-table.min.js"></script> -->
+      <!-- Init js -->
+      <!-- <script src="static/js/pages/bootstrap-tables.init.js"></script> -->
+
+      <!-- bootstrap filter js -->
+      <script src="static/libs/bootstrap-select/bootstrap-select.min.js"></script>
+
+
+        <!---------- cell editable js ---------------->
+       <!-- https://stackoverflow.com/questions/35869054/using-jeditable-and-getting-typeerror-editable-is-not-a-function-what-t -->
+        <script src="http://www.appelsiini.net/download/jquery.jeditable.mini.js"></script>
+
+        <!-- third party js -->
+        <script src="static/libs/datatables/jquery.dataTables.min.js"></script>
+        <script src="static/libs/datatables/dataTables.bootstrap4.js"></script>
+        <script src="static/libs/datatables/dataTables.responsive.min.js"></script>
+        <script src="static/libs/datatables/responsive.bootstrap4.min.js"></script>
+        <script src="static/libs/datatables/dataTables.buttons.min.js"></script>
+        <script src="static/libs/datatables/buttons.bootstrap4.min.js"></script>
+        <script src="static/libs/datatables/buttons.html5.min.js"></script>
+        <script src="static/libs/datatables/dataTables.keyTable.min.js"></script>
+        <!-- third party js ends -->
+
+        <!-- Datatables init -->
+        <script src="static/js/pages/datatables.init.js"></script>
+
+        <!-- App js -->
+        <script src="static/js/app.min.js"></script>
+             
+            <!-- user select box--> 
+              <script src="static/libs/select2/select2.min.js"></script>
+             <script src="static/js/pages/form-advanced.init.js"></script>
+
+        <!-- flatpicker js -->
+        <script src="static/libs/flatpickr/flatpickr.min.js"></script>
+
+        <!-- upper dropdown datepicker js -->
+        <script src="static/libs/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+
+{% endblock js %}
+{% block body %}
+<div id="snackbar">Some text some message..</div>
+         <!-- ============================================================== -->
+         <!-- Start Page Content here -->
+         <!-- ============================================================== -->
+         <div class="content-page">
+            <div class="content">
+               <!-- Start Content-->
+               <div class="container-fluid">
+                  <!-- start page title -->
+                  <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box">
+                            <h4 class="page-title">Buying Details</h4>
+                            <div id="con-close-modal" class="modal fade " tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                     <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                           <div class="modal-header">
+                              <h4 class="modal-title">Add Buy</h4>
+
+                              <button type="button" class="close" data-dismiss="modal" onclick="closemodal()" aria-hidden="true">×</button>
+                           </div>
+                           <div    id="loader" class="mb-5 mt-5" style="display:none;"  align="center">
+                                  <div class="spinner-border text-success"  role="status"></div>
+                              </div>
+                               <div style="display:none;" id="errorMsg" align="center">
+                                  <h5 style="color:red;">Oops! Something went wrong. Please try again</h5>
+                               </div>
+                               {% for sd in sameDetails %}
+                           <div class="modal-body p-4" id="updateMain" >
+                                             <div class="row" >
+                                                <div class="col-md-12" >
+                                                   <div class="form-group">
+                                                      <label for="field-3" class="control-label">Retailers</label>
+<!--                                                      <select  class="form-control" name="Retailers" id="Retailers" required>-->
+<!--                                                         <option selected disabled hidden value="">Select Retailers</option>-->
+<!--                                                         <option value="All">All</option>-->
+<!--                                                         <option value="BassPro">Bass Pro</option>-->
+<!--                                                         <option value="Bestbuy">Bestbuy</option>-->
+<!--                                                         <option value="Cabela’s">Cabela’s</option>-->
+<!--                                                         <option value="Dick's sports">Dick's sports</option>-->
+<!--                                                         <option value="Home Depot">Home Depot</option>-->
+<!--                                                         <option value="Kohl's">Kohl's</option>-->
+<!--                                                         <option value="Lowes">Lowes</option>-->
+<!--                                                         <option value="Sears">Sears</option>-->
+<!--                                                         <option value="Target">Target</option>-->
+<!--                                                         <option value="Walmart">Walmart</option>-->
+<!--                                                      </select>-->
+                                                       <input type="text" class="form-control" value="{{sd.retailler}}" id="updateRetailers" readonly placeholder=" Target ">
+                                                   </div>
+                                                </div>
+                                            </div>
+                                            {% for all in allProductData %}
+                                            <div class='count listData'>
+                                              <input type="text" hidden id="dataID-{{loop.index}}" value='{{all.id}}'>
+                                                <div class="row">
+                                                <div class="col-md-3">
+                                                   <div class="form-group">
+                                                      <label for="field-2" class="control-label">Item Sku </label>
+                                                      <input required type="text" class="form-control"  id="updateSku-{{loop.index}}" value="{{all.item_sku}}" readonly name="Sku-1"  placeholder="3452">
+                                                   </div>
+                                                </div>
+
+                                                
+                                                <div class="col-md-3">
+                                                   <div class="form-group">
+                                                      <label for="field-3" class="control-label">Price </label>
+                                                      <input required type="text" class="form-control" id="updatePrice-{{loop.index}}" value="{{all.price}}" placeholder=" $29 ">
+                                                   </div>
+                                                </div>
+
+                                                <div class="col-md-3">
+                                                   <div class="form-group">
+                                                      <label for="field-4" class="control-label">Qty Per Cart</label>
+                                                      <input required value="{{all.qty_percart}}"  class="form-control" onchange="manageQtyData()" id="QtyPerCart-{{loop.index}}" placeholder="1">
+                                                   </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                   <div class="form-group">
+                                                      <label for="field-5" class="control-label">Total Qty</label>
+                                                      <input required type="text" class="form-control" name="TotalQty-1" id="updateTotalQty-{{loop.index}}" value="{{all.qty_total}}"  onchange="manageQtyData()"  placeholder="10">
+                                                   </div>
+                                                </div>
+                                                 
+                                              </div>
+<!--                                                <h5><span style="color:red" id="Warring-1"></span></h5>-->
+                                             </div>
+                                               {% endfor %}
+                                               <h5><span style="color: red" id='error'></span></h5>
+                                            <div class="row">
+                                                  
+                                                <div class="col-md-3">
+                                                   <div class="form-group">
+                                                      <label for="field-8" class="control-label">Subtotal</label>
+                                                      <input required  type="text" class="form-control" name="TotalCart" value="{{sd.cart_total}}" id="updateTotalCart" placeholder="$100 ">
+                                                   </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                   <div class="form-group">
+                                                      <label for="field-9" class="control-label">Payment Type</label>
+                                                      <select class=" form-control" name="PaymentType" id="updatePaymentType">
+                                                         <option {% if sd.payment_type == 'Credit Card' %}   selected {% endif %}>Credit Card</option>
+                                                         <option {% if sd.payment_type == 'Gift Cards' %}   selected {% endif %}>Gift Cards</option>
+                                                         <option {% if sd.payment_type == 'Maximize Gift Card' %}   selected {% endif %}>Maximize Gift Card</option>
+                                                      </select>
+                                                   </div>
+                                                </div>
+                                                {% for log in userLogData %}
+                                                <div class="col-md-3">
+                                                   <div class="form-group mt-1">
+                                                      <label for="field-9" class="control-label"></label>
+                                                      <select name="shipping_set" class=" form-control" id="updateShip">
+                                                         <option {% if log.shipping_place == 'ShipToHome' %}   selected {% endif %} value="ShipToHome">Ship To Home</option>
+                                                         <option {% if log.shipping_place == 'ShipToStore' %}   selected {% endif %} value="ShipToStore">Ship To Store</option>
+                                                      </select>
+                                                   </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                   <div class="form-group mt-1"> 
+                                                      <label for="field-9" class="control-label"></label>
+                                                      <select name="loginId_Set" class="form-control" id="updateLog">
+                                                         <option {% if log.login_id == 'Login' %}   selected {% endif %} value="Login">Login </option>
+                                                         <option {% if log.login_id == 'GuestCheckout' %}   selected {% endif %} value="GuestCheckout"> Guest Checkout</option>
+
+                                                      </select>
+                                                   </div>
+                                                </div>
+                                                {% endfor %}
+                                                </div>                                           
+                                              <div class="row">
+                                                   <div class="col-md-6">
+                                                    <label for="field-9" class="control-label">Setting</label>
+                                                <select name="userDataList" class="form-control select2-multiple" onchange="dataList()" id="updateUserDataList" data-toggle="select2" multiple="multiple" data-placeholder="Choose ...">
+                                                    <optgroup label="All Users">
+                                                      <option class='allValue' value="All">All</option>
+                                                        {% for x  in userData %}
+                                                          <option  {% if x.status%} selected{% endif %} class="userData" value="{{x.id}}"> {{x.contactName}}</option>
+                                                        {% endfor %}
+                                                    </optgroup>
+                                                </select>
+                                              </div>
+                                            <div class="col-md-6">
+                                                  <label for="field-3" class="control-label">Vendor</label>
+                                                      <select  required class="form-control" name="vendor" id="updatevendor">
+                                                         <option>Select Vendor</option>
+                                                         <option {% if sd.vendor == 'MrRebates' %}   selected {% endif %} value="MrRebates">Mr Rebates</option>
+                                                         <option {% if sd.vendor == 'BeFrugal' %}   selected {% endif %} value="BeFrugal">BeFrugal</option>
+                                                         <option {% if sd.vendor == 'iConsumer' %}   selected {% endif %} value="iConsumer">iConsumer</option>
+                                                         <option {% if sd.vendor == 'Rakuten' %}   selected {% endif %} value="Rakuten">Rakuten</option>
+                                                      </select>
+                                                 </div>
+                                            </div>
+<!-- <h5><span id="total" ></span></h5>-->
+
+                                          </div>
+<!--<div style="display:none;" id="updateMsg"><h5 style="color:#1abc9c;">Successfully Record inserted</h5></div>-->
+<!--                                          <div class="modal-footer">-->
+<!--                                             <button type="button" id="add_field_button" type="button"  class="btn btn-info waves-effect waves-light" >Add Item</button>-->
+<!--                                             <button   class="btn btn-info waves-effect waves-light">Submit</button>-->
+<!--                                          </div>-->
+                                             <input  type="hidden" name="noRow" id="noRow-1" value="1" >
+<!--                                     </form>-->
+                       <div  id="updateMsg" style="display:none;" ><h5 style="color:#1abc9c;">Successfully Record updated</h5></div>
+                           <input type="hidden" id="updateId" readonly>
+                           <div class="modal-footer">
+                              <button id='save'  class="btn btn-info waves-effect waves-light" data-dismiss="modal" onclick="updateTable()">Save</button>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  {% endfor %}
+
+                            <div class="float-right modal-cusm">
+                              <button onclick="dataList()" class="btn btn-success waves-effect waves-light" data-toggle="modal" data-target="#con-close-modal">Edit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>     
+                  <!-- end page title -->
+
+                  <!-- /.modal -->
+                  <div class="row">
+                     <div class="col-sm-12">
+                        <div class="card-box">
+
+                                    <!-- Logo & title -->
+                        
+                           <div class="row">
+                                 <div class="col-sm-12">
+                                    <div class="card-box">
+                                            <div class="alert alert-info d-none {% if success %} d-block {% endif %} fade show">
+                                                    <h4>Successfully</h4>
+                                                    <p class="mb-0">Record inserted</p>
+                                            </div>
+
+                                        <div class="row">
+                                          <div class="col-md-2 col-sm-3 btn-group boxline1 mb-4">
+                                             <button type="button" class="btn btn-group btn-info dropdown-toggle"   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Bulk Action <i class="mdi mdi-chevron-down"></i></button>
+                                             <div class="dropdown-menu" >
+                                                <a class="dropdown-item" id="Priority" onclick="changedata(this.id)">Priority</a>
+                                                <a class="dropdown-item" id="Active"    onclick="changedata(this.id)">Active </a>
+                                                <a class="dropdown-item" id="Inactive"  onclick="changedata(this.id)">Inactive </a>
+                                                <a class="dropdown-item" id="Paused"    onclick="changedata(this.id)">Paused </a>
+                                                <a class="dropdown-item" id="Cancelled" onclick="changedata(this.id)">Cancelled </a>
+                                                <a class="dropdown-item" id="Delete"    onclick="changedata(this.id)">Delete</a>
+                                             </div>
+                                          </div>
+                                          <!-- /btn-group -->
+                                          <div class="col-md-2 col-sm-2 mb-4">
+
+                                             <select class="selectpicker" id="timefilter" onchange="dateFilter(this)">
+                                                <option value="1">Date Range</option>
+                                                <option value="All">All</option>
+                                                <option value="Last7days">Last 7 days</option>
+                                                <option value="ThisWeek">This Week</option>
+                                                <option value="LastMonth">Last Month</option>
+                                                <option value="ThisMonth">This Month</option>
+                                                <option value="Custom">Custom</option>
+                                             </select>
+                                          </div>
+                                         
+                                          <div class="col-md-2 col-sm-2 mb-4">
+                                             <select class="selectpicker"  id="statusFilter"  onchange="statusFilter(this)">
+                                                <option value="Status">Status</option>
+                                                <option value="All">All</option>
+                                                <option value="Active">Active</option>
+                                                <option value="Inactive">Inactive</option>
+                                                <option value="Paused">Paused</option>
+                                                <option value="Cancelled">Cancelled</option>
+                                             </select>
+                                          </div>
+                                           <!-- <div class="form-group mr-2">
+                                             <select class="selectpicker" id="retailersFilter"  onchange="retailerFilter(this)">
+                                                <option>Retailers</option>
+                                                <option value="Target">Target</option>
+                                                <option value="Cabela's">Cabela’s</option>
+                                                <option value="Home Depot">Home Depot</option>
+                                                <option value="Lowes">Lowes</option>
+                                                <option value="Walmart">Walmart</option>
+                                                <option value="Best Buy">Best Buy</option>
+                                                <option value="B&N">B&N</option>
+                                                <option value="Toys R Us">Toys R Us</option>
+                                                <option value="Kohls">Kohls</option>
+                                                <option value="Sams Club">Sams Club</option>
+                                                <option value="DSG">DSG</option>
+                                                <option value="Sears">Sears</option>
+                                                <option value="Office Depot">Office Depot</option> 
+                                             </select>
+                                          </div> -->
+                                       </div>
+
+                                           <div class="col-md-12">
+                                            <table id="ptbl" class="table-responsive table w-100 nowrap table-bordered table-hover">
+                                                <thead class="thead-light">
+                                                    <tr>
+                                                        <th><input type="checkbox" name="check1" id="cb-bulk" class="cb-tab"></th>
+                                                        <th>Start Date</th>
+                                                        <th>Priority</th>
+                                                        <th>Affiliate</th>
+                                                        <th>Retailer</th>
+                                                        <th style="width:130px;" >Item Sku</th>
+                                                        <th>Price</th>
+                                                        <th>Qty Per Cart</th>
+                                                        <th>Total Qty</th>
+                                                        <th>Subtotal</th>
+                                                        <th>Payment Type</th>
+                                                        <th>Status</th>    
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                                          </div>
+                                       </div>
+
+                                    <!-- end card-box -->
+                                 </div>
+                                 <!-- end col -->
+                              </div>
+                           </div> 
+                        </div>
+                     </div>
+                     <!-- end card-box -->
+                  </div>
+                  <!-- end col -->
+               </div>
+            </div>
+            <!-- container -->
+         </div>
+         <!-- content -->
+         <!-- Footer Start -->
+         <footer class="footer">
+            <div class="container-fluid">
+               <div class="row">
+                  <div class="col-md-6">
+                     2020 &copy; Prime Electronics, LLC
+                  </div>
+                  <div class="col-md-6">
+                     <div class="text-md-right footer-links d-none d-sm-block">
+                        <a href="javascript:void(0);">About Us</a>
+                        <a href="javascript:void(0);">Help</a>
+                        <a href="javascript:void(0);">Contact Us</a>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </footer>
+         <!-- end Footer -->
+      </div>
+      <!-- ============================================================== -->
+      <!-- End Page content -->
+      <!-- ============================================================== -->
+      </div>
+      <!-- END wrapper -->
+      <!-- Right Sidebar -->
+
+      <div class="right-bar">
+         <div class="rightbar-title">
+            <a href="javascript:void(0);" class="right-bar-toggle float-right">
+            <i class="dripicons-cross noti-icon"></i>
+            </a>
+            <h5 class="m-0 text-white">Settings</h5>
+         </div>
+         <div class="slimscroll-menu">
+            <!-- User box -->
+            <div class="user-box">
+               <div class="user-img">
+                  <img src="static/images/users/user-1.jpg" alt="user-img" title="Mat Helme" class="rounded-circle img-fluid">
+                  <a href="javascript:void(0);" class="user-edit"><i class="mdi mdi-pencil"></i></a>
+               </div>
+               <h5><a href="javascript: void(0);">Geneva Kennedy</a> </h5>
+               <p class="text-muted mb-0"><small>Admin Head</small></p>
+            </div>
+            <!-- Settings -->
+            <hr class="mt-0" />
+            <h5 class="pl-3">Basic Settings</h5>
+            <hr class="mb-0" />
+            <div class="p-3">
+               <div class="checkbox checkbox-primary mb-2">
+                  <input id="Rcheckbox1" type="checkbox" checked>
+                  <label for="Rcheckbox1">
+                  Notifications
+                  </label>
+               </div>
+               <div class="checkbox checkbox-primary mb-2">
+                  <input id="Rcheckbox2" type="checkbox" checked>
+                  <label for="Rcheckbox2">
+                  API Access
+                  </label>
+               </div>
+               <div class="checkbox checkbox-primary mb-2">
+                  <input id="Rcheckbox3" type="checkbox">
+                  <label for="Rcheckbox3">
+                  Auto Updates
+                  </label>
+               </div>
+               <div class="checkbox checkbox-primary mb-2">
+                  <input id="Rcheckbox4" type="checkbox" checked>
+                  <label for="Rcheckbox4">
+                  Online Status
+                  </label>
+               </div>
+               <div class="checkbox checkbox-primary mb-0">
+                  <input id="Rcheckbox5" type="checkbox" checked>
+                  <label for="Rcheckbox5">
+                  Auto Payout
+                  </label>
+               </div>
+            </div>
+            <!-- Timeline -->
+            <hr class="mt-0" />
+            <h5 class="px-3">Messages <span class="float-right badge badge-pill badge-danger">25</span></h5>
+            <hr class="mb-0" />
+            <div class="p-3">
+               <div class="inbox-widget">
+                  <div class="inbox-item">
+                     <div class="inbox-item-img"><img src="static/images/users/user-2.jpg" class="rounded-circle" alt=""></div>
+                     <p class="inbox-item-author"><a href="javascript: void(0);" class="text-dark">Tomaslau</a></p>
+                     <p class="inbox-item-text">I've finished it! See you so...</p>
+                  </div>
+                  <div class="inbox-item">
+                     <div class="inbox-item-img"><img src="static/images/users/user-3.jpg" class="rounded-circle" alt=""></div>
+                     <p class="inbox-item-author"><a href="javascript: void(0);" class="text-dark">Stillnotdavid</a></p>
+                     <p class="inbox-item-text">This theme is awesome!</p>
+                  </div>
+                  <div class="inbox-item">
+                     <div class="inbox-item-img"><img src="static/images/users/user-4.jpg" class="rounded-circle" alt=""></div>
+                     <p class="inbox-item-author"><a href="javascript: void(0);" class="text-dark">Kurafire</a></p>
+                     <p class="inbox-item-text">Nice to meet you</p>
+                  </div>
+                  <div class="inbox-item">
+                     <div class="inbox-item-img"><img src="static/images/users/user-5.jpg" class="rounded-circle" alt=""></div>
+                     <p class="inbox-item-author"><a href="javascript: void(0);" class="text-dark">Shahedk</a></p>
+                     <p class="inbox-item-text">Hey! there I'm available...</p>
+                  </div>
+                  <div class="inbox-item">
+                     <div class="inbox-item-img"><img src="static/images/users/user-6.jpg" class="rounded-circle" alt=""></div>
+                     <p class="inbox-item-author"><a href="javascript: void(0);" class="text-dark">Adhamdannaway</a></p>
+                     <p class="inbox-item-text">This theme is awesome!</p>
+                  </div>
+               </div>
+               <!-- end inbox-widget -->
+            </div>
+            <!-- end .p-3-->
+         </div>
+         <!-- end slimscroll-menu-->
+      </div>
+      <!-- /Right-bar -->
+      <!-- Right bar overlay-->
+      <div class="rightbar-overlay"></div>
+      <!-- Vendor js -->
+      <script src="static/js/vendor.min.js"></script>
+      
+            <script>
+               function changeStatus(id){
+               strid=String(id)
+               dataId=strid.slice(0,3);
+               if(dataId=='api'){
+                 status=document.getElementById(id).value
+                  var id=strid.slice(3,);
+               }
+               else{
+               status=document.getElementById(id).value
+               }
+
+
+               statusData={}
+               var newUser = "id";
+               newValue=id
+               var newUser1 = "status";
+               newValue1=status
+               statusData[newUser] = newValue ;
+               statusData[newUser1] = newValue1 ;
+               console.log(statusData)
+               $.ajax({
+                  type:'POST',
+                  url:'/orderStatus',
+                  data:statusData,
+                  success:function(response){
+                  console.log(response);
+                  showSnackbar('Status updated.');
+                  },
+                  error:function(error) {
+                  console.log(error);
+                  }
+               });
+               }
+
+  function statusFunction(idData) {
+
+    id=String(idData).slice(2)
+    $.ajax({
+    type:'POST',
+    url:'/buyingstatusChange/'+id,
+    data:{
+    status: $('input#'+idData).prop('checked'),
+    change:idData
+           },
+       success:function(response){
+       console.log(response)
+       simple = JSON.parse(response);
+       updateMsg=simple.message
+       showSnackbar(updateMsg+' updated.');
+       }
+    });
+}
+            </script>
+     <script>
+     var ptbl = undefined;
+      $(document).ready(function(){
+      
+        // table initialization code
+
+       ptbl = $('#ptbl').DataTable({
+
+              "ordering":false,
+              "serverSide": true,
+              searching: true,
+              columns: [  
+                       {   
+                    data:"",
+                    "render": function ( data, type, row, meta ) {
+                        return '<input type="checkbox" name="check[]" value="' + row.id + '" class="cb-single">'}
+                    },
+                { "data": "Start_Date" },
+                { "data": "Priority" },
+                { "data": "Affiliate" },
+                { "data": "Retailer" },
+                { "data": "Item_Sku" },
+                { "data": "Price" },
+                { "data": "Qty_Per_Cart" },
+                { "data": "Total_Qty" },
+                { "data": "Subtotal" },
+                { "data": "Payment_Type" },
+                { "data": "Status",
+                "render": function ( data, type, row, meta ) {
+                            htmlString='<select id="'+row.id+'"  onchange="changeStatus(this.id)" class="hd3">'+
+                           '<option value="'+row.Status+'" checked >'+row.Status+'</option>'
+                           if(row.Status != 'Active'){
+                                htmlString+= '<option value="Active" >Active  </option>'
+                            }
+                            if(row.Status != 'Inactive'){
+                             htmlString+='<option value="Inactive">Inactive</option>'
+                            }
+                            if(row.Status != 'Paused'){
+                             htmlString+='<option value="Paused">Paused</option>'
+                            }
+                            if(row.Status != 'Cancelled'){
+                             htmlString+='<option value="Cancelled">Cancelled</option>'
+                            }
+                            htmlString+='</select>'
+                            return htmlString
+                          }   
+                }                
+            ],
+              
+       "ajax": {
+            'type': 'post',
+            'url' :  '/buyingAllProducttable?id={{data}}',
+            'dataType': 'json',
+            "contentType": "application/json",
+             "data": function ( d ) {
+                        console.log(d)
+                        return JSON.stringify(d)
+                 }
+          }
+   });
+});
+
+
+   </script>
+
+<script type="text/javascript">
+$(document).on("click", "#cb-bulk", function(){
+  $(".cb-single").prop("checked", $(this).prop("checked"));
+});
+$(document).on("click", ".cb-single", function(){
+  var all = $(".cb-single").length;
+  var checked = $(".cb-single:checked").length;
+  if(all == checked){
+    $(".cb-tab").prop("checked", true);
+  }else{
+    $(".cb-tab").prop("checked", false);
+  }
+});
+</script>
+
+  <script type="text/javascript">
+    // update data function updateTotalCart updatePaymentType updateShip updateLog updateUserDataList updatevendor
+    function updateTable(){
+      data={}
+      retailers = document.getElementById("updateRetailers").value
+      updateTotalCart=document.getElementById("updateTotalCart").value
+      updatePaymentType=document.getElementById("updatePaymentType").value
+      updateShip=document.getElementById("updateShip").value
+      updateLog=document.getElementById("updateLog").value
+      updateUserDataList=JSON.stringify(values)
+      console.log(typeof(updateUserDataList))
+      updatevendor=document.getElementById("updatevendor").value
+      len=document.querySelectorAll('.count.listData').length
+      data["retailers"]=retailers
+      data["totalCart"]=updateTotalCart
+      data["paymentType"]=updatePaymentType
+      data["updateShip"]=updateShip
+      data["updateLog"]=updateLog
+      data["updateUserDataList"]=updateUserDataList
+      data["updatevendor"]=updatevendor
+      data["lenValue"]=len
+      data['cardID'] = {{data}}
+
+
+        for(var i=1;i<=len;i++){
+          id = document.getElementById("dataID-"+String(i)).value
+          sku = document.getElementById("updateSku-"+String(i)).value
+          price = document.getElementById("updatePrice-"+String(i)).value
+          qtyPerCart = document.getElementById("QtyPerCart-"+String(i)).value
+          updateTotalQty=document.getElementById("updateTotalQty-"+String(i)).value
+          data["sku"+String(i)]=sku
+          data["price"+String(i)]=price
+          data["qtyPerCart"+String(i)]=qtyPerCart
+          data["updateTotalQty"+String(i)]=updateTotalQty
+          data["dataID"+String(i)]=id
+          console.log('data',data)
+        } 
+      console.log(data)
+
+       $.ajax({
+                type:'POST',
+                url:'/buyingUpdateData',
+                data:data,
+                success:function(response){
+                  console.log(response);
+                  var table = $('#ptbl').DataTable();
+                  table.ajax.reload();
+                  showSnackbar('Data updated.');
+                  // document.getElementById("loader").style.display = "none";
+                  // document.getElementById("updateMain").style.display = "block";
+                  // document.getElementById("updateMsg").style.display = "block";
+                },
+                error:function(error){
+                  console.log(error);
+                  // document.getElementById("loader").style.display = "none";
+                  // document.getElementById("errorMsg").style.display = "block";
+                }
+              });            
+     } 
+
+    function manageQtyData(){
+      var firstTotal=0
+      qty = document.getElementById('QtyPerCart-1').value
+      total = document.getElementById('updateTotalQty-1').value
+      firstTotal = total/qty
+      qtyLoop = total%qty
+      if(qtyLoop != 0){
+        document.getElementById('error').innerText="place enter valid data"
+        document.getElementById('save').disabled=true
+      }else{
+        document.getElementById('error').innerText=""
+        document.getElementById('save').disabled=false
+      }
+
+      len=document.querySelectorAll('.count.listData').length
+      if(len>1){
+        for(var i = 2;i <= len;i++){
+          qty = document.getElementById('QtyPerCart-'+String(i)).value
+          total = document.getElementById('updateTotalQty-'+String(i)).value
+          qtyValue = total/qty
+          qtyLoop2 = total%qty
+          if(qtyValue != firstTotal || qtyLoop2 != 0){
+            document.getElementById('error').innerText="place enter valid data"
+            document.getElementById('save').disabled = true;
+          }else{
+            document.getElementById('error').innerText=""
+            document.getElementById('save').disabled=false
+          }
+        }
+      }
+    }
+  </script>
+
+  <script type="text/javascript">
+$(function(){
+    $("#dp-from").datepicker({
+      format: "mm-dd-yyyy",
+    });
+    $("#dp-to").datepicker({
+      format: "mm-dd-yyyy",
+    });
+});
+
+       $("#p-tbl").on("page-change.bs.table", function(e, number, size){
+         setTableTotal()
+      });
+
+    function setTableTotal(){
+      var totalCost=0
+      lenOfTable=document.getElementById('allData').childNodes.length;
+      for(var x=0;x<lenOfTable;x++){
+        data=Number(document.getElementById('allData').childNodes[x].childNodes[10].innerText)
+        console.log(data)
+        totalCost+=data
+        document.getElementById("totalListData").innerHTML = '$'+totalCost;
+      }
+    }
+var values = [];
+function dataList(){
+    values.length=0
+    $('#updateUserDataList :checked').each(function() {
+      //if(values.indexOf($(this).val()) === -1){
+      values.push($(this).val());
+      console.log(values)
+      
+      // }
+    });
+    
+    data=document.getElementById("updateUserDataList").value
+    console.log("data",data)
+    if(data == 'All'){
+        $('.userData').prop('disabled', true);
+        $('.allValue').prop('disabled', false);
+    }else{
+      if(data != ''){
+        $('.userData').prop('disabled', false);
+        $('.allValue').prop('disabled', true);
+      }else{
+        $('.userData').prop('disabled', false);
+        $('.allValue').prop('disabled', false);
+      } 
+    }
+  }
+
+</script>
+  
+{% endblock %}

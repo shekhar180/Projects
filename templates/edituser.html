@@ -1,0 +1,516 @@
+{% extends "extend.html" %}
+{% block tittle %}Edit User - ECOMM FLOW{% endblock tittle %}
+{% block css %}<link rel="stylesheet" type="text/css" href="static/css/adduser.css">
+<style>
+     #snackbar {
+	visibility: hidden;
+	min-width: 250px;
+	margin-left: -125px;
+	background: #f7b84b !important;
+	z-index: 999 !important;
+	color: #000 !important;
+	text-align: center;
+	border-radius: 2px;
+	padding: 16px;
+	position: fixed;
+	z-index: 1;
+	left: 50%;
+	top: 30px;
+	font-size: 17px;
+}
+
+#snackbar.show {
+    z-index: 10000!important;
+	visibility: visible;
+	-webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+	animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+@-webkit-keyframes fadein {
+	from {
+		top: 0;
+		opacity: 0;
+	}
+	to {
+		top: 30px;
+		opacity: 1;
+	}
+}
+
+@keyframes fadein {
+	from {
+		top: 0;
+		opacity: 0;
+	}
+	to {
+		top: 30px;
+		opacity: 1;
+	}
+}
+
+@-webkit-keyframes fadeout {
+	from {
+		top: 30px;
+		opacity: 1;
+	}
+	to {
+		top: 0;
+		opacity: 0;
+	}
+}
+
+@keyframes fadeout {
+	from {
+		top: 30px;
+		opacity: 1;
+	}
+	to {
+		top: 0;
+		opacity: 0;
+	}
+}
+</style>
+{% endblock css %}
+ {% block js %}
+        <!-- Bootstrap Tables js -->
+        <script src="static/libs/bootstrap-table/bootstrap-table.min.js"></script>
+
+        <!-- Init js -->
+        <script src="static/js/pages/bootstrap-tables.init.js"></script>
+
+        <!-- App js -->
+        <script src="static/js/app.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+ {% endblock js %}
+{% block body %}
+<div id="snackbar">Some text some message..</div>
+            <!-- ============================================================== -->
+            <!-- Start Page Content here -->
+            <!-- ============================================================== -->
+            <div class="content-page" style="display:none;"  id="loader" align="center">
+                <div class="spinner-border text-success " style="margin-top:20%" role="status"></div>
+            </div>
+            <div class="content-page" id="main">
+                <div class="content">
+
+                    <!-- Start Content-->
+                    <div class="container-fluid">
+
+                        <!-- start page title -->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="page-title-box">
+                                    <h4 class="page-title">Edit User</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end page title -->
+                        <form>
+                      {% for x in userdata %}
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card-box">
+                                    <div class="alert alert-warning d-none fade show">
+                                        <h4>Oh snap!</h4>
+                                        <p class="mb-0">This form seems to be invalid :(</p>
+                                    </div>
+
+                                    <div class="alert alert-info d-none fade show">
+                                        <h4>Yay!</h4>
+                                        <p class="mb-0">Everything seems to be ok :)</p>
+                                    </div>
+
+                                    <form id="demo-form">
+                                        <div class="form-group">
+                                            <label for="fullname">Full Name :</label>
+                                            <input type="text" value="{{x.contactName}}" minlength="3" maxlength="80" class="form-control" name="contactName" id="contactname" required="" pattern="^[^-\s][a-zA-Z0-9_\s-]+$">
+                                        </div>
+
+
+                                        <div class="form-group">
+                                            <label for="email">Email :</label>
+                                            <input type="email" value="{{x.Email}}" id="email" class="form-control" name="email"
+                                                    data-parsley-trigger="change" required="" readonly>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-md-8">
+                                                    <label for="password1">Password :</label>
+                                                    <input  type="password" value="{{x.Password}}" minlength="6" maxlength="15" class="form-control noSpace" name="password" required="" id="password1" >
+                                                </div>
+
+                                                <div class="col-md-2 float-right" style="margin-top: 35px;">
+                                                    <input type="checkbox" onchange="showPassword()" id="pwdcheck">
+                                                    <label class="mb-1">Show Password</label>
+                                                </div>
+
+                                                <div class="col-md-2" style="margin-top: 28px;">
+                                                    <input type="button" class="btn btn-success" value="Update Password" onclick="confirmPassword()">
+                                                </div>
+                                            </div>                                            
+                                        </div>
+
+                                        <div class="form-group" style="display: none;" id="confirmpwd">
+                                            <label for="confirmpwd">Confirm Password :</label>
+                                            <input type="password" onkeyup="validatePassword()" minlength="6" maxlength="15" class="form-control noSpace" name="conPassword" id="conPassword" required="" >
+                                            <span id="passwordValidationError" style="color:red"><span>
+                                        </div>
+                                    </form>
+                                </div> <!-- end card-box-->
+                            </div> <!-- end col-->
+                        </div>
+                        <!-- end row-->
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="header-title">Module Access</h4>
+                                        <!-- Rounded switch -->
+                                        <div class="row">
+                                          {% for y in accessdata %}
+
+                                            <label {% if 0 == y.addUser %} hidden {%endif%} for="switch1" class="mt-1 col-md-1">User</label>
+                                            <div {% if 0 == y.addUser %} hidden {%endif%} class="col-md-3 form-group">
+                                                <label class="switch" id="switch1">
+                                                   <input {% if 1 == x.addUser%} checked {%endif%} id="addUser" type="checkbox" class="scopeSlider">
+                                                   <span class="slider round"></span>
+                                                </label>
+                                            </div>
+
+
+                                            <label {% if 0 == y.giftCards %} hidden {%endif%} for="switch1" class="mt-1 col-md-1">Gift Cards </label>
+                                            <div {% if 0 == y.giftCards %} hidden {%endif%} class="col-md-3 form-group">
+                                                <label class="switch" id="switch1">
+                                                   <input id="giftCards" {% if 1 == x.giftCards%} checked {%endif%} type="checkbox" class="scopeSlider">
+                                                   <span class="slider round"></span>
+                                                </label>
+                                            </div>
+
+
+                                            <label {% if 0 == y.orderTracking %} hidden {%endif%} for="switch1" class="mt-1 col-md-1">Order Tracking </label>
+                                            <div {% if 0 == y.orderTracking %} hidden {%endif%} class="col-md-3 form-group">
+                                                <label class="switch" id="switch1">
+                                                   <input type="checkbox" class="scopeSlider" id="orderTracking" {% if 1 == x.orderTracking%} checked {%endif%}>
+                                                   <span class="slider round"></span>
+                                                </label>
+                                            </div>
+
+                                            <label {% if 0 == y.buyerManager %} hidden {%endif%} for="switch1" class="mt-1 col-md-1">Buying Manager</label>
+                                            <div  {% if 0 == y.buyerManager %} hidden {%endif%} class="col-md-3 form-group">
+                                                <label class="switch" id="switch1">
+                                                   <input type="checkbox" class="scopeSlider" id="buyerManager" {% if 1 == x.buyerManager%} checked {%endif%}>
+                                                   <span class="slider round"></span>
+                                                </label>
+                                            </div>
+
+                                            <label {% if 0 == y.PriceMonitor %} hidden {%endif%} for="switch1" class="mt-1 col-md-1">Price Monitor </label>
+                                            <div {% if 0 == y.PriceMonitor %} hidden {%endif%} class="col-md-3 form-group">
+                                                <label class="switch" id="switch1">
+                                                   <input type="checkbox" class="scopeSlider" id="priceMonitor" {% if 1 == x.PriceMonitor%} checked {%endif%}>
+                                                   <span class="slider round"></span>
+                                                </label>
+                                            </div>
+
+                                            <label {% if 0 == y.inventory %} hidden {%endif%} for="switch1" class="mt-1 col-md-1">Inventory </label>
+                                            <div {% if 0 == y.inventory %} hidden {%endif%} class="col-md-3 form-group">
+                                                <label class="switch" id="switch1">
+                                                   <input type="checkbox" class="scopeSlider" id="inventory" {% if 1 == x.inventory%} checked {%endif%}>
+                                                   <span class="slider round"></span>
+                                                </label>
+                                            </div>
+
+                                            <label {% if 0 == y.cashFlow %} hidden {%endif%} for="switch1" class="mt-1 col-md-1">Cashflow </label>
+                                            <div  {% if 0 == y.cashFlow %} hidden {%endif%} class="col-md-3 form-group">
+                                                <label class="switch" id="switch1">
+                                                   <input type="checkbox" class="scopeSlider" id="cashFlow" {% if 1 == x.cashFlow%} checked {%endif%}>
+                                                   <span class="slider round"></span>
+                                                </label>
+                                            </div>
+
+                                            <label  {% if 0 == y.reports %} hidden {%endif%} for="switch1" class="mt-1 col-md-1">Reports </label>
+                                            <div  {% if 0 == y.reports %} hidden {%endif%} class="col-md-3 form-group">
+                                                <label class="switch" id="switch1" >
+                                                   <input type="checkbox" class="scopeSlider" id="reports" {% if 1 == x.reports%} checked {%endif%}>
+                                                   <span class="slider round"></span>
+                                                </label>
+                                            </div>
+
+                                            <label  {% if 0 == y.cashback %} hidden {%endif%} for="switch1" class="mt-1 col-md-1">Cashback </label>
+                                            <div  {% if 0 == y.cashback %} hidden {%endif%} class="col-md-3 form-group">
+                                                <label class="switch" id="switch1">
+                                                   <input type="checkbox" class="scopeSlider" id="cashback" {% if 1 == x.cashback%} checked {%endif%}>
+                                                   <span class="slider round"></span>
+                                                </label>
+                                            </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div> <!-- end card-body -->
+                                </div> <!-- end card-->
+                            </div> <!-- end col -->
+                        </div>
+
+                        <div class="form-group mb-0">
+                              <input name="save" id="save" type="submit" value="Save" onclick="editFunction()" class="btn btn-success waves-effect waves-light" value="Save">
+                        </div>
+
+                      {% endfor %}
+                     </form>
+                    </div> <!-- container -->
+
+                </div> <!-- content -->
+
+<!--                &lt;!&ndash; Footer Start &ndash;&gt;-->
+<!--                <footer class="footer">-->
+<!--                    <div class="container-fluid">-->
+<!--                        <div class="row">-->
+<!--                            <div class="col-md-6">-->
+<!--                                2020 &copy; Prime Electronics, LLC-->
+<!--                            </div>-->
+<!--                            <div class="col-md-6">-->
+<!--                                <div class="text-md-right footer-links d-none d-sm-block">-->
+<!--                                    <a href="javascript:void(0);">About Us</a>-->
+<!--                                    <a href="javascript:void(0);">Help</a>-->
+<!--                                    <a href="javascript:void(0);">Contact Us</a>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </footer>-->
+<!--                &lt;!&ndash; end Footer &ndash;&gt;-->
+
+<!--            </div>-->
+
+<!--            &lt;!&ndash; ============================================================== &ndash;&gt;-->
+<!--            &lt;!&ndash; End Page content &ndash;&gt;-->
+<!--            &lt;!&ndash; ============================================================== &ndash;&gt;-->
+
+
+<!--        </div>-->
+<!--        &lt;!&ndash; END wrapper &ndash;&gt;-->
+
+<!--        &lt;!&ndash; Right Sidebar &ndash;&gt;-->
+<!--        <div class="right-bar">-->
+<!--            <div class="rightbar-title">-->
+<!--                <a href="javascript:void(0);" class="right-bar-toggle float-right">-->
+<!--                    <i class="dripicons-cross noti-icon"></i>-->
+<!--                </a>-->
+<!--                <h5 class="m-0 text-white">Settings</h5>-->
+<!--            </div>-->
+<!--            <div class="slimscroll-menu">-->
+<!--                &lt;!&ndash; User box &ndash;&gt;-->
+<!--                <div class="user-box">-->
+<!--                    <div class="user-img">-->
+<!--                        <img src="static/images/users/user-1.jpg" alt="user-img" title="Mat Helme" class="rounded-circle img-fluid">-->
+<!--                        <a href="javascript:void(0);" class="user-edit"><i class="mdi mdi-pencil"></i></a>-->
+<!--                    </div>-->
+
+<!--                    <h5><a href="javascript: void(0);">Geneva Kennedy</a> </h5>-->
+<!--                    <p class="text-muted mb-0"><small>Admin Head</small></p>-->
+<!--                </div>-->
+
+<!--                &lt;!&ndash; Settings &ndash;&gt;-->
+<!--                <hr class="mt-0" />-->
+<!--                <h5 class="pl-3">Basic Settings</h5>-->
+<!--                <hr class="mb-0" />-->
+
+<!--                <div class="p-3">-->
+<!--                    <div class="checkbox checkbox-primary mb-2">-->
+<!--                        <input id="Rcheckbox1" type="checkbox" checked>-->
+<!--                        <label for="Rcheckbox1">-->
+<!--                            Notifications-->
+<!--                        </label>-->
+<!--                    </div>-->
+<!--                    <div class="checkbox checkbox-primary mb-2">-->
+<!--                        <input id="Rcheckbox2" type="checkbox" checked>-->
+<!--                        <label for="Rcheckbox2">-->
+<!--                            API Access-->
+<!--                        </label>-->
+<!--                    </div>-->
+<!--                    <div class="checkbox checkbox-primary mb-2">-->
+<!--                        <input id="Rcheckbox3" type="checkbox">-->
+<!--                        <label for="Rcheckbox3">-->
+<!--                            Auto Updates-->
+<!--                        </label>-->
+<!--                    </div>-->
+<!--                    <div class="checkbox checkbox-primary mb-2">-->
+<!--                        <input id="Rcheckbox4" type="checkbox" checked>-->
+<!--                        <label for="Rcheckbox4">-->
+<!--                            Online Status-->
+<!--                        </label>-->
+<!--                    </div>-->
+<!--                    <div class="checkbox checkbox-primary mb-0">-->
+<!--                        <input id="Rcheckbox5" type="checkbox" checked>-->
+<!--                        <label for="Rcheckbox5">-->
+<!--                            Auto Payout-->
+<!--                        </label>-->
+<!--                    </div>-->
+<!--                </div>-->
+
+<!--                &lt;!&ndash; Timeline &ndash;&gt;-->
+<!--                <hr class="mt-0" />-->
+<!--                <h5 class="px-3">Messages <span class="float-right badge badge-pill badge-danger">25</span></h5>-->
+<!--                <hr class="mb-0" />-->
+<!--                <div class="p-3">-->
+<!--                    <div class="inbox-widget">-->
+<!--                        <div class="inbox-item">-->
+<!--                            <div class="inbox-item-img"><img src="static/images/users/user-2.jpg" class="rounded-circle" alt=""></div>-->
+<!--                            <p class="inbox-item-author"><a href="javascript: void(0);" class="text-dark">Tomaslau</a></p>-->
+<!--                            <p class="inbox-item-text">I've finished it! See you so...</p>-->
+<!--                        </div>-->
+<!--                        <div class="inbox-item">-->
+<!--                            <div class="inbox-item-img"><img src="static/images/users/user-3.jpg" class="rounded-circle" alt=""></div>-->
+<!--                            <p class="inbox-item-author"><a href="javascript: void(0);" class="text-dark">Stillnotdavid</a></p>-->
+<!--                            <p class="inbox-item-text">This theme is awesome!</p>-->
+<!--                        </div>-->
+<!--                        <div class="inbox-item">-->
+<!--                            <div class="inbox-item-img"><img src="static/images/users/user-4.jpg" class="rounded-circle" alt=""></div>-->
+<!--                            <p class="inbox-item-author"><a href="javascript: void(0);" class="text-dark">Kurafire</a></p>-->
+<!--                            <p class="inbox-item-text">Nice to meet you</p>-->
+<!--                        </div>-->
+
+<!--                        <div class="inbox-item">-->
+<!--                            <div class="inbox-item-img"><img src="static/images/users/user-5.jpg" class="rounded-circle" alt=""></div>-->
+<!--                            <p class="inbox-item-author"><a href="javascript: void(0);" class="text-dark">Shahedk</a></p>-->
+<!--                            <p class="inbox-item-text">Hey! there I'm available...</p>-->
+<!--                        </div>-->
+<!--                        <div class="inbox-item">-->
+<!--                            <div class="inbox-item-img"><img src="static/images/users/user-6.jpg" class="rounded-circle" alt=""></div>-->
+<!--                            <p class="inbox-item-author"><a href="javascript: void(0);" class="text-dark">Adhamdannaway</a></p>-->
+<!--                            <p class="inbox-item-text">This theme is awesome!</p>-->
+<!--                        </div>-->
+<!--                    </div> &lt;!&ndash; end inbox-widget &ndash;&gt;-->
+<!--                </div> &lt;!&ndash; end .p-3&ndash;&gt;-->
+
+<!--            </div> &lt;!&ndash; end slimscroll-menu&ndash;&gt;-->
+<!--        </div>-->
+<!--        &lt;!&ndash; /Right-bar &ndash;&gt;-->
+
+<!--        &lt;!&ndash; Right bar overlay&ndash;&gt;-->
+<!--        <div class="rightbar-overlay"></div>-->
+
+<!--        &lt;!&ndash; Vendor js &ndash;&gt;-->
+<!--        <script src="static/js/vendor.min.js"></script>-->
+
+<!--        &lt;!&ndash; Init js &ndash;&gt;-->
+<!--        <script src="static/js/pages/bootstrap-tables.init.js"></script>-->
+
+<!--        &lt;!&ndash; App js &ndash;&gt;-->
+<!--        <script src="static/js/app.min.js"></script>-->
+
+
+<!--        <script src="static/libs/jquery-nice-select/jquery.nice-select.min.js"></script>-->
+<!--        <script src="./static/libs/switchery/switchery.min.js"></script>-->
+<!--        <script src="static/libs/multiselect/jquery.multi-select.js"></script>-->
+<!--        <script src="static/libs/select2/select2.min.js"></script>-->
+<!--        <script src="static/libs/jquery-mockjax/jquery.mockjax.min.js"></script>-->
+<!--        <script src="static/libs/autocomplete/jquery.autocomplete.min.js"></script>-->
+<!--        <script src="static/libs/bootstrap-select/bootstrap-select.min.js"></script>-->
+<!--        <script src="static/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js"></script>-->
+<!--        <script src="static/libs/bootstrap-maxlength/bootstrap-maxlength.min.js"></script>-->
+        <!-- Right bar overlay-->
+        <div class="rightbar-overlay"></div>
+
+        <!-- Vendor js -->
+        <script src="static/js/vendor.min.js"></script>
+
+        <script type="text/javascript">
+            function showPassword(){
+                var x = document.getElementById("password1");
+                if (x.type === "password") {
+                    x.type = "text";
+                } 
+                else {
+                    x.type = "password";
+                }
+            }
+            function confirmPassword(){
+                var y = document.getElementById("confirmpwd");
+                $('#conPassword').val("");
+                if (y.style.display === "block") {
+                    y.style.display = "none";
+                    document.getElementById("save").disabled = false;
+                } 
+                else {
+                    y.style.display = "block";
+                }
+            }
+
+           <!-- send data to post method-->
+              function editFunction() {
+               if ($('.scopeSlider:checked').length == 0) {
+                   showSnackbar("Please select at least one module.");
+               }else{
+               document.getElementById("main").style.display = "none";
+               document.getElementById("loader").style.display = "block";
+                {% for x in userdata %}
+                   var id={{x.userid}}
+                {% endfor %}
+               $.ajax({
+                  type:'POST',
+                  url:'/userUpdate/'+id,
+                  data:{
+                     <!-- userdata-->
+                     contactname:$('#contactname').val(),
+                     email:$('#email').val(),
+                     password:$('#password1').val(),
+                     conpassword:$('#conPassword').val(),
+
+                     <!--accessdata-->
+                     user: $('input#addUser').prop('checked'),
+                     giftCard: $('input#giftCards').prop('checked'),
+                     orderTracking: $('input#orderTracking').prop('checked'),
+                     buyerManager: $('input#buyerManager').prop('checked'),
+                     priceMonitor: $('input#priceMonitor').prop('checked'),
+                     inventory: $('input#inventory').prop('checked'),
+                     cashFlow: $('input#cashFlow').prop('checked'),
+                     reports: $('input#reports').prop('checked'),
+                     cashback: $('input#cashback').prop('checked')
+                  },
+                  success:function(data){
+                       console.log(data);
+                       showSnackbar(data.data);
+                       setTimeout(function(){ setTime() }, 2000);
+                  }
+               });
+           }
+           }
+           function setTime() {
+                document.getElementById("main").style.display = "block";
+                document.getElementById("loader").style.display = "none";
+                reloadPage();
+           }
+
+        </script>
+        <script type="text/javascript">
+            function showSnackbar(text) {
+                var x = document.getElementById("snackbar");
+                x.innerHTML = text;
+                x.className = "show";
+                setTimeout(function(){ x.className = x.className.replace("show", ''); }, 3000);
+            }
+            function reloadPage(){
+              window.location.reload();
+            }
+           $('.noSpace').keyup(function() {
+             this.value = this.value.replace(/\s/g,'');
+            });
+        </script>
+        <script>
+
+        function validatePassword(){
+        var password = document.getElementById("password1"),confirm_password = document.getElementById("conPassword");
+          if(password.value != confirm_password.value){
+               document.getElementById("conPassword").style.borderColor = "red";
+               document.getElementById("save").disabled = true;
+               $('#passwordValidationError').text('Password and Confirm password does not match')
+          } else {
+               document.getElementById("conPassword").style.borderColor = "green";
+               document.getElementById("save").disabled = false;
+               $('#passwordValidationError').text('')
+          }
+        }
+
+        </script>
+{% endblock %}

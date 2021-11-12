@@ -1,0 +1,21 @@
+.hd3{
+    				border: 0;
+    				background: transparent;
+    				color: #6c757d;
+				}
+			.hd3:hover
+				{
+				    background: #fff;
+
+				}
+			.modal-cusm
+         		{
+        			margin-top: -50px;
+         			margin-bottom: 25px;
+         		}
+         		@media (max-width: 436px){
+         			.float-rtol{
+         				float: none !important;
+         			}
+
+         		}

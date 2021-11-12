@@ -1,0 +1,412 @@
+{% extends "extend.html" %}
+{% block tittle %}Add User - ECOMM FLOW{% endblock tittle %}
+{% block css %}<link rel="stylesheet" type="text/css" href="static/css/adduser.css">
+<style>
+    .show-password{
+   margin-left: -28px;
+   display: flow-root;
+   position: absolute;
+   margin-top: 12px;
+}
+.error{
+    color:red;
+    padding-top: 8px;
+    display:block; //to show error message in new line
+}
+#password-field-error{
+display: inline-block;
+}
+.field-icon {
+  float: right;
+  right: 14px;
+  margin-top: -25px;
+  position: relative;
+  z-index: 2;
+}
+ #snackbar {
+	visibility: hidden;
+	min-width: 250px;
+	margin-left: -125px;
+	background: #f7b84b !important;
+	z-index: 999 !important;
+	color: #000 !important;
+	text-align: center;
+	border-radius: 2px;
+	padding: 16px;
+	position: fixed;
+	z-index: 1;
+	left: 50%;
+	top: 30px;
+	font-size: 17px;
+}
+
+#snackbar.show {
+    z-index: 10000!important;
+	visibility: visible;
+	-webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+	animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+@-webkit-keyframes fadein {
+	from {
+		top: 0;
+		opacity: 0;
+	}
+	to {
+		top: 30px;
+		opacity: 1;
+	}
+}
+
+@keyframes fadein {
+	from {
+		top: 0;
+		opacity: 0;
+	}
+	to {
+		top: 30px;
+		opacity: 1;
+	}
+}
+
+@-webkit-keyframes fadeout {
+	from {
+		top: 30px;
+		opacity: 1;
+	}
+	to {
+		top: 0;
+		opacity: 0;
+	}
+}
+
+@keyframes fadeout {
+	from {
+		top: 30px;
+		opacity: 1;
+	}
+	to {
+		top: 0;
+		opacity: 0;
+	}
+}
+</style>
+{% endblock css %}
+ {% block js %}
+ <!-- Right bar overlay-->
+        <div class="rightbar-overlay"></div>
+
+        
+        <!-- Bootstrap Tables js -->
+        <script src="static/libs/bootstrap-table/bootstrap-table.min.js"></script>
+
+        <!-- Init js -->
+        <script src="static/js/pages/bootstrap-tables.init.js"></script>
+
+        <!-- App js -->
+        <script src="static/js/app.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+ {% endblock js %}
+{% block body %}
+<div id="snackbar">Some text some message..</div>
+            <!-- ============================================================== -->
+            <!-- Start Page Content here -->
+            <!-- ============================================================== -->
+
+            <div class="content-page">
+                <div class="content">
+
+                    <!-- Start Content-->
+                    <div class="container-fluid">
+
+                        <!-- start page title -->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="page-title-box">
+                                    <h4 class="page-title">Add User</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end page title -->
+                        <form id="user-form" method="post" action="/adduser">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card-box">
+                                    <div class="alert alert-warning d-none fade show">
+                                        <h4>Oh snap!</h4>
+                                        <p class="mb-0">This form seems to be invalid :(</p>
+                                    </div>
+
+                                    <div class="alert alert-info d-none {% if success %} d-block {% endif %} fade show">
+                                        <h4 class="mb-0">User account is successfully created.</h4>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <p id="instructions"> Please fill out the users basic information and an email will be sent with instructions for the user to login to their new account.</p>    
+                                        </div>
+                                           
+                                    </div>
+
+                                        <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                            <label for="fullname">Full Name :</label>
+                                            <input type="text" minlength="3" maxlength="80" class="form-control" name="fullname" id="fullname" required="">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="email">Email :</label>
+                                            <input type="email" id="email" class="form-control" name="email"
+                                                    data-parsley-trigger="change" required="" onkeyup="checkemail()">
+                                            <span style="color:red" id="email-error1">{{email_error}}<span></span>
+                                        </div>
+                                            <div class="form-group">
+                                            <label class="control-label" for="password-field">Password :</label>
+                                              <input id="password-field" type="password" minlength="6" maxlength="15" class="form-control noSpace" name="password" placeholder="***********" required>
+                                              <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                                          </div>
+
+                                        <div class="form-group mb-0 float-md-right">
+                                            <input type="checkbox" onchange="generatePassword()" id='generatePwd'> 
+                                            <label class="mb-1">Generate Password</label>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="confirmpwd">Confirm Password :</label>
+                                            <input type="password" class="form-control noSpace" minlength="6" maxlength="15" name="conpassword" id="confirmpwd" placeholder="***********" required="">
+                                            <span style="color:red">{{error}}<span>
+                                        </div>
+
+                                        </div>
+                                    </div>
+                                        </div>
+                                    </div>
+                                </div> <!-- end card-box-->
+
+                            </div> <!-- end col-->
+                        </div>
+
+                        <!-- end row-->
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="header-title">Module Access</h4>
+                                        <!-- Rounded switch -->
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                
+                                                <p id="instructions"> Toggle yes or no to grant user permissions to each of the modules listed below.</p>    
+                                            </div>
+                                           
+                                        </div>
+                                        {%for x in accessdata %}
+                                        <div class="row">
+
+                                            <label {% if 0 == x.addUser %} hidden {%endif%} for="switch1" class="mt-1 col-md-1">User </label>
+                                            <div {% if 0 == x.addUser %} hidden {%endif%} class="col-md-3 form-group">
+                                                <label  class="switch" id="switch1">
+                                                   <input  value=1 name="user" class="scopeSlider" type="checkbox">
+                                                   <span class="slider round"></span>
+                                                </label>
+                                            </div>
+
+
+                                            <label {% if 0 == x.giftCards %} hidden {%endif%} for="switch1" class="mt-1 col-md-1">Gift Cards </label>
+                                            <div {% if 0 == x.giftCards %} hidden {%endif%} class="col-md-3 form-group">
+                                                <label  class="switch" id="switch1">
+                                                   <input  value=1 name="giftCard" class="scopeSlider" type="checkbox">
+                                                   <span class="slider round"></span>
+                                                </label>
+                                            </div>
+
+
+                                            <label {% if 0 == x.orderTracking %} hidden {%endif%} for="switch1" class="mt-1 col-md-1">Order Tracking </label>
+                                            <div {% if 0 == x.orderTracking %} hidden {%endif%} class="col-md-3 form-group">
+                                                <label class="switch" id="switch1">
+                                                   <input value=1 name="orderTracking" class="scopeSlider" type="checkbox">
+                                                   <span class="slider round"></span>
+                                                </label>
+                                            </div>
+
+                                            <label  {% if 0 == x.buyerManager %} hidden {%endif%} for="switch1" class="mt-1 col-md-1">Buying Manager </label>
+                                            <div  {% if 0 == x.buyerManager %} hidden {%endif%} class="col-md-3 form-group">
+                                                <label  class="switch" id="switch1">
+                                                   <input value=1 name="buyerManager" class="scopeSlider" type="checkbox">
+                                                   <span class="slider round"></span>
+                                                </label>
+                                            </div>
+
+                                            <label  {% if 0 == x.PriceMonitor %} hidden {%endif%} for="switch1" class="mt-1 col-md-1">Price Monitor </label>
+                                            <div  {% if 0 == x.PriceMonitor %} hidden {%endif%} class="col-md-3 form-group">
+                                                <label  class="switch" id="switch1">
+                                                   <input  value=1 name="priceMonitor" class="scopeSlider" type="checkbox">
+                                                   <span class="slider round"></span>
+                                                </label>
+                                            </div>
+
+                                            <label  {% if 0 == x.inventory %} hidden {%endif%} for="switch1" class="mt-1 col-md-1">Inventory </label>
+                                            <div  {% if 0 == x.inventory %} hidden {%endif%} class="col-md-3 form-group">
+                                                <label  class="switch" id="switch1">
+                                                   <input value=1 name="inventory" class="scopeSlider" type="checkbox">
+                                                   <span class="slider round"></span>
+                                                </label>
+                                            </div>
+
+                                            <label {% if 0 == x.cashFlow %} hidden {%endif%} for="switch1" class="mt-1 col-md-1">Cashflow </label>
+                                            <div {% if 0 == x.cashFlow %} hidden {%endif%} class="col-md-3 form-group">
+                                                <label  class="switch" id="switch1">
+                                                   <input value=1 name="cashFlow" class="scopeSlider" type="checkbox">
+                                                   <span class="slider round"></span>
+                                                </label>
+                                            </div>
+
+                                            <label {% if 0 == x.reports %} hidden {%endif%} for="switch1" class="mt-1 col-md-1">Reports </label>
+                                            <div {% if 0 == x.reports %} hidden {%endif%} class="col-md-3 form-group">
+                                                <label  class="switch" id="switch1">
+                                                   <input value=1 name="reports" class="scopeSlider" type="checkbox">
+                                                   <span  class="slider round"></span>
+                                                </label>
+                                            </div>
+
+                                            <label {% if 0 == x.cashback %} hidden {%endif%} for="switch1" class="mt-1 col-md-1">Cashback </label>
+                                            <div {% if 0 == x.cashback %} hidden {%endif%} class="col-md-3 form-group">
+                                                 <label class="switch" id="switch1">
+                                                   <input value=1 name="cashback" class="scopeSlider" type="checkbox">
+                                                   <span class="slider round"></span>
+                                                </label>
+                                            </div>
+
+                                        </div>
+                                      {%endfor%}
+                                    </div> <!-- end card-body -->
+                                </div> <!-- end card-->
+                            </div> <!-- end col -->
+                        </div>
+
+                        <div  class="form-group mb-0">
+                            <input type="submit" class="btn btn-success" value="Add User">
+                        </div>
+                      </form>
+
+
+                    </div> <!-- container -->
+
+                </div> <!-- content -->
+
+<!-- Vendor js -->
+        <script src="static/js/vendor.min.js"></script>
+
+        <script type="text/javascript">
+            function generatePassword(){
+                var x = document.getElementById("generatePwd").checked;
+                if (x == true) {
+                    var randPassword = Array(10).fill("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz").map(function(x) { return x[Math.floor(Math.random() * x.length)] }).join('');
+                    document.getElementById('password-field').value = randPassword;
+                    document.getElementById('confirmpwd').value = randPassword;
+                }
+                else {
+                    document.getElementById('password-field').value = '';
+                    document.getElementById('confirmpwd').value = '';
+                }
+            }
+       </script>
+        <script type="text/javascript">
+          /* $( document ).ready(function() {
+              $('.metismenu li').removeClass('active');
+              $('.metismenu ul').removeClass('in');
+           });
+           $(".button-menu-mobile").click(function () {
+                $('.metismenu li').removeClass('active');
+                $('.metismenu ul').removeClass('in');
+           }); */
+
+           $('input[type^=password]').on('keypress', function(){
+                $('#generatePwd').prop('checked',false);
+           })
+        </script>
+        <script>
+            function checkemail(){
+              $('#email-error1').hide()
+            }
+            $('.noSpace').keyup(function() {
+             this.value = this.value.replace(/\s/g,'');
+            });
+        </script>
+        <script>
+            $(document).ready(function () {
+            jQuery.validator.addMethod("noSpace", function(value, element) {
+              return value == '' || value.trim().length != 0;
+            }, "Required field cannot be left blank");
+
+            $("#user-form").validate({
+              rules: {
+                 fullname: {
+                      'required': true,
+                       maxlength: 80,
+                       noSpace: true,
+                 },
+                 email: {
+                    required: true,
+                    email: true,//add an email rule that will ensure the value entered is valid email id.
+                    maxlength: 255,
+                    noSpace: true,
+                    remote: "/getuseremail"
+                 },
+                 password : {
+                    required: true,
+                    minlength : 6,
+                    maxlength : 15,
+                    noSpace: true,
+                 },
+                 conpassword : {
+                    minlength : 6,
+                    maxlength : 15,
+                    equalTo : "#password-field",
+                    noSpace: true,
+                 }
+              },
+                messages: {
+                       email: {
+                         remote: "The email you entered is already used"
+                       },
+                       conpassword: {
+                           equalTo: "Password and Confirm password does not match"
+                       }
+                },
+                submitHandler: function(form) {
+                    if ($('.scopeSlider:checked').length == 0) {
+                        showSnackbar("Please select at least one module.");
+                    }else{
+                       form.submit();
+                    }
+                }
+           });
+        });
+        </script>
+        <script type="text/javascript">
+            function showSnackbar(text) {
+                var x = document.getElementById("snackbar");
+                x.innerHTML = text;
+                x.className = "show";
+                setTimeout(function(){ x.className = x.className.replace("show", ''); }, 3000);
+            }
+        </script>
+        <script>
+          $(".toggle-password").click(function() {
+              $(this).toggleClass("fa-eye fa-eye-slash");
+              var input = $($(this).attr("toggle"));
+              if (input.attr("type") == "password") {
+                input.attr("type", "text");
+                $('#confirmpwd').attr('type', 'text');
+              } else {
+                input.attr("type", "password");
+                $('#confirmpwd').attr('type', 'password');
+              }
+          });
+        </script>
+{% endblock %}

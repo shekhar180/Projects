@@ -1,0 +1,2249 @@
+{% extends "extend.html" %}
+{% block tittle %}Gift Card List - ECOMM FLOW{% endblock tittle %}
+{% block css %}
+ <!-- Plugins css -->
+      <!-- <link href="static/libs/flatpickr/flatpickr.min.css" rel="stylesheet" type="text/css" />
+      <link href="static/libs/bootstrap-colorpicker/bootstrap-colorpicker.min.css" rel="stylesheet" type="text/css" />
+      <link href="static/libs/clockpicker/bootstrap-clockpicker.min.css" rel="stylesheet" type="text/css" />
+      <link href="static/libs/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" /> -->
+
+       <!-- third party css -->
+       <link href="static/libs/datatables/dataTables.bootstrap4.css" rel="stylesheet" type="text/css" />
+       <link href="static/libs/datatables/responsive.bootstrap4.css" rel="stylesheet" type="text/css" />
+       <link href="static/libs/datatables/buttons.bootstrap4.css" rel="stylesheet" type="text/css" />
+       <link href="static/libs/datatables/select.bootstrap4.css" rel="stylesheet" type="text/css" />
+       <!-- third party css end -->
+
+      
+      <!-- editable table datepicker css -->
+      <link href="static/libs/flatpickr/flatpickr.min.css" rel="stylesheet" type="text/css" />
+
+      <!-- upperdropdown datepicker css -->
+      <link href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+     
+    <style>
+
+    .p-datepicker {
+        border: none !important;
+    }
+    .p-datepicker:focus {
+        border: 1px solid;
+    }
+
+   select {
+         border: none;
+    }
+
+   .modal-cusm {
+      margin-top: -50px;
+      margin-bottom: 25px;
+   }
+
+
+   
+   #snackbar {
+     visibility: hidden;
+     min-width: 250px;
+     margin-left: -125px;
+     background: #f7b84b !important;
+     z-index: 999 !important;
+     color: #000 !important;
+     text-align: center;
+     border-radius: 2px;
+     padding: 16px;
+     position: fixed;
+     z-index: 1;
+     left: 50%;
+     top: 30px;
+     font-size: 17px;
+   }
+
+   #snackbar.show {
+     visibility: visible;
+     -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+     animation: fadein 0.5s, fadeout 0.5s 2.5s;
+   }
+
+   @-webkit-keyframes fadein {
+     from {top: 0; opacity: 0;}
+     to {top: 30px; opacity: 1;}
+   }
+
+   @keyframes fadein {
+     from {top: 0; opacity: 0;}
+     to {top: 30px; opacity: 1;}
+   }
+
+   @-webkit-keyframes fadeout {
+     from {top: 30px; opacity: 1;}
+     to {top: 0; opacity: 0;}
+   }
+
+   @keyframes fadeout {
+     from {top: 30px; opacity: 1;}
+     to {top: 0; opacity: 0;}
+   }
+
+.enlarged .dataTables_scrollHeadInner{
+ width: auto !important;
+}
+
+table.dataTable tbody > tr.selected, table.dataTable tbody > tr > .selected {
+      color: #000;
+      background-color: #f1f5f7;
+   }
+
+   table.dataTable tbody>tr.selected td, table.dataTable tbody>tr>.selected td {
+      border: 1px solid #dee2e6;
+   }
+
+
+#cover-spin {
+    text-align: center;
+    font-size: large;
+    /* top: 164px; */
+    padding-top: 15%;
+    position:fixed;
+    width:100%;
+    left:0;right:0;top:0;bottom:0;
+    background-color: rgba(255,255,255,0.7);
+    z-index:9999;
+    display:none;
+}
+
+@-webkit-keyframes spin {
+	from {-webkit-transform:rotate(0deg);}
+	to {-webkit-transform:rotate(360deg);}
+}
+
+@keyframes spin {
+	from {transform:rotate(0deg);}
+	to {transform:rotate(360deg);}
+}
+
+#cover-spin::after {
+    content:'';
+    display:block;
+    position:absolute;
+    left:48%;top:40%;
+    width:40px;height:40px;
+    border-style:solid;
+    border-color:#3498db;
+    border-top-color:transparent;
+    border-width: 4px;
+    border-radius:50%;
+    -webkit-animation: spin .8s linear infinite;
+    animation: spin .8s linear infinite;
+}
+
+.bootstrap-select .inner {
+    overflow-y: auto !important;
+}
+
+/*toggle btn*/
+.blue-toggle-btn{
+  position: relative;
+    z-index: 1;
+    left: 11rem;
+    top: 38px;
+}
+.toggle-btn1 {
+  position: relative;
+  display: inline-block;
+  width: 52px;
+  height: 25px;
+}
+
+td.highlight {
+        font-weight: bold;
+        color: red;
+    }
+
+td.foundmoney {
+   font-weight: bold;
+   color: green;
+}
+
+.toggle-btn1 input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider-lr {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider-lr:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 5px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider-lr {
+  background-color: #2196F3;
+}
+
+input:focus + .slider-lr {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider-lr:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider-lr.round {
+  border-radius: 34px;
+}
+
+.slider-lr.round:before {
+  border-radius: 50%;
+}
+
+.boxline1
+         {
+         border-right: 1px solid #000;
+         padding-right: 12px;
+         }
+
+#showcustomdate{
+    position: relative;
+    left: 12rem;
+    top: 39px;
+    border: 1px solid;
+    padding: 5px;
+    border-radius: 5px;
+    display:none;
+}
+#showselectedbox{
+    position: relative;
+    left: 13rem;
+    top: 39px;
+    border: 1px solid;
+    border-radius: 5px;
+    padding: 5px;
+    display:none;
+}
+.carousel-inner img {
+   width: 100%;
+   }
+   .carousel-control-prev-icon,
+   .carousel-control-next-icon {
+   height: 100px;
+   width: 100px;
+   background-size: 100%, 100%;
+   border-radius: 50%;
+   background-image: none;
+   }
+   .carousel-control-next-icon:after
+   {
+   content: '>';
+   font-size: 55px;
+   color: black;
+   }
+   .carousel-control-prev-icon:after {
+   content: '<';
+   font-size: 55px;
+   color: black;
+   }
+
+   /* CSS FOR upperdropdown datepicker */
+.ui-widget-header {
+	border: none !important;
+	background: transparent !important;
+}
+
+.ui-state-default,
+.ui-widget-content .ui-state-default {
+	border-radius: 4px !important;
+	border: none !important;
+}
+
+/*
+.ui-state-highlight,
+.ui-widget-content .ui-state-highlight {
+	background: #6658dd!important;
+	color: #fff;
+}*/
+
+.ui-datepicker td a {
+	text-align: center;
+}
+
+.ui-widget-content {
+	border: none;
+	background: #ffffff;
+	color: #212529;
+	font-size: 16px;
+	font-weight: initial;
+	line-height: 1.5;
+}
+
+.ui-widget {
+	font-family: Nunito, sans-serif;
+}
+
+.ui-widget.ui-widget-content {
+	border: none;
+}
+
+.ui-datepicker {
+	width: 13em;
+}
+</style>
+{% endblock css %}
+
+{% block js %}
+
+      <!-- Bootstrap Tables js -->
+      <!-- <script src="static/libs/bootstrap-table/bootstrap-table.min.js"></script> -->
+      <!-- Init js -->
+      <!-- <script src="static/js/pages/bootstrap-tables.init.js"></script> -->
+
+      <!-- bootstrap filter js -->
+      <script src="static/libs/bootstrap-select/bootstrap-select.min.js"></script>
+
+
+        <!---------- cell editable js ---------------->
+       <!-- https://stackoverflow.com/questions/35869054/using-jeditable-and-getting-typeerror-editable-is-not-a-function-what-t -->
+        <script src="http://www.appelsiini.net/download/jquery.jeditable.mini.js"></script>
+
+        <!-- third party js -->
+        <script src="static/libs/datatables/jquery.dataTables.min.js"></script>
+        <script src="static/libs/datatables/dataTables.bootstrap4.js"></script>
+        <script src="static/libs/datatables/dataTables.responsive.min.js"></script>
+        <script src="static/libs/datatables/responsive.bootstrap4.min.js"></script>
+        <script src="static/libs/datatables/dataTables.buttons.min.js"></script>
+        <script src="static/libs/datatables/buttons.bootstrap4.min.js"></script>
+        <script src="static/libs/datatables/buttons.html5.min.js"></script>
+        <script src="static/libs/datatables/dataTables.keyTable.min.js"></script>
+
+        <script src="https://cdn.datatables.net/select/1.3.1/js/dataTables.select.min.js"></script>
+
+        <!-- third party js ends -->
+
+        <!-- Datatables init -->
+        <script src="static/js/pages/datatables.init.js"></script>
+
+        <!-- App js -->
+        <script src="static/js/app.min.js"></script>
+
+        
+
+        <!-- editable table datepicker js -->
+        <script src="static/libs/flatpickr/flatpickr.min.js"></script>
+
+          <!-- Sweetalert -->
+      <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+         <!-- upper dropdown datepicker js -->
+         <script src="static/libs/jquery-ui/jquery-ui.min.js"></script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.5.0/jszip.min.js" type="text/javascript"> </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip-utils/0.1.0/jszip-utils.js" type="text/javascript"> </script>
+{% endblock js %}
+{% block body %}
+<div id="snackbar">Some text some message...</div>
+<div id="cover-spin">Please wait generating...</div>
+
+         <!-- ============================================================== -->
+         <!-- Start Page Content here -->
+         <!-- ============================================================== -->
+         <div class="content-page">
+            <div class="content">
+               <!-- Start Content-->
+               <div class="container-fluid">
+                  <!-- start page title -->
+                  <div class="row">
+                     <div class="col-12">
+                        <div class="page-title-box">
+                           <h4 class="page-title">Gift Card List</h4>
+                           <div id="con-close-modal" class="modal fade mt-2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                              <div class="modal-dialog">
+                                 <div class="modal-content">
+                                    <div class="modal-header">
+                                       <h4 class="modal-title" >Import Cards</h4>
+                                       <button type="button"  class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                    </div>
+                                    <div class="modal-body">
+                                       <div class="form-group">
+                                        <label>Upload File</label>
+                                        <form action = "/uploadgiftcard" method = "post" enctype="multipart/form-data">
+                                          <div class="input-group">
+                                             <div class="custom-file">
+                                                <input type="file" class="custom-file-input" accept=".xlsx" name="uploadFile" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01" required>
+                                                <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                                             </div>
+                                             <button  class="btn ml-2 btn-info waves-effect waves-light">Upload File</button>
+                                          </div>
+                                        </form>
+                                       </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                       <form action = "/downloadcsv" method = "post" >
+                                          <input type="hidden" name="download" value="1">
+                                          <button  class="btn btn-info waves-effect waves-light">Download CSV List Template</button>
+                                       </form>
+                                     <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Close</button>
+                                  </div>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="float-right modal-cusm">
+                              <button type="button" id='import_cards' class="btn btn-success waves-effect waves-light" data-toggle="modal" data-target="#con-close-modal">Import Cards</button>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <!-- end page title -->
+                  
+                  <div class="row">
+                     <div class="col-md-12">
+                        {% for message in get_flashed_messages() %}
+                           <div class="alert alert-danger">
+                              <button type="button" class="close" data-dismiss="alert">&times;</button>
+                              {{ message }}
+                           </div>
+                        {% endfor %}
+                     </div>
+                 </div>
+
+                  <div class="row">
+                     <div id="modal-date-custom" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                        <div class="modal-dialog">
+                           <div class="modal-content">
+                              <div class="modal-header">
+                                 <h4 class="modal-title">Select Date Range</h4>
+                                 <button type="button" class="close" data-dismiss="modal" onclick="closemodal()" aria-hidden="true">×</button>
+                              </div>
+                              <div class="modal-body p-4">
+                                 <div class="form-group mb-0">
+                                    <div class="input-group">
+                                       <div class="form-group">
+                                          <div class="row">
+                                             <div class="col-md-6">
+                                                <label>From:</label>
+                                                <input type="text" id="dp-from" class="form-control" data-provide="datepicker" placeholder="Start Date">
+                                             </div>
+                                             <div class="col-md-6">
+                                                <label>To:</label>
+                                                <input type="text" id="dp-to" class="form-control" data-provide="datepicker" placeholder="End Date">
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="modal-footer">
+                                 <button type="button" id = 'dateButton' class="btn btn-info waves-effect waves-light" onclick="customDate()">Submit</button>
+                                 <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal" onclick="closemodal()">Close</button>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  
+                  <!-- /.modal -->
+                   <!--       image modal            -->
+                  <!-- <div class="row">
+                     <div id="modal-gift-card" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                        <div class="modal-dialog modal-lg">
+                           <div class="modal-content">
+                              <div class="modal-header">
+                                 <h4 class="modal-title">Gift Cards</h4>
+                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                              </div>
+                              <div class="modal-body p-4">
+                                 <div id="Gitfcard" class="carousel slide" data-ride="carousel">
+                                    <ul class="carousel-indicators" id="carousel-indicators">
+                                       <li data-target="#Gitfcard" data-slide-to="0" class="active"></li>
+                                       <li data-target="#Gitfcard" data-slide-to="1"></li>
+                                       <li data-target="#Gitfcard" data-slide-to="2"></li>
+                                    </ul>
+                                    <div class = "col-md-12 p-3 my-3">
+                                       <div class="carousel-inner" id="carousel-inner">
+                                          <div class="carousel-item active">
+                                             <img src=
+                                                "/static/images/giftcards_template/amazon.png"
+                                                alt="Gitfcard">
+                                          </div>
+                                          <div class="carousel-item">
+                                             <img src=
+                                                "/static/images/giftcards_template/basspro.png"
+                                                alt="Gitfcard">
+                                          </div>
+                                          <div class="carousel-item">
+                                             <img src=
+                                                "/static/images/giftcards_template/bestbuy.png"
+                                                alt="Gitfcard">
+                                          </div>
+                                       </div>
+                                       <a class="carousel-control-prev" href="#Gitfcard" data-slide="prev">
+                                       <span class="carousel-control-prev-icon" style=":blue;"></span>
+                                       </a>
+                                       <a class="carousel-control-next" href="#Gitfcard" data-slide="next">
+                                       <span class="carousel-control-next-icon"></span>
+                                       </a>
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="modal-footer">
+                                 <a id="lnk"></a>
+                                 <button id="downloadall" type="button" class="btn btn-secondary waves-effect" onclick="downloadimages(event)">Download All</button>
+                                 <button type="button" class="btn btn-secondary waves-effect" onclick="downloadimage(event)">Download</button>
+                                 <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal" onclick="closemodal()">Close</button>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div> -->
+                     <!--         end modal          -->
+
+                  <div class="row">
+                     <div class="col-sm-12">
+                        <div class="card-box">
+                           <div class="form-inline mb-2">
+                              <!-- /btn-group -->
+                              <div class="form-group mr-2">    
+                                 <button type="button" id="selectall" onclick='selectAll(id)'  class="btn btn-secondary waves-effect waves-light btn-block ">Select All</button>
+                              </div>
+                              <div class="form-group mr-2">    
+                                 <button type="button" id="Delete" onclick='deleteRow()'  class="btn btn-danger waves-effect waves-light btn-block ">Delete</button>
+                              </div>
+                              <div class="form-group mr-2 boxline1">
+                                 <div class="btn-group btn-block">
+                                    <button type="button" id = 'bulk_action' class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Bulk Action <i class="mdi mdi-chevron-down"></i></button>
+                                    <div class="dropdown-menu">
+                                    <a class="dropdown-item" onclick="downloadReport('excel')" value="excel" style="cursor:pointer;">Download Report</a>
+                                    <a class="dropdown-item" onclick="createbarcode()" style="cursor:pointer;">Create Bar Codes</a>
+                                    <a class="dropdown-item"  onclick='addforsale()' style="cursor:pointer;">Add for Sale</a>
+                                    <a class="dropdown-item"  onclick='checkbalance()' style="cursor:pointer;">Check Balance</a>
+                                    </div>
+                                 </div>
+                              </div>
+                             
+                              <div class="form-group mr-2">
+                                 <select class="selectpicker" id="timefilter" onchange="dateFilter(this)">
+                                    <option value="Date Range">Date Range</option>
+                                    <option value="Last7days">Last 7 days</option>
+                                    <option value="ThisWeek">This Week</option>
+                                    <option value="Last30days">Last 30 days</option>
+                                    <option value="LastMonth">Last Month</option>
+                                    <option value="ThisMonth">This Month</option>
+                                    <option value="Custom">Custom</option>
+                                 </select>
+                              </div>
+                              <div class="form-group mr-2">
+                                 <select class="selectpicker" onchange="statusFilter(this)" data-size="10">
+                                    <option >Status</option>
+                                    <option value="Balance">Balance</option>
+                                    <option value="No Balance">No Balance</option>
+                                    <option value="Bad">Bad</option>
+                                    <option value="Value Off">Value Off</option>
+                                    <option value="Refunded">Refunded</option>
+                                    <option value="Replaced">Replaced</option>
+                                    <option value="Invalid">Invalid</option>
+                                    <option value="Found Balance">Found Balance</option>
+                                    <option value="Balance Off">Balance Off</option>
+                                    <option value="Balance Off Negative">Balance Off Negative</option>
+                                    <option value="Error">Error</option>
+                                    <option value="Pending Refund">Pending Refund</option>
+                                    <option value="Sale">Sale</option>
+                                    <option value="Loss">Loss</option>
+                                    <option value="Store Credit">Store Credit</option>
+                                 </select>
+                              </div>
+                              <div class="form-group mr-2">
+                                 <select class="selectpicker" id="retailersFilter"  onchange="retailerFilter(this)" data-size="10">
+                                    <option>Retailers</option>
+                                       {% for ret in distinct_retailer %}
+                                    <option value="{{ret.0}}">{{ret.0}}</option>
+                                       {% endfor %}
+                                    <!-- <option value="Cabela''s">Cabela’s</option> --> 
+                                 </select>
+                              </div>
+                              <div class="form-group mr-2">
+                                 <select class="selectpicker vendor"  id = 'vend' onchange="vendorFilter(this)" data-size="10">
+                                     <option>Vendors</option>
+                                       {% for ven in distinct_vendor %}
+                                     <option value="{{ven.0}}">{{ven.0}}</option>
+                                        {% endfor %}
+                                  </select>
+                               </div>
+                               <div class="form-group mr-2">    
+                                 <button type="button" id="badcardreport" onclick="badcardreport('excel')" value="excel"  class="btn btn-secondary waves-effect waves-light btn-block ">Bad Card Report</button>
+                              </div>
+                           </div>
+                           <div class=" row">
+                              <!-- <div class="custom-control custom-switch">
+                                 <input onchange="toggleArchive()", type="checkbox" class="custom-control-input" id="customSwitches">
+                                 <label class="custom-control-label" for="customSwitches">Archived</label>
+                               </div>       -->
+                              <div class="col-md-12" style='overflow-x: auto'>
+                                <table id="giftcardTable" class="table w-100 nowrap table-bordered table-hover">
+                                 <!-- this code is for toggle button -->
+                                 <span class="blue-toggle-btn">
+                                    <label class="">Archived &nbsp;</label>
+                                    <label class="toggle-btn1">
+                                       <input type="checkbox" onchange="toggleArchive()" id="customSwitches">
+                                       <span class="slider-lr round"></span>
+                                    </label>
+                                 </span>
+                                    <span id="showcustomdate"></span>
+                                    <span id="showselectedbox"></span> 
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th class="no-sort"><input type="checkbox" name="check1" id="cb-bulk" class="cb-tab"></th>
+                                            <th>DOP</th>
+                                            <th>Batch #</th>
+                                            <th>Retailer</th>
+                                            <th>Gift Card #</th>
+                                            <th>Pin</th>
+                                            <th>Status</th>
+                                            <th>Balance</th>
+                                            <th>Last Checked</th>
+                                            <th># of Orders</th>
+                                            <th>Cancellations</th>
+                                            <th>View Order History</th> 
+                                            <th style="display:none;">Vendor</th> 
+
+                                        </tr>
+                                        <tfoot>
+                                          <th></th>
+                                          <th><b>Total</b></th>
+                                          <th></th>
+                                          <th></th>
+                                          <th></th>
+                                          <th></th>
+                                          <th></th>
+                                          <th></th>
+                                          <th></th>
+                                          <th></th>
+                                          <th></th>
+                                          <th></th>
+                                       </tfoot>
+                                    </thead>
+                                    
+                                </table>
+                              </div>
+                           </div>
+                           <!-- end .table-responsive-->                                
+                        </div>
+                     </div>
+                     <!-- end card-box -->
+                  </div>
+                  <!-- end col -->
+               </div>
+            </div>
+            <!-- container -->
+         </div>
+         <!-- content -->
+         <!-- Footer Start -->
+         <footer class="footer">
+            <div class="container-fluid">
+               <div class="row">
+                  <div class="col-md-6">
+                     2020 &copy; Prime Electronics, LLC
+                  </div>
+                  <div class="col-md-6">
+                     <div class="text-md-right footer-links d-none d-sm-block">
+                        <a href="javascript:void(0);">About Us</a>
+                        <a href="javascript:void(0);">Help</a>
+                        <a href="javascript:void(0);">Contact Us</a>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </footer>
+         <!-- end Footer -->
+      </div>
+      <!-- ============================================================== -->
+      <!-- End Page content -->
+      <!-- ============================================================== -->
+      </div>
+      <!-- END wrapper -->
+      <!-- Right Sidebar -->
+      <div class="right-bar">
+         <div class="rightbar-title">
+            <a href="javascript:void(0);" class="right-bar-toggle float-right">
+            <i class="dripicons-cross noti-icon"></i>
+            </a>
+            <h5 class="m-0 text-white">Settings</h5>
+         </div>
+         <div class="slimscroll-menu">
+            <!-- User box -->
+            <div class="user-box">
+               <div class="user-img">
+                  <img src="static/images/users/user-1.jpg" alt="user-img" title="Mat Helme" class="rounded-circle img-fluid">
+                  <a href="javascript:void(0);" class="user-edit"><i class="mdi mdi-pencil"></i></a>
+               </div>
+               <h5><a href="javascript: void(0);">Geneva Kennedy</a> </h5>
+               <p class="text-muted mb-0"><small>Admin Head</small></p>
+            </div>
+            <!-- Settings -->
+            <hr class="mt-0" />
+            <h5 class="pl-3">Basic Settings</h5>
+            <hr class="mb-0" />
+            <div class="p-3">
+               <div class="checkbox checkbox-primary mb-2">
+                  <input id="Rcheckbox1" type="checkbox" checked>
+                  <label for="Rcheckbox1">
+                  Notifications
+                  </label>
+               </div>
+               <div class="checkbox checkbox-primary mb-2">
+                  <input id="Rcheckbox2" type="checkbox" checked>
+                  <label for="Rcheckbox2">
+                  API Access
+                  </label>
+               </div>
+               <div class="checkbox checkbox-primary mb-2">
+                  <input id="Rcheckbox3" type="checkbox">
+                  <label for="Rcheckbox3">
+                  Auto Updates
+                  </label>
+               </div>
+               <div class="checkbox checkbox-primary mb-2">
+                  <input id="Rcheckbox4" type="checkbox" checked>
+                  <label for="Rcheckbox4">
+                  Online Status
+                  </label>
+               </div>
+               <div class="checkbox checkbox-primary mb-0">
+                  <input id="Rcheckbox5" type="checkbox" checked>
+                  <label for="Rcheckbox5">
+                  Auto Payout
+                  </label>
+               </div>
+            </div>
+            <!-- Timeline -->
+            <hr class="mt-0" />
+            <h5 class="px-3">Messages <span class="float-right badge badge-pill badge-danger">25</span></h5>
+            <hr class="mb-0" />
+            <div class="p-3">
+               <div class="inbox-widget">
+                  <div class="inbox-item">
+                     <div class="inbox-item-img"><img src="static/images/users/user-2.jpg" class="rounded-circle" alt=""></div>
+                     <p class="inbox-item-author"><a href="javascript: void(0);" class="text-dark">Tomaslau</a></p>
+                     <p class="inbox-item-text">I've finished it! See you so...</p>
+                  </div>
+                  <div class="inbox-item">
+                     <div class="inbox-item-img"><img src="static/images/users/user-3.jpg" class="rounded-circle" alt=""></div>
+                     <p class="inbox-item-author"><a href="javascript: void(0);" class="text-dark">Stillnotdavid</a></p>
+                     <p class="inbox-item-text">This theme is awesome!</p>
+                  </div>
+                  <div class="inbox-item">
+                     <div class="inbox-item-img"><img src="static/images/users/user-4.jpg" class="rounded-circle" alt=""></div>
+                     <p class="inbox-item-author"><a href="javascript: void(0);" class="text-dark">Kurafire</a></p>
+                     <p class="inbox-item-text">Nice to meet you</p>
+                  </div>
+                  <div class="inbox-item">
+                     <div class="inbox-item-img"><img src="static/images/users/user-5.jpg" class="rounded-circle" alt=""></div>
+                     <p class="inbox-item-author"><a href="javascript: void(0);" class="text-dark">Shahedk</a></p>
+                     <p class="inbox-item-text">Hey! there I'm available...</p>
+                  </div>
+                  <div class="inbox-item">
+                     <div class="inbox-item-img"><img src="static/images/users/user-6.jpg" class="rounded-circle" alt=""></div>
+                     <p class="inbox-item-author"><a href="javascript: void(0);" class="text-dark">Adhamdannaway</a></p>
+                     <p class="inbox-item-text">This theme is awesome!</p>
+                  </div>
+               </div>
+               <!-- end inbox-widget -->
+            </div>
+            <!-- end .p-3-->
+         </div>
+         <!-- end slimscroll-menu-->
+      </div>
+      <!-- /Right-bar -->
+      <!-- Right bar overlay-->
+      <div class="rightbar-overlay"></div>
+      <!-- Vendor js -->
+     <script src="static/js/vendor.min.js"></script>
+
+
+
+<script type="text/javascript">
+   function closemodal(){
+            // get modals
+            const modals = document.getElementsByClassName('modal');
+   
+            // on every modal change state like in hidden modal
+            for(let i=0; i<modals.length; i++) {
+               modals[i].classList.remove('show');
+               modals[i].setAttribute('aria-hidden', 'true');
+               modals[i].setAttribute('style', 'display: none');
+            }
+   }
+</script>
+
+
+<!-- Add the following code if you want the name of the file appear on select -->
+<script>
+   $(".custom-file-input").on("change", function() {
+     var fileName = $(this).val().split("\\").pop();
+     $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+   });
+   </script>
+
+<!-- loader functionality -->
+<script>
+   function showLoader(text){
+      var y = document.getElementById("cover-spin");
+      y.innerHTML = text;
+      $('#cover-spin').show(0);
+      
+   }
+   function hideLoader(){
+      $('#cover-spin').hide(0)
+      
+   }
+</script>
+
+
+
+
+<!------- toast functionality  ------->     
+<script>
+    function showSnackbar(text) {
+    var x = document.getElementById("snackbar");
+    x.innerHTML = text;
+    x.className = "show";
+    setTimeout(function(){ x.className = x.className.replace("show", ''); }, 3000);
+    }
+</script>
+
+ <!-- checkbox functionality ------------>
+ <script type="text/javascript">
+
+   unSelectArr = [];
+
+   $(document).on("click", "#cb-bulk", function(){
+      //when selectall button is used with uppermost checkbox
+      if(selectall == "allrecords"){
+               var checkboxes = document.getElementsByName("check[]");
+               // loop over them all
+               for (var i=0; i<checkboxes.length; i++) {
+                        // And stick the checked ones onto an array...
+                  if (checkboxes[i].checked) {
+                     unSelectArr.push(checkboxes[i].value);
+                  }
+               }
+                  $(".cb-single").prop("checked", $(this).prop("checked"));
+                  if($(this).prop("checked")) {
+                     unSelectArr = []
+                     var total_checked =  "You’ve Selected "+ (total_selected_record + unSelectArr.length) + " Items"
+                     document.getElementById("showselectedbox").innerHTML = total_checked;
+                     document.getElementById("showselectedbox").style.display= 'inline';
+                  }
+               else{
+                  var total_checked =  "You’ve Selected "+ (total_selected_record - unSelectArr.length) + " Items"
+                  document.getElementById("showselectedbox").innerHTML = total_checked;
+                  document.getElementById("showselectedbox").style.display= 'inline';
+
+               }
+      //when uppermostcheckbox button is clicked without selectall
+      }else{
+          $(".cb-single").prop("checked", $(this).prop("checked"));
+         if($(this).prop("checked")) {
+            let total_checked =  "You’ve Selected "+ $(".cb-single").length + " Items"
+            document.getElementById("showselectedbox").innerHTML = total_checked;
+            document.getElementById("showselectedbox").style.display= 'inline';
+         } else  {
+            document.getElementById("showselectedbox").style.display= 'none';
+
+         }
+      }
+     
+   });
+
+
+   $(document).on("click", ".cb-single", function(){
+      var all = $(".cb-single").length;
+
+      // get index of given id from an array
+      const index = unSelectArr.indexOf(event.target.value);
+      // add in unSelectArr only when event.target.checked is false
+      if (!event.target.checked) {
+         // index is -1 means the vslue not exists in array
+         if (index == -1) {
+            unSelectArr.push(event.target.value);
+         }
+      } else {
+         // remove from unSelectArr if checked
+         // remove that index from an array using splice function
+         unSelectArr.splice(index, 1);
+      }
+      console.log('unSelectArr', unSelectArr);
+
+      var checked = $(".cb-single:checked").length;
+      //this works for selecting each check-box
+      if(unSelectArr.length > 0 && selectall == "allrecords"){
+         var total_checked =  "You’ve Selected "+ (total_selected_record - unSelectArr.length) + " Items"
+      }else if(selectall == "allrecords"){
+         var total_checked =  "You’ve Selected "+ (total_selected_record - unSelectArr.length) + " Items"
+      }
+      else{
+         var total_checked =  "You’ve Selected "+ checked + " Items"
+      }
+      
+      document.getElementById("showselectedbox").innerHTML = total_checked;
+      document.getElementById("showselectedbox").style.display= 'inline';
+
+      if(all == checked){
+         $(".cb-tab").prop("checked", true);
+      }else{
+         $(".cb-tab").prop("checked", false);
+         // if select checkbox become zero then it will hide
+         if (checked == 0){
+            document.getElementById("showselectedbox").style.display= 'none';
+
+         }
+
+      }
+   });
+</script>
+
+ <!-- <script type="text/javascript">
+   $(document).on("click", "#cb-bulk", function(){
+      $(".cb-single").prop("checked", $(this).prop("checked"));
+      if($(this).prop("checked")) {
+         let total_checked =  "You’ve Selected "+ $(".cb-single").length + " Items"
+         document.getElementById("showselectedbox").innerHTML = total_checked;
+         document.getElementById("showselectedbox").style.display= 'inline';
+      } else  {
+         document.getElementById("showselectedbox").style.display= 'none';
+
+      }
+   });
+
+   unSelectArr = [];
+
+   $(document).on("click", ".cb-single", function(){
+      var all = $(".cb-single").length;
+
+      // get index of given id from an array
+      const index = unSelectArr.indexOf(event.target.value);
+      // add in unSelectArr only when event.target.checked is false
+      if (!event.target.checked) {
+         // index is -1 means the vslue not exists in array
+         if (index == -1) {
+            unSelectArr.push(event.target.value);
+         }
+      } else {
+         // remove from unSelectArr if checked
+         // remove that index from an array using splice function
+         unSelectArr.splice(index, 1);
+      }
+      console.log('unSelectArr', unSelectArr);
+
+      var checked = $(".cb-single:checked").length;
+      //this works for selecting each check-box
+      if(unSelectArr.length > 0 && selectall == "allrecords"){
+         var total_checked =  "You’ve Selected "+ (total_selected_record - unSelectArr.length) + " Items"
+      }else{
+         var total_checked =  "You’ve Selected "+ checked + " Items"
+      }
+      
+      document.getElementById("showselectedbox").innerHTML = total_checked;
+      document.getElementById("showselectedbox").style.display= 'inline';
+
+      if(all == checked){
+         $(".cb-tab").prop("checked", true);
+      }else{
+         $(".cb-tab").prop("checked", false);
+         // if select checkbox become zero then it will hide
+         if (checked == 0){
+            document.getElementById("showselectedbox").style.display= 'none';
+
+         }
+
+      }
+   });
+</script> -->
+
+<!----- upper dropdown custom date picker functionality -------->
+<script type="text/javascript">
+	$(function(){
+           $("#dp-from").datepicker({
+              dateFormat: "mm-dd-yy",
+               "endDate": "today",
+                maxDate: 0,
+                onSelect: function(selected) {
+                  $("#dp-to").datepicker("option","minDate", selected)
+                }
+           });
+             $("#dp-to").datepicker({
+                dateFormat: "mm-dd-yy",
+                "endDate": "today",
+                maxDate: 0,
+                onSelect: function(selected) {
+                   $("#dp-from").datepicker("option","maxDate", selected)
+                }
+           });
+       });
+
+      $('#dp-from').keydown(function(e) {
+               e.preventDefault();
+               return false;
+            });
+            $('#dp-to').keydown(function(e) {
+               e.preventDefault();
+               return false;
+            });
+   </script>
+
+
+<!-- append  retailer -->
+<script>
+    function getRetailerSelectFilter(data, row) {
+        let htmlString = '<select onchange="changeRetailer(this)" class="hd3">'+
+
+        '<option value='+row.id+'>'+data+'</option>';
+
+         if (data !== "Cabelas")
+            htmlString = htmlString + "<option value='" + row.id +"'>Cabelas</option>";
+
+         if (data !== "Home Depot")
+            htmlString = htmlString + "<option value='" + row.id +"'>Home Depot</option>";
+
+         if (data !== "Lowes")
+            htmlString = htmlString + "<option value='" + row.id +"'>Lowes</option>";
+        
+         if (data !== "Walmart")
+            htmlString = htmlString + "<option value='" + row.id +"'>Walmart</option>";
+
+         if (data !== "Target")
+            htmlString = htmlString + "<option value='" + row.id +"'>Target</option>";
+
+         if (data !== "Best Buy")
+            htmlString = htmlString + "<option value='" + row.id +"'>Best Buy</option>";
+
+         if (data !== "B&N")
+            htmlString = htmlString + "<option value='" + row.id +"'>B&N</option>";
+
+         if (data !== "Toys R Us")
+            htmlString = htmlString + "<option value='" + row.id +"'>Toys R Us</option>";
+        
+         if (data !== "Kohls")
+            htmlString = htmlString + "<option value='" + row.id +"'>Kohls</option>";
+
+         if (data !== "Sams Club")
+            htmlString = htmlString + "<option value='" + row.id +"'>Sams Club</option>";
+
+         if (data !== "DSG")
+            htmlString = htmlString + "<option value='" + row.id +"'>DSG</option>";
+
+         if (data !== "Sears")
+            htmlString = htmlString + "<option value='" + row.id +"'>Sears</option>";
+
+         if (data !== "Office Depot")
+            htmlString = htmlString + "<option value='" + row.id +"'>Office Depot</option>";
+
+         if (data !== "Staples")
+            htmlString = htmlString + "<option value='" + row.id +"'>Staples</option>";
+
+        htmlString = htmlString + '</select>';
+
+        return htmlString;
+
+    }
+    
+
+</script>
+
+<!-- append status -->
+<script>
+     
+      function  getStatusSelectFilter(data, row) {
+         let htmlString   =  '<select onchange="changeStatus(this)" class="hd3">'+
+               '<option value='+row.id+'>'+data+'</option>';
+
+               if (data !== "No Balance")
+               htmlString = htmlString + "<option value='" + row.id +"'>No Balance</option>";
+
+               if (data !== "Balance")
+               htmlString = htmlString + "<option value='" + row.id +"'>Balance</option>";
+
+               if (data !== "Bad")
+               htmlString = htmlString + "<option value='" + row.id +"'>Bad</option>";
+
+               if (data !== "Value Off")
+               htmlString = htmlString + "<option value='" + row.id +"'>Value Off</option>";
+
+               if (data !== "Refunded")
+               htmlString = htmlString + "<option value='" + row.id +"'>Refunded</option>";
+
+               if (data !== "Replaced")
+               htmlString = htmlString + "<option value='" + row.id +"'>Replaced</option>";
+
+               if (data !== "Invalid")
+               htmlString = htmlString + "<option value='" + row.id +"'>Invalid</option>";
+
+               if (data !== "Found Balance")
+               htmlString = htmlString + "<option value='" + row.id +"'>Found Balance</option>";
+
+               if (data !== "Balance Off")
+               htmlString = htmlString + "<option value='" + row.id +"'>Balance Off</option>";
+
+               if (data !== "Balance Off Negative")
+               htmlString = htmlString + "<option value='" + row.id +"'>Balance Off Negative</option>";
+
+               if (data !== "Error")
+               htmlString = htmlString + "<option value='" + row.id +"'>Error</option>";
+
+               if (data !== "Pending Refund")
+               htmlString = htmlString + "<option value='" + row.id +"'>Pending Refund</option>";
+
+               if (data !== "Sale")
+               htmlString = htmlString + "<option value='" + row.id +"'>Sale</option>";
+
+               if (data !== "Loss")
+               htmlString = htmlString + "<option value='" + row.id +"'>Loss</option>";
+
+
+         htmlString = htmlString + '</select>';
+         
+         return htmlString
+
+      }
+
+
+</script>
+
+<!-- getting id from the function getGiftcardlist -->
+<script>
+ var queue_id = '{{ data }}';
+ console.log('queue_id', queue_id)
+
+//  var check_status = '{{ c_data }}'
+//  console.log('check_status', check_status)
+//  var update_status = '{{ u_data }}'
+//  console.log('update_status', update_status)
+
+
+ if (queue_id != 'None'){
+      document.getElementById("retailersFilter").disabled = true;
+      document.getElementById("retailersFilter").style.cursor = 'not-allowed';
+      document.getElementById("selectall").disabled = true;
+      document.getElementById("selectall").style.cursor = 'not-allowed';
+      document.getElementById("bulk_action").disabled = true;
+      document.getElementById("bulk_action").style.cursor = 'not-allowed';
+      document.getElementById("Delete").disabled = true;
+      document.getElementById("Delete").style.cursor = 'not-allowed';
+      document.getElementById("vend").disabled = true;
+      document.getElementById("badcardreport").disabled = true;
+      document.getElementById("badcardreport").style.cursor = 'not-allowed';
+      document.getElementById("import_cards").disabled = true;
+      document.getElementById("import_cards").style.cursor = 'not-allowed';
+
+   }
+
+</script>
+
+
+
+   <script>
+      //function for flat datepicker
+      function initDP() {
+               var today = new Date();
+               $(".p-datepicker").flatpickr({
+                  dateFormat:"m-d-Y",
+                  disableMobile: true,
+                  maxDate: today
+               });
+      }
+
+      //function for updating date from the datepicker
+      function changeDate(selectedDate) {
+         //id of the selected date 
+         var selectedDateId = selectedDate.classList[2];
+         console.log(selectedDateId)
+         //getting a selected date from the date-picker
+         var newDate = selectedDate.value;
+         console.log(newDate)
+         const updateValue = {"cellName":"date_of_creation", "selectedDateId":selectedDateId, "newDate":newDate };
+         // call API here to update date in database
+         $.ajax({
+               type: "put",
+               url: "/updategiftcarddate",
+               data: JSON.stringify(updateValue),
+               success: function(d) {
+                  console.log('Success', d);
+                  showSnackbar('date updated')
+
+               },
+               dataType: 'json',
+               contentType: "application/json"
+         });
+      }
+
+      //function for updating the retailer
+      function changeRetailer(selectedObject) {
+         //id of the selected retailer
+         var id = selectedObject.value;
+         //name of the retailer
+         var selectedRetailer =  selectedObject.options[selectedObject.selectedIndex].text;
+         console.log(id)
+         console.log(selectedRetailer)
+
+         const updateValue = { "cellName":"retailler", "id":id, "newValue":selectedRetailer };
+         // call API here to update date in database
+         $.ajax({
+               type: "put",
+               url: "/updategiftcard",
+               data: JSON.stringify(updateValue),
+               success: function(d) {
+                  console.log('Success', d);
+                  showSnackbar('retailer updated')
+               },
+               dataType: 'json',
+               contentType: "application/json"
+         });
+         // **API CODE END**
+      }
+
+      //---------------function for updating the status --------------//
+      function changeStatus(selectedObject) {
+         //id of the selected retailer
+         var id = selectedObject.value;
+         //name of the retailer
+         var selectedStatus =  selectedObject.options[selectedObject.selectedIndex].text;
+         console.log(id)
+         console.log(selectedStatus)
+
+         const updateValue = {"cellName":"status", "id":id, "newValue":selectedStatus};
+         // call API here to update date in database
+         $.ajax({
+               type: "put",
+               url: "/updategiftcard",
+               data: JSON.stringify(updateValue),
+               success: function(d) {
+                  //console.log('Success', d);
+                  if (d.column == 'sale'){
+                     showSnackbar('added for sale')
+                  }else{
+                     showSnackbar('status updated')
+                  }
+                  
+               },
+               dataType: 'json',
+               contentType: "application/json"
+         });
+         // **API CODE END**
+      }
+      
+      var giftcardTable = undefined;
+      $(document).ready(function() {
+          
+         //this code work when you refresh the page
+         if (performance.navigation.type != 2){ 
+            //checks if page is accessed through a link or refresh
+            giftcardTable = $('#giftcardTable').DataTable();
+            giftcardTable.state.clear();
+            giftcardTable.destroy(); // need to destroy the table, I don't know why..
+         }
+         // table initialization code
+         giftcardTable = $('#giftcardTable').DataTable({
+               stateSave: true,
+               serverSide: true,
+               searchDelay: 1500,
+               ordering: true,
+               searching: true,
+               // language: {
+               //             searchPlaceholder: "Press Enter to Search"
+               //          },
+               columnDefs: [{ 
+                  targets: [12], 
+                   "visible": false,    
+               }],
+               "createdRow": function ( row, data, index ) {
+                     if ((data.status == 'Invalid' || data.status == 'Bad' || data.status == 'Error' || data.status == 'Balance Off' ) && queue_id != 'None' && data.check_balance_status == 'checked'  && data.update_status == 1) {
+                        $('td', row).eq(4).addClass('highlight');
+                     }else if(data.new_money > 0 && queue_id != 'None' && data.check_balance_status == 'checked'){
+                        $('td', row).eq(4).addClass('foundmoney');
+                     }
+               },
+               columns: [  
+                  {   
+                     data:"", orderable: false,
+                     "render": function ( data, type, row, meta ) {
+                           return '<input type="checkbox" name="check[]" value="' + row.id + '" class="cb-single">'}
+                     },
+                        
+                     
+                  {
+                     "data": "date_of_creation", 
+                     "render": function ( data, type, row, meta ) {
+                           return '<input type="text" onchange="changeDate(this)" class="hd3 p-datepicker ' + row.id + '" value="' + data + '">';
+                     }
+                  },
+                  {"data": "orderNo",
+                  "render": function ( data, type, row, meta ) {
+                                 return '<a href="/batchdetailsview/'+row.giftcard_batch_id+'">'+data+'</a>'}
+                                 },
+
+
+
+                  {"data": "retailler",
+                  "render": function( data, type, row, meta ) {
+                              return getRetailerSelectFilter(data, row);
+
+                           }
+                  },
+                  {"data": "gift_card_no"},
+                  {"data": "gift_card_pin", "defaultContent": "Click to edit"},
+                  {"data": "status",
+                  "render": function( data, type, row, meta ) {
+                              return getStatusSelectFilter(data, row);
+                           }
+                  },
+                  {"data": "balance"},
+                  {"data": "last_used","defaultContent": "NULL"},
+                  {"data": "no_of_order"},
+                  {"data": "no_of_cancellation"},
+                  {"data": "orderhistory",orderable: false,
+                  "render": function ( data, type, row, meta ) {
+                                 return '<a href="/orderhistory/'+row.id+'">View</a>'}
+                                 },
+                  {"data": "Vendor", orderable: false}
+
+                                 
+                                 
+
+               ],
+               
+      
+               "ajax": {
+               'type': 'post',
+               'url': '/giftcardlistdatatable',
+               'dataType': 'json',
+               "contentType": "application/json",
+               "data": function ( d ) {
+                            if(d.search.value.length ==0){
+                              showLoader('Processing....')
+                              console.log(d)
+                            }
+                           d.queue_id = queue_id;
+                           // d.vendor   = this.vendor;
+                           d.archive  = this.isArchive;
+            
+                           return JSON.stringify(d)
+                     }
+               },
+            //  "fnInitComplete": function (oSettings, json) {
+            //      // this block of code calls when DataTabale initialization completed 
+            //      // initDP();
+            //  },
+            "drawCallback": function( settings ) {
+               //this hide the loader on reponse from the table
+               hideLoader()
+
+               if(selectall == "allrecords") {
+                  if (giftcardTable.search(this.value) ==''){
+                     selectAllShow()
+                  }else{
+                     deselectOnOperation()
+                  }
+               }else if(selectall == "") {
+                  //make checkbox display header none
+                  document.getElementById("showselectedbox").style.display= 'none';
+                  //make uppercheckbox none
+                  $(".cb-tab").prop("checked", false);
+               }
+
+               //for initializing date picker
+               initDP();
+               
+               //function for round of the value upto 2 place decimal
+               function roundToTwo(num) {    
+                  return +(Math.round(num + "e+2")  + "e-2");
+               }
+
+               var api = this.api()
+               //summation of column value
+               let balanceArray = giftcardTable.column(7).data()
+               var totalbalance = balanceArray.reduce(function(a, b){
+                                             return parseFloat(a) + parseFloat(b);
+                                          }, 0);
+
+                //summation of No. of orders 
+               let orderArray = giftcardTable.column(9).data()
+               var totalorder = orderArray.reduce(function(a, b){
+                                             return a + b;
+                                          }, 0);
+
+               //summation of No. of orders 
+               let cancelArray = giftcardTable.column(10).data()
+               var totalCancel = cancelArray.reduce(function(a, b){
+                                             return a + b;
+                                          }, 0);
+
+               $( api.column( 7).footer() ).html(totalbalance.toFixed(2));
+               $( api.column( 9 ).footer() ).html(roundToTwo(totalorder));
+               $( api.column( 10 ).footer() ).html(roundToTwo(totalCancel));
+
+               
+               
+               //search the giftcardlist data on press enter & paste
+               // $('#giftcardTable_filter input').unbind();
+               // $('#giftcardTable_filter input').bind('keyup', function(e) {
+               //       var code = e.keyCode || e.which;
+               //       if(e.keyCode == 13 || e.keyCode == 86 || (e.keyCode == 8 && this.value == "")){
+               //          giftcardTable.search(this.value).draw();
+               //       }
+               // });
+              
+
+            }
+         });
+         
+         //code for making the cell editable 
+         // //https://datatables.net/reference/api/cell().data()
+         $('#giftcardTable tbody').on( 'click', 'td', function (ev) {
+
+               $('#giftcardTable td:not(:first-child, :nth-child(2), :nth-child(3), :nth-child(4), :nth-child(7),:nth-child(9), :nth-child(10),:nth-child(11), :nth-child(12), :last-child)').editable( function( sValue, settings ) {
+                  /* Get the position of the current data from the node */
+                  var aPos = oTable.fnGetPosition( this );
+                  
+                  /* Get the data array for this row */
+                  var aData = oTable.fnGetData( aPos[0] );
+                  
+                  /* Update the data array and return the value */
+                  aData[ aPos[1] ] = sValue;
+
+                  // call this code only when previous value(prev val contain in this.revert) is not equal to current new value after change
+                  if (this.revert !== sValue) {
+                     // **UPDATE CODE TO CALL API TO UPDATE IN DATABASE**
+                     const cellIndex =  this.cellIndex; // used to identify cell - which cell is clicked
+                     // set column list to get cell name by index
+                     columnlist = [
+                        "checkbox",
+                        "date_of_creation",
+                        "orderNo",
+                        "retailer",
+                        "gift_card_no",
+                        "gift_card_pin",
+                        "status",
+                        "balance",
+                        "last_used",
+                        "no_of_order"
+                     ]
+                     const cellName = columnlist[cellIndex]; // name of the column which is updated
+                     const id = aData.id; // get id of this row toidentify row
+                     const newValue = sValue; // new value of the coulmn updated by user from input
+                     const updateValue = { "cellName":cellName, "id":id, "newValue":newValue };
+
+                     $.ajax({
+                        type: "put",
+                        url: "/updategiftcard",
+                        data: JSON.stringify(updateValue),
+                        success: function(d) {
+                           console.log('Success', d);
+                           if (d.column =='gift_card_no') {var x = 'giftcard no.'} else if (d.column =='gift_card_pin') {var x = 'giftcard pin'} else if (d.column =='balance') {var x = 'balance'}else if (d.column =='no_of_order') {var x = 'no of orders'} else {var x = d.column }
+                           showSnackbar(x+' updated')
+                        },
+                        dataType: 'json',
+                        contentType: "application/json"
+                     });
+                     // **API CODE END**
+                  }
+                  return sValue;
+               }, { "onblur": 'submit' } ); /* Submit the form when bluring a field */
+
+            /* Init DataTables */
+            oTable = $('#giftcardTable').dataTable();
+         });
+      });
+   </script>
+
+
+
+
+<!------------------------------ all top select filters comes here --------------------------------------->
+<script>
+  
+   //function for the filtering the vendor from the upperdropdown
+   this.vendor='';
+   function vendorFilter(filteredVendor){
+            //get value of vendor from the filter
+            this.vendor = filteredVendor.value;
+            console.log("vendor", this.vendor)
+            /* Init DataTables */
+            giftcardTable.columns(12).search(this.vendor).draw();
+            //this work if there is selectall applied & someone change the filter
+            //so it de-select all the records
+            if (selectall  == 'allrecords'){
+               deselectOnOperation()
+            }
+         
+      }   
+    //---------function end vendorFilter-------------// 
+
+   //function for the filtering the retailer from the upperdropdown
+   this.retailer = '';
+   function retailerFilter(selectedRetailer) {
+      this.retailer = selectedRetailer.value;
+      console.log('selectedRetailer', this.retailer);
+      // apply search to table 'giftcardTable' by passing value to the search function
+      // and filter process will automatically manage by datatable
+      giftcardTable.columns(2).search(this.retailer).draw();
+      //this work if there is selectall applied & someone change the filter
+      //so it de-select all the records
+      if (selectall  == 'allrecords'){
+         deselectOnOperation()
+      }
+   }
+   //---------function end retailerFilter-------------// 
+
+   //function for the filtering the status from the upperdropdown
+   this.status = '';
+   function statusFilter(selectedStatus){
+   this.status = selectedStatus.value;
+   console.log('selectedStatus', this.status)
+   giftcardTable.columns(6).search(this.status).draw();
+      //this work if there is selectall applied & someone change the filter
+      //so it de-select all the records
+      if (selectall  == 'allrecords'){
+         deselectOnOperation()
+      }
+   }
+   //---------function end statusFilter-------------// 
+
+
+
+   //function for the filtering the date from the upperdropdown
+   this.dateValue='';
+   function dateFilter(filteredDate){
+        //get value of vendor from the filter
+         this.dateValue = filteredDate.value;
+         console.log(this.dateValue)
+
+         if (this.dateValue != 'Custom'){
+             // console.log('selectedStatus',  this.dateValue)
+            //this is used for hiding the custom date
+            document.getElementById("showcustomdate").style.display= 'none';
+            giftcardTable.columns(1).search(this.dateValue).draw();
+               if (selectall  == 'allrecords'){
+                  deselectOnOperation()
+               }
+         }
+         else{
+            if (this.dateValue == 'Custom'){
+         $("#timefilter").find('option[value="Custom"]').prop("selected", true);
+         $("#modal-date-custom").modal("show");
+            }
+         }
+   }
+
+   //get model pop date range and send to the datatable through search value
+   function customDate(){
+     let date1=document.getElementById("dp-from").value
+     let date2=document.getElementById("dp-to").value
+
+     if(date1 == "" || date2 == ""){
+      return 
+     }else{
+      $('#dateButton').attr("data-dismiss","modal"); 
+     }
+   
+     this.dateValue = ["Custom", date1, date2]
+      //this is used for displaying the custom date range
+      let customdate = ["<b>Date Range</b>: " + date1 + " to " + date2];
+     document.getElementById("showcustomdate").innerHTML = customdate;
+     document.getElementById("showcustomdate").style.display= 'inline';
+     //this is used for date table code
+     giftcardTable.columns(1).search([this.dateValue]).draw()
+      //this work if there is selectall applied & someone change the filter
+      //so it de-select all the records
+      if (selectall  == 'allrecords'){
+         deselectOnOperation()
+      }
+   }
+
+   //-------------------------function end dateFilter --------------------//
+
+
+
+   //function for deleting the row
+   function deleteRow(){
+      var checkboxes = document.getElementsByName("check[]");
+      var checkboxesArray = [];
+      var trSelectorArray = [];
+      // loop over them all
+      for (var i=0; i<checkboxes.length; i++) {
+         // And stick the checked ones onto an array...
+         if (checkboxes[i].checked) {
+            checkboxesArray.push(checkboxes[i].value);
+            const id = checkboxes[i].value;
+
+            const tr = checkboxes[i].parentElement.parentElement;
+            trSelectorArray.push(tr);
+         }
+      }
+
+
+      
+      if(checkboxesArray.length !== 0){
+
+
+         var data = {"checkboxesArray":checkboxesArray}
+         // console.log(data)
+
+         swal({
+                  title: "Are you sure?",
+                  text: "Once deleted, you will not be able to recover this data!",
+                  icon: "warning",
+                  buttons: true,
+                  dangerMode: true,
+               }).then((willDelete) =>{
+                  if (willDelete) {
+                           $.ajax({
+                                    type: "DELETE",
+                                    url: "/deletegiftcardrows",
+                                    data: JSON.stringify(data),
+                                    success: function(d) {
+                                       console.log('Success', d); 
+                                       // remove row from view
+                                       if (d.code == 400){
+                                          showSnackbar("can't delete, exist in GCs for sale")
+                                       }else
+                                       giftcardTable.rows(trSelectorArray).remove().draw(false);
+                                       //make checkbox display header none
+                                       document.getElementById("showselectedbox").style.display= 'none';
+                                       //make uppercheckbox none
+                                       $(".cb-tab").prop("checked", false);
+                                       if(checkboxesArray.length == 1){
+                                        showSnackbar(checkboxesArray.length + " item is deleted");
+                                       }else{
+                                          showSnackbar(checkboxesArray.length + " items are deleted");
+                                       }
+                                       
+                                    },
+                                    dataType: 'json',
+                                    contentType: "application/json"
+                              });
+                                 }
+
+                        })
+         }else{
+               showSnackbar("Please select at least one item.");
+         }
+
+   }
+   //-------------------------function end deleting row --------------------//
+
+
+
+   function downloadReport(value){
+      this.report_format = value;
+      console.log(this.report_format)
+
+       //getting checkbox value
+         var checkboxes = document.getElementsByName("check[]");
+         var checkboxesArray = [];
+         var trSelectorArray = [];
+         // loop over them all
+         for (var i=0; i<checkboxes.length; i++) {
+            // And stick the checked ones onto an array...
+            if (checkboxes[i].checked) {
+               checkboxesArray.push(checkboxes[i].value);
+               const id = checkboxes[i].value;
+
+               const tr = checkboxes[i].parentElement.parentElement;
+               trSelectorArray.push(tr);
+            }
+         }
+
+
+         var data = {"report_format": this.report_format, "statusValue":this.status, "vendorValue":this.vendor, "dateValue":this.dateValue, "selectall":selectall, "retailerValue":this.retailer, "archive":this.isArchive, "checkboxesArray":checkboxesArray, "unSelectArr":unSelectArr}
+            if ((data.statusValue != "" && data.statusValue != "Status") || (data.dateValue != "" && data.dateValue != "Date Range") || data.selectall != "" || (data.retailerValue != "" && data.retailerValue != 'Retailers') || (data.vendorValue != "" && data.vendorValue != "Vendors" || data.checkboxesArray != "")) {
+               showLoader('Please wait while report is being generated')
+               $.ajax({
+                        type: "post",
+                        url: "/exportgiftcardlist",
+                        data: JSON.stringify(data),
+                        success: function(d) {
+                           console.log('Success', d);
+                           if (d.code == 401){
+                              hideLoader()
+                              showSnackbar("No giftcard exist")
+
+                           }else{
+                              location.href = "/exportgiftcardlist"
+                              hideLoader()
+                           }
+                           
+                        },
+                        dataType: 'json',
+                        contentType: "application/json"
+                  });
+            }else if (checkboxesArray.length == 0){
+         showSnackbar("Please select at least one item.")
+      }
+
+   }
+
+   //this function is for select all button
+   selectall = ''
+   this.selectall_data = '';
+   total_selected_record = 0;
+
+   function selectAll(id){
+
+      //there will not be any empty data in giftcardlist datatable
+      //otherwise selectall will not work
+      if(giftcardTable.data().any() == true){
+
+
+         if (giftcardTable.search(this.value) ==''){
+
+         
+            let id_select = id
+
+            if(giftcardTable.$('tr').hasClass('selected')) {
+               this.selectall_data = '';
+               selectall = "";
+               $('#'+id_select).text("Select All");
+               giftcardTable.rows().deselect();
+               $(".cb-tab").prop("checked", false)
+               $(".cb-single").prop("checked", false)
+
+               //this line hide checkbox message
+               document.getElementById("showselectedbox").style.display= 'none';
+               showSnackbar("You’ve De-Selected All Items")
+            } else {
+               $('#'+id_select).text("De-Select All");
+               giftcardTable.rows().select();
+               selectall = "allrecords"
+               $(".cb-tab").prop("checked", true)
+               $(".cb-single").prop("checked", true)
+
+               //this line hide checkbox message
+               document.getElementById("showselectedbox").style.display= 'none';
+
+
+               this.selectall_data = {"records":"total_record", "statusValue":this.status, "vendorValue":this.vendor, "dateValue":this.dateValue,"retailerValue":this.retailer, "archive":this.isArchive, "addforsale":false, 'checkbalance':false, 'createbarcode':false, 'unSelectArr':unSelectArr}
+
+                  $.ajax({
+                        type: "POST",
+                        url: "/giftcardlistselectall",
+                        data: JSON.stringify(this.selectall_data),
+                        success: function(d) {
+                           console.log('Success', d);
+                           total_selected_record = d['total_record']
+                           showSnackbar("You’ve Selected "+ d['total_record'] + " Items")
+                        
+
+                        },
+                        dataType: 'json',
+                        contentType: "application/json"
+                  });
+
+            }
+         }
+      }
+   }
+
+   function selectAllShow(){
+         giftcardTable.rows().select();
+         selectall = "allrecords"
+         $(".cb-tab").prop("checked", true)
+         $(".cb-single").prop("checked", true)
+
+         for (id of unSelectArr) {
+            // find checkbox by value
+            const checkbox = document.querySelector("input[value='" + id + "']");
+            // uncheck this checkbox because its unselected
+            if (checkbox) {
+               $(checkbox).prop("checked", false)
+            }
+         }
+
+         //this thing work when selectall first then filter
+         //then it show message on mini checkbox
+         data = {"records":"total_record", "statusValue":this.status, "vendorValue":this.vendor, "dateValue":this.dateValue,"retailerValue":this.retailer, "archive":this.isArchive, "addforsale":false, 'checkbalance':false, 'createbarcode':false, 'unSelectArr':unSelectArr}
+         if ((data.statusValue != "" && data.statusValue != "Status") || (data.dateValue != "" && data.dateValue != "Date Range") || (data.retailerValue != "" && data.retailerValue != 'Retailers') || (data.vendorValue != "" && data.vendorValue != "Vendors" )) {
+
+
+               $.ajax({
+                     type: "POST",
+                     url: "/giftcardlistselectall",
+                     data: JSON.stringify(data),
+                     success: function(d) {
+                        console.log('Success', d);
+                        total_selected_record = d['total_record']
+                        if (unSelectArr.length == 0){
+                           showSnackbar("You’ve Selected "+ d['total_record'] + " Items")
+                        }
+                     
+
+                     },
+                     dataType: 'json',
+                     contentType: "application/json"
+               });
+         }
+
+
+         
+   }
+
+   //-------------------------function for Bad card report --------------------//
+
+   function badcardreport(value){
+      this.report_format = value;
+      console.log(this.report_format)
+      console.log(this.vendor)
+
+      // //getting checkbox value
+      // var checkboxes = document.getElementsByName("check[]");
+      //    var checkboxesArray = [];
+      //    var trSelectorArray = [];
+      //    // loop over them all
+      //    for (var i=0; i<checkboxes.length; i++) {
+      //       // And stick the checked ones onto an array...
+      //       if (checkboxes[i].checked) {
+      //          checkboxesArray.push(checkboxes[i].value);
+      //          const id = checkboxes[i].value;
+
+      //          const tr = checkboxes[i].parentElement.parentElement;
+      //          trSelectorArray.push(tr);
+      //       }
+      //    }
+
+         if(this.retailer == "" || this.retailer == "Retailers"){
+         this.retailer = "";
+         }
+         
+      
+   
+
+            var data = {"report_format": this.report_format, "vendorValue":this.vendor, "dateValue":this.dateValue, "statusValue":"Bad cart report", "selectall":selectall, "retailerValue":this.retailer, "archive":this.isArchive, "checkboxesArray":"", "unSelectArr":""}
+            if (data.dateValue != "" && data.dateValue != "Date Range" && data.vendorValue != "" && data.vendorValue != "Vendors" && data.retailerValue == "" && data.retailerValue != 'Retailers' && data.statusValue != "Status") {
+               showLoader('Please wait while report is being generated')
+               $.ajax({
+                        type: "post",
+                        url: "/exportgiftcardlist",
+                        data: JSON.stringify(data),
+                        success: function(d) {
+                           console.log('Success', d);
+                           if (d.code == 400) {
+                              hideLoader()
+                              showSnackbar("No bad card  exist")
+                           }else{
+                              location.href = "/exportgiftcardlist"
+                              hideLoader()
+                           }
+
+
+
+                        },
+                        dataType: 'json',
+                        contentType: "application/json"
+                  });
+            }else{
+               showSnackbar("Please select vendor with date-range")
+            }
+
+   }
+
+
+</script>
+
+<!-- this function work in change of filters so it deselectall -->
+<script>
+   function deselectOnOperation(){
+      this.selectall_data = '';
+      selectall = "";
+      $('#selectall').text("Select All");
+      giftcardTable.rows().deselect();
+      $(".cb-tab").prop("checked", false)
+      $(".cb-single").prop("checked", false)
+
+      //this line hide checkbox message
+      document.getElementById("showselectedbox").style.display= 'none';
+   }
+</script>
+
+
+
+
+<!-- this function redirect to the giftcardsalespage after adding data to the  addforsale endpoints -->
+<script>
+   function addforsale() {
+      //this work when userclick selectall button with addforsale
+      if (this.selectall_data) {
+
+         //add addforsale object in data
+         this.selectall_data['addforsale'] = true
+
+         $.ajax({
+                     type: "POST",
+                     //call the url with data
+                     url: "/giftcardlistselectall",
+                     data: JSON.stringify(this.selectall_data),
+                     success: function(d) {
+                        console.log('success', d);
+                        showLoader('Please wait adding in sale')
+                        //get all the id in response & send back to the addforsale url
+                              $.ajax({
+                                 type: "post",
+                                 url: "/addforsale",
+                                 data: JSON.stringify(d),
+                                 dataType: 'json',
+                                 contentType: "application/json",
+                                 success:function(msg) {
+                                             if (msg.code!=400){
+                                                      window.location.href = '/giftcardsales'
+                                             }else{
+                                                showSnackbar("Please select at least one item.")
+                                             }
+                                          },
+                                    });
+                     
+
+                     },
+                     dataType: 'json',
+                     contentType: "application/json"
+               });
+   
+      }
+      //this code work on simply click of addforsale
+      else{
+            var checkboxes = document.getElementsByName("check[]");
+                  var checkboxesArray = [];
+                  // loop over them all
+                  for (var i=0; i<checkboxes.length; i++) {
+                           // And stick the checked ones onto an array...
+                     if (checkboxes[i].checked) {
+                        checkboxesArray.push(checkboxes[i].value);
+                     }
+                  }
+         
+            let data = {"arr":checkboxesArray}
+            console.log(data)
+            // jsondata = JSON.stringify(data)
+            // window.location.href = '/giftcardsales/'+jsondata;
+               $.ajax({
+                        type: "post",
+                        url: "/addforsale",
+                        data: JSON.stringify(data),
+                        dataType: 'json',
+                        contentType: "application/json",
+                        success:function(msg) {
+                                    if (msg.code!=400){
+                                             window.location.href = '/giftcardsales'
+                                    }else{
+                                       showSnackbar("Please select at least one item.")
+                                    }
+                                 },
+                  });
+            
+      }
+   }
+   
+   </script>
+
+<!-- success:function() {
+   if (msg.code!=400){
+      window.location.href = '/giftcardsales'
+      }else{
+         showSnackbar("No Items Selected")
+      }
+   }, -->
+
+
+<!-- script for adding value in checking queue list -->
+<script>
+   function checkbalance(){
+       //this work when userclick selectall button with checkbalance
+      if (this.selectall_data) {
+
+
+         if (this.dateValue!= "" || this.vendor != "" ||  this.retailer != "" || this.status != "") {
+
+
+            //add checkbalance object in data
+            this.selectall_data['checkbalance'] = true
+            this.selectall_data['unSelectArr'] = unSelectArr
+
+         
+
+                     $.ajax({
+                        type: "POST",
+                        //call the url with data
+                        url: "/giftcardlistselectall",
+                        data: JSON.stringify(this.selectall_data),
+                        success: function(d) {
+                           console.log('success', d);
+                           showLoader('Please wait adding in queue')
+                           //get all the id in response & send back to the giftcardcheckbalance url
+                           $.ajax({
+                                 type: "post",
+                                 url: "/giftcardcheckbalance",
+                                 data: JSON.stringify(d),
+                                 dataType: 'json',
+                                 contentType: "application/json",
+                                 success:function(msg) {
+                                    console.log(msg)
+                                    if (msg.code!=404 && msg.code!=406 && msg.code!=400){
+                                       window.location.href = '/checkingqueue'
+                                       }
+                                    else if(msg.code==404){
+                                       hideLoader()
+                                       showSnackbar('You are limited to one retailer at a time')
+                                    }else if(msg.code==400){
+                                       showSnackbar("Please select at least one item.")
+                                    }else if(msg.code==406){
+                                       console.log(msg.message)
+                                       hideLoader()
+                                       showSnackbar(msg.message + ' does not currently work with check balance')
+                                    }
+                                 
+                                 },
+                           });
+                     
+
+                     },
+                     dataType: 'json',
+                     contentType: "application/json"
+               });
+         }else{
+            showSnackbar('You are limited to one retailer at a time')
+         }
+
+      }
+      //this code work on simply click of checkbalance
+      else{
+               var checkboxes = document.getElementsByName("check[]");
+               var checkboxesArray = [];
+               // loop over them all
+               for (var i=0; i<checkboxes.length; i++) {
+                        // And stick the checked ones onto an array...
+                  if (checkboxes[i].checked) {
+                     checkboxesArray.push(checkboxes[i].value);
+                  }
+               }
+               
+         
+            let data = {"arr":checkboxesArray}
+            console.log(data)
+            $.ajax({
+                     type: "post",
+                     url: "/giftcardcheckbalance",
+                     data: JSON.stringify(data),
+                     dataType: 'json',
+                     contentType: "application/json",
+                     success:function(msg) {
+                        console.log(msg)
+                        if (msg.code!=404 && msg.code!=406 && msg.code!=400){
+                           window.location.href = '/checkingqueue'
+                           }
+                        else if(msg.code==404){
+                           showSnackbar('You are limited to one retailer at a time')
+                        }else if(msg.code==400){
+                           showSnackbar("Please select at least one item.")
+                        }else if(msg.code==406){
+                           console.log(msg.message)
+                           showSnackbar(msg.message + ' does not currently work with check balance')
+                        }
+                     
+                     },
+               });
+
+      }
+
+   }
+
+   </script>
+
+
+<!-- Create Bard Code Section -->
+<script>
+   var barcodelist = ''
+   function createbarcode() {
+      //this work when userclick selectall button with createbarcode
+      if (this.selectall_data) {
+
+         if (this.dateValue!= "" || this.vendor != "" ||  this.retailer != "" || this.status != "") {
+
+               //add addforsale object in data
+               this.selectall_data['createbarcode'] = true
+
+                  $.ajax({
+                     type: "POST",
+                     //call the url with data
+                     url: "/giftcardlistselectall",
+                     data: JSON.stringify(this.selectall_data),
+                     success: function(d) {
+                        console.log('success', d);
+                        // showLoader();
+                        //get all the id in response & send back to the giftcardcheckbalance url
+                        $.ajax({
+                              type: "post",
+                              url: "/selectallbarcoderetailer",
+                              data: JSON.stringify(d),
+                              dataType: 'json',
+                              contentType: "application/json",
+                              success:function(msg) {
+                                 console.log(msg)
+                                 if (msg.code!=404 && msg.code!=406 && msg.code!=400){
+                                          showLoader('Please wait while barcode is being generated')
+                                          $.ajax({
+                                             type: "POST",
+                                             url: "/barcodegeneration",
+                                             data: JSON.stringify(d),
+                                             dataType: 'json',
+                                             contentType: "application/json",
+                                             success:function(msg) {
+                                                            if (msg.code!=400){
+                                                                     window.location.href = '/createbarcode'
+                                                            }else{
+                                                               showSnackbar("Please select at least one item.")
+                                                            }
+                                                         }
+                                          });
+                                 }else if(msg.code==406){
+                                    console.log(msg.message)
+                                    showSnackbar(msg.message + ' does not currently work with Barcode')
+                                 }
+                                 else{
+                                    showSnackbar('You are limited to one retailer at a time')
+                                 }
+                              
+                              }
+                        });
+                  
+
+                  },
+                  dataType: 'json',
+                  contentType: "application/json"
+            });
+
+         }else{
+            showSnackbar('You are limited to one retailer at a time')
+         }
+
+      }
+      //this code work on simply click of createbarcode
+      else{
+            var checkboxes = document.getElementsByName("check[]");
+               var default_retailer = ['Target', 'Home Depot', 'Amazon', 'Lowes', 'HP', 'Best Buy', 'Sears', 'Sams Club', 'Staples', 'Office Depot', 'Bass', 'Dell', 'Cabelas','Walmart']
+
+               var checkboxesArray = [];
+               var checkDuplicateRetailer = '';
+               // loop over them all
+               for (var i=0; i<checkboxes.length; i++) {
+                  if (checkboxes[i].checked) {
+                     console.log(giftcardTable.row(i).select().data().retailler);
+                     retailer = (giftcardTable.row(i).select().data().retailler)
+                     if (!default_retailer.includes(retailer)){
+                        showSnackbar(retailer + ' does not currently work with Barcode')
+                        return;
+                     }
+                     else{
+                        if(checkDuplicateRetailer == ''|| checkDuplicateRetailer == giftcardTable.row(i).select().data().retailler) {
+                           checkDuplicateRetailer = giftcardTable.row(i).select().data().retailler;
+
+                        } else {
+                           showSnackbar('You are limited to one retailer at a time')
+                           return;
+                        }
+                     }
+
+                     checkboxesArray.push(checkboxes[i].value);
+                  }
+               }
+               if(checkboxesArray.length != 0){
+                  showLoader('Please wait while barcode is being generated')
+                  let data = {"arr":checkboxesArray}
+                  $.ajax({
+                     type: "POST",
+                     url: "/barcodegeneration",
+                     data: JSON.stringify(data),
+                     dataType: 'json',
+                     contentType: "application/json",
+                     success:function(msg) {
+                                    if (msg.code!=400){
+                                             window.location.href = '/createbarcode'
+                                    }else{
+                                       showSnackbar("No Items Selected")
+                                    }
+                                 },
+                  });
+
+
+               }else{
+               showSnackbar("Please select at least one item.");
+           }
+
+      }
+     
+   }
+</script>
+
+
+<script>
+   this.isArchive = ''
+   function toggleArchive(){
+
+      this.isArchive = document.getElementById("customSwitches").checked;
+      console.log(this.isArchive);
+      giftcardTable.draw();
+      if (selectall  == 'allrecords'){
+         deselectOnOperation()
+      }
+         
+
+   }
+ 
+</script>
+
+<!-- for removing sorting from first column -->
+<script type="text/javascript">  
+ $(document).ready(function(){
+            function checkfirstcolumn(){
+                if($(".no-sort").hasClass("sorting_asc")){
+                    $(".no-sort").removeClass("sorting_asc");
+                }
+                setTimeout(function(){
+                checkfirstcolumn();
+                },1000)}
+           checkfirstcolumn();
+        });
+</script>
+
+
+
+
+
+<!-- <script type="text/javascript">
+
+   $( document ).ready(function() {
+      $('.metismenu li').removeClass('active');
+      $('.metismenu ul').removeClass('in');
+   });
+   $(".button-menu-mobile").click(function () {
+        $('.metismenu li').removeClass('active');
+        $('.metismenu ul').removeClass('in');
+   });
+</script>  -->
+
+{% endblock %}

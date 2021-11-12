@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>{% block tittle %}{% endblock tittle %}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
+        <meta content="Coderthemes" name="author" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <!-- App favicon -->
+        <link rel="shortcut icon" href="static/images/favicon (1).ico">
+
+        <!-- Bootstrap Tables css -->
+        <link href="static/libs/bootstrap-table/bootstrap-table.min.css" rel="stylesheet" type="text/css" />
+
+        <!-- App css -->
+        <link href="static/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="static/css/icons.min.css" rel="stylesheet" type="text/css" />
+        <link href="static/css/app.min.css" rel="stylesheet" type="text/css" />
+
+
+
+        <!-- Plugins css -->
+        <link href="static/libs/jquery-nice-select/nice-select.css" rel="stylesheet" type="text/css" />
+        <link href="static/libs/switchery/switchery.min.css" rel="stylesheet" type="text/css" />
+        <link href="static/libs/multiselect/multi-select.css" rel="stylesheet" type="text/css" />
+        <link href="static/libs/select2/select2.min.css" rel="stylesheet" type="text/css" />
+        <link href="static/libs/bootstrap-select/bootstrap-select.min.css" rel="stylesheet" type="text/css" />
+        <link href="static/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.css" rel="stylesheet" type="text/css" />
+
+         {% block css %} {% endblock css %}
+
+
+<script>
+
+        </script>
+        <style type="text/css">
+            .dropdown-menu.show {
+                min-width: 100% !important;
+                z-index: 10;
+            }
+        </style>
+
+    </head>
+
+    <body>
+
+        <!-- Begin page -->
+        <div id="wrapper">
+
+            <!-- Topbar Start -->
+            <div class="navbar-custom">
+                <ul class="list-unstyled topnav-menu float-right mb-0">
+
+                    <li class="d-none d-sm-block">
+                        <form class="app-search">
+                            <div class="app-search-box">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Search...">
+                                    <div class="input-group-append">
+                                        <button class="btn" type="submit">
+                                            <i class="fe-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </li>
+
+                    <li class="dropdown notification-list">
+                        <a class="nav-link dropdown-toggle  waves-effect waves-light" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                            <i class="fe-bell noti-icon"></i>
+                            <span class="badge badge-danger rounded-circle noti-icon-badge">9</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right dropdown-lg">
+
+                            <!-- item-->
+                            <div class="dropdown-item noti-title">
+                                <h5 class="m-0">
+                                    <span class="float-right">
+                                        <a href="" class="text-dark">
+                                            <small>Clear All</small>
+                                        </a>
+                                    </span>Notification
+                                </h5>
+                            </div>
+
+                            <div class="slimscroll noti-scroll">
+
+                                <!-- item-->
+                                <a href="javascript:void(0);" class="dropdown-item notify-item active">
+                                    <div class="notify-icon">
+                                        <img src="static/images/users/user-1.jpg" class="img-fluid rounded-circle" alt="" /> </div>
+                                    <p class="notify-details">Cristina Pride</p>
+                                    <p class="text-muted mb-0 user-msg">
+                                        <small>Hi, How are you? What about our next meeting</small>
+                                    </p>
+                                </a>
+
+                                <!-- item-->
+                                <a href="javascript:void(0);" class="dropdown-item notify-item">
+                                    <div class="notify-icon bg-primary">
+                                        <i class="mdi mdi-comment-account-outline"></i>
+                                    </div>
+                                    <p class="notify-details">Caleb Flakelar commented on Admin
+                                        <small class="text-muted">1 min ago</small>
+                                    </p>
+                                </a>
+
+                                <!-- item-->
+                                <a href="javascript:void(0);" class="dropdown-item notify-item">
+                                    <div class="notify-icon">
+                                        <img src="static/images/users/user-4.jpg" class="img-fluid rounded-circle" alt="" /> </div>
+                                    <p class="notify-details">Karen Robinson</p>
+                                    <p class="text-muted mb-0 user-msg">
+                                        <small>Wow ! this admin looks good and awesome design</small>
+                                    </p>
+                                </a>
+
+                                <!-- item-->
+                                <a href="javascript:void(0);" class="dropdown-item notify-item">
+                                    <div class="notify-icon bg-warning">
+                                        <i class="mdi mdi-account-plus"></i>
+                                    </div>
+                                    <p class="notify-details">New user registered.
+                                        <small class="text-muted">5 hours ago</small>
+                                    </p>
+                                </a>
+
+                                <!-- item-->
+                                <a href="javascript:void(0);" class="dropdown-item notify-item">
+                                    <div class="notify-icon bg-info">
+                                        <i class="mdi mdi-comment-account-outline"></i>
+                                    </div>
+                                    <p class="notify-details">Caleb Flakelar commented on Admin
+                                        <small class="text-muted">4 days ago</small>
+                                    </p>
+                                </a>
+
+                                <!-- item-->
+                                <a href="javascript:void(0);" class="dropdown-item notify-item">
+                                    <div class="notify-icon bg-secondary">
+                                        <i class="mdi mdi-heart"></i>
+                                    </div>
+                                    <p class="notify-details">Carlos Crouch liked
+                                        <b>Admin</b>
+                                        <small class="text-muted">13 days ago</small>
+                                    </p>
+                                </a>
+                            </div>
+
+                            <!-- All-->
+                            <a href="javascript:void(0);" class="dropdown-item text-center text-primary notify-item notify-all">
+                                View all
+                                <i class="fi-arrow-right"></i>
+                            </a>
+
+                        </div>
+                    </li>
+
+                    <li class="dropdown notification-list">
+                        <a class="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                            <img src="static/images/users/user-1.jpg" alt="user-image" class="rounded-circle">
+                            <span class="pro-user-name ml-1">
+                                {{session.username}}<i class="mdi mdi-chevron-down"></i>
+                            </span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
+                            <!-- item-->
+                            <div class="dropdown-header noti-title">
+                                <h6 class="text-overflow m-0">Welcome !</h6>
+                            </div>
+
+                            <!-- item-->
+                            <a href="myaccount" class="dropdown-item notify-item">
+                                <i class="fe-user"></i>
+                                <span>My Account</span>
+                            </a>
+
+                            <!-- item-->
+                            {%for x in accessdata%}
+                            <a href="/setting" class="dropdown-item notify-item" {% if x.userid > 2 %} hidden {% endif %}>
+                                <i class="fe-settings"></i>
+                                <span>Settings</span>
+                            </a>
+                            {%endfor%}
+
+
+                            <div class="dropdown-divider"></div>
+
+                            <!-- item-->
+                            <a href="/logout" class="dropdown-item notify-item">
+                                <i class="fe-log-out"></i>
+                                <span>Logout</span>
+                            </a>
+<!--                            <form method="get" action="/">-->
+<!--                             <button name="logout" value="logout" class="dropdown-item notify-item" >Logout</button>-->
+<!--                                </form>-->
+                        </div>
+                    </li>
+
+<!--                    <li class="dropdown notification-list">-->
+<!--                        <a href="javascript:void(0);" class="nav-link right-bar-toggle waves-effect waves-light">-->
+<!--                            <i class="fe-settings noti-icon"></i>-->
+<!--                        </a>-->
+<!--                    </li>-->
+
+
+                </ul>
+
+                <!-- LOGO -->
+                <div class="logo-box">
+                    <a href="/index" class="logo text-center">
+                        <span class="logo-lg">
+                            <img src="static/images/dashboard.png" alt="" height="25" >
+                            <!-- <span class="logo-lg-text-light">UBold</span> -->
+                        </span>
+                        <span class="logo-sm">
+                            <!-- <span class="logo-sm-text-dark">U</span> -->
+                            <img src="static/images/rams-sm.png" alt="" height="25">
+                        </span>
+                    </a>
+                </div>
+
+                <ul class="list-unstyled topnav-menu topnav-menu-left m-0">
+                    <li>
+                        <button id="sliderClosed" class="button-menu-mobile waves-effect waves-light">
+                            <i class="fe-menu"></i>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+            <!-- end Topbar -->
+
+           </div>
+            <!-- end Topbar -->
+
+            <!-- ========== Left Sidebar Start ========== -->
+            <div class="left-side-menu">
+
+                <div class="slimscroll-menu">
+
+                    <!--- Sidemenu -->
+                    <div id="sidebar-menu">
+
+                        <ul class="metismenu" id="side-menu">
+
+                            <li class="menu-title">Navigation</li>
+                         {%for x in accessdata%}
+                            <li  {% if 2 <= x.userid %} hidden {% endif %} >
+                                <a href="javascript: void(0);">
+                                    <i class="fe-pocket"></i>
+                                    <span> Account </span>
+                                    <span class="menu-arrow"></span>
+                                </a>
+                                <ul class="nav-second-level" aria-expanded="false">
+                                    <li>
+                                        <a href="/accountlist">Account List</a>
+                                    </li>
+                                    <li>
+                                        <a href="/addaccount">Add Account</a>
+                                    </li>
+
+                                </ul>
+                            </li>
+
+                            <li {% if 0 == x.addUser %} hidden {% endif %}>
+                                <a href="javascript: void(0);">
+                                    <i class="fe-users"></i>
+                                    <span> Users </span>
+                                    <span class="menu-arrow"></span>
+                                </a>
+                                <ul  class="nav-second-level" aria-expanded="false">
+                                    <li>
+                                        <a href="/userlist">User List</a>
+                                    </li>
+                                    <li>
+                                        <a href="/adduser">Add User</a>
+                                    </li>
+
+                                </ul>
+                            </li>
+
+<!--                            <li {% if 0 == x.addUser %} hidden {% endif %}>-->
+<!--                                <a href="/userlist">-->
+<!--                                    <i class="fa fa-users"></i>-->
+<!--                                    <span> User List </span>-->
+<!--                                </a>-->
+<!--                            </li>-->
+
+<!--                            <li {% if 0 == x.addUser %} hidden {% endif %}>-->
+<!--                                <a href="/adduser">-->
+<!--                                    <i class="fe-users"></i>-->
+<!--                                    <span> Add User </span>-->
+<!--                                </a>-->
+<!--                            </li>-->
+
+                            <li {% if 0 == x.giftCards %} hidden {% endif %}>
+                                <a href="javascript: void(0);">
+                                    <i class="fe-gift"></i>
+                                    <span> Gift Cards </span>
+                                    <span class="menu-arrow"></span>
+                                </a>
+                                <ul  class="nav-second-level" aria-expanded="false">
+                                    <li>
+                                        <a href="/batchlist">Batch List</a>
+                                    </li>
+                                    <li>
+                                        <a href="/giftcardlist">Gift Card List</a>
+                                    </li>
+                                    <li>
+                                        <a href='/giftcardsales'>GCs For Sale</a>
+                                    </li>
+                                      <li>
+                                        <a href="/viewgiftcard">View Gift Card For Sale</a>
+                                    </li>
+                                    <li>
+                                        <a href="/checkingqueue">Checking Queue</a>
+                                    </li> 
+                                    <li>
+                                        <a href="/createbarcode">Create Bar Codes</a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li  {% if 0 == x.orderTracking %} hidden {% endif %}>
+                                <a href="/ordertracking">
+                                    <i class="fe-truck"></i>
+                                    <span> Order Tracking </span>
+                                </a>
+                            </li>
+
+                            <li {% if 0 == x.buyerManager %} hidden {% endif %}>
+                                <a href="/buyingmanager">
+                                    <i class="fe-award"></i>
+                                    <span> Buying Manager </span>
+                                </a>
+                            </li>
+
+                            <li {% if 0 == x.PriceMonitor %} hidden {% endif %}>
+                                <a href="/pricemonitor">
+                                    <i class="fe-trending-up"></i>
+                                    <span> Price Monitor </span>
+                                </a>
+                            </li>
+
+                            <li {% if 0 == x.inventory %} hidden {% endif %}>
+                                <a href="javascript: void(0);">
+                                    <i class="fe-shopping-cart"></i>
+                                    <span> Inventory </span>
+                                    <span class="menu-arrow"></span>
+                                </a>
+                                <ul class="nav-second-level" aria-expanded="false">
+                                    <li>
+                                        <a href="apps-kanbanboard.html">Receiving</a>
+                                    </li>
+                                    <li>
+                                        <a href="apps-calendar.html">Pending Pickups</a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li {% if 0 == x.cashFlow %} hidden {% endif %}>
+                                <a href="javascript: void(0);">
+                                    <i class="fe-dollar-sign"></i>
+                                    <span> Cashflow </span>
+                                </a>
+                            </li>
+
+
+
+
+                            <li {% if 0 == x.reports %} hidden {% endif %}>
+                                <a href="javascript: void(0);">
+                                    <i class="fe-bar-chart-line"></i>
+                                    <span> Reports </span>
+                                    <span class="menu-arrow"></span>
+                                </a>
+                                <ul class="nav-second-level" aria-expanded="false">
+                                    <li>
+                                        <a href="apps-kanbanboard.html">Investor Report</a>
+                                    </li>
+                                    <li>
+                                        <a href="apps-calendar.html">Amazon Sales</a>
+                                    </li>
+                                    <li>
+                                        <a href="apps-kanbanboard.html">COGS</a>
+                                    </li>
+                                    <li>
+                                        <a href="apps-calendar.html">Walmart</a>
+                                    </li>
+                                    <li>
+                                        <a href="apps-calendar.html">Ebay</a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li {% if 0 == x.cashback %} hidden {% endif %}>
+                                <a href="javascript: void(0);">
+                                    <i class="fe-refresh-ccw"></i>
+                                    <span> Cashback </span>
+                                </a>
+                            </li>
+
+                            <li {% if 0 == x.cashback %} hidden {% endif %}>
+                                <a href="javascript: void(0);">
+                                    <i class="fe-tag"></i>
+                                    <span> Sales Tax </span>
+                                </a>
+                            </li>
+
+                            <li {% if 0 == x.cashback %} hidden {% endif %}>
+                                <a href="javascript: void(0);">
+                                    <i class="fe-minus-square"></i>
+                                    <span> AZ Removals </span>
+                                </a>
+                            </li>
+
+                            <li {% if 0 == x.cashback %} hidden {% endif %}>
+                                <a href="javascript: void(0);">
+                                    <i class="fe-arrow-right"></i>
+                                    <span> AZ Returns </span>
+                                </a>
+                            </li>
+
+                            <li {% if 0 == x.cashback %} hidden {% endif %}>
+                                <a href="javascript: void(0);">
+                                    <i class="fe-package"></i>
+                                    <span> Wholesale </span>
+                                </a>
+                            </li>
+                            {% endfor %}
+
+
+                        </ul>
+
+                           
+
+                    </div>
+                    <!-- End Sidebar -->
+
+                    <div class="clearfix"></div>
+
+                </div>
+                <!-- Sidebar -left -->
+
+            </div>
+            <!-- Left Sidebar End -->
+            <!-- ============================================================== -->
+            <!-- Start Page Content here -->
+
+
+
+           {% block body %} {% endblock %}
+
+                     <!-- Footer Start -->
+                <footer class="footer">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-6">
+                              2020 &copy; Prime Electronics, LLC
+                            </div>
+                            <div class="col-md-6">
+                                <div class="text-md-right footer-links d-none d-sm-block">
+                                   
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+                <!-- end Footer -->
+
+            </div>
+
+            <!-- ============================================================== -->
+            <!-- End Page content -->
+            <!-- ============================================================== -->
+
+
+        </div>
+        <!-- END wrapper -->
+
+        <!-- Right Sidebar -->
+        <div class="right-bar">
+            <div class="rightbar-title">
+                <a href="javascript:void(0);" class="right-bar-toggle float-right">
+                    <i class="dripicons-cross noti-icon"></i>
+                </a>
+                <h5 class="m-0 text-white">Settings</h5>
+            </div>
+            <div class="slimscroll-menu">
+                <!-- User box -->
+                <div class="user-box">
+                    <div class="user-img">
+                        <img src="static/images/users/user-1.jpg" alt="user-img" title="Mat Helme" class="rounded-circle img-fluid">
+                        <a href="javascript:void(0);" class="user-edit"><i class="mdi mdi-pencil"></i></a>
+                    </div>
+
+                    <h5><a href="javascript: void(0);">{{username}}</a> </h5>
+                    <p class="text-muted mb-0"><small>Admin Head</small></p>
+                </div>
+
+                <!-- Settings -->
+                <hr class="mt-0" />
+                <h5 class="pl-3">Basic Settings</h5>
+                <hr class="mb-0" />
+
+                <div class="p-3">
+                    <div class="checkbox checkbox-primary mb-2">
+                        <input id="Rcheckbox1" type="checkbox" checked>
+                        <label for="Rcheckbox1">
+                            Notifications
+                        </label>
+                    </div>
+                    <div class="checkbox checkbox-primary mb-2">
+                        <input id="Rcheckbox2" type="checkbox" checked>
+                        <label for="Rcheckbox2">
+                            API Access
+                        </label>
+                    </div>
+                    <div class="checkbox checkbox-primary mb-2">
+                        <input id="Rcheckbox3" type="checkbox">
+                        <label for="Rcheckbox3">
+                            Auto Updates
+                        </label>
+                    </div>
+                    <div class="checkbox checkbox-primary mb-2">
+                        <input id="Rcheckbox4" type="checkbox" checked>
+                        <label for="Rcheckbox4">
+                            Online Status
+                        </label>
+                    </div>
+                    <div class="checkbox checkbox-primary mb-0">
+                        <input id="Rcheckbox5" type="checkbox" checked>
+                        <label for="Rcheckbox5">
+                            Auto Payout
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Timeline -->
+                <hr class="mt-0" />
+                <h5 class="px-3">Messages <span class="float-right badge badge-pill badge-danger">25</span></h5>
+                <hr class="mb-0" />
+                <div class="p-3">
+                    <div class="inbox-widget">
+                        <div class="inbox-item">
+                            <div class="inbox-item-img"><img src="static/images/users/user-2.jpg" class="rounded-circle" alt=""></div>
+                            <p class="inbox-item-author"><a href="javascript: void(0);" class="text-dark">Tomaslau</a></p>
+                            <p class="inbox-item-text">I've finished it! See you so...</p>
+                        </div>
+                        <div class="inbox-item">
+                            <div class="inbox-item-img"><img src="static/images/users/user-3.jpg" class="rounded-circle" alt=""></div>
+                            <p class="inbox-item-author"><a href="javascript: void(0);" class="text-dark">Stillnotdavid</a></p>
+                            <p class="inbox-item-text">This theme is awesome!</p>
+                        </div>
+                        <div class="inbox-item">
+                            <div class="inbox-item-img"><img src="static/images/users/user-4.jpg" class="rounded-circle" alt=""></div>
+                            <p class="inbox-item-author"><a href="javascript: void(0);" class="text-dark">Kurafire</a></p>
+                            <p class="inbox-item-text">Nice to meet you</p>
+                        </div>
+
+                        <div class="inbox-item">
+                            <div class="inbox-item-img"><img src="static/images/users/user-5.jpg" class="rounded-circle" alt=""></div>
+                            <p class="inbox-item-author"><a href="javascript: void(0);" class="text-dark">Shahedk</a></p>
+                            <p class="inbox-item-text">Hey! there I'm available...</p>
+                        </div>
+                        <div class="inbox-item">
+                            <div class="inbox-item-img"><img src="static/images/users/user-6.jpg" class="rounded-circle" alt=""></div>
+                            <p class="inbox-item-author"><a href="javascript: void(0);" class="text-dark">Adhamdannaway</a></p>
+                            <p class="inbox-item-text">This theme is awesome!</p>
+                        </div>
+                    </div> <!-- end inbox-widget -->
+                </div> <!-- end .p-3-->
+
+            </div> <!-- end slimscroll-menu-->
+        </div>
+        <!-- /Right-bar -->
+  {% block js %} {% endblock js %}
+        {% block javascript %} {% endblock javascript %}
+
+        <script type="text/javascript">
+            $('#sliderClosed').on('click', function() {
+                if(typeof(Storage) !== "undefined") {
+                    if (sessionStorage.checkSlider) {
+                      if ($('body').hasClass('sidebar-enable enlarged')){
+                         sessionStorage.checkSlider = 'active'
+                        }else{
+                          if(sessionStorage.checkSlider == 'active'){
+                          if ($('body').hasClass('sidebar-enable enlarged')){
+                            sessionStorage.checkSlider = 'active'
+                          }else{
+                            sessionStorage.checkSlider = ''
+                          }
+                          }else{
+                            sessionStorage.checkSlider = ''
+                          }
+                        }
+                    }else{
+                        if ($('body').hasClass('sidebar-enable enlarged')){
+                         sessionStorage.checkSlider = 'active'
+                        }else{
+                          if(sessionStorage.checkSlider == 'active'){
+                          if ($('body').hasClass('sidebar-enable enlarged')){
+                            sessionStorage.checkSlider = 'active'
+                          }else{
+                            sessionStorage.checkSlider = ''
+                          }
+                          }else{
+                            sessionStorage.checkSlider = 'active'
+                          }
+                        }
+                    }
+                }else {
+                      alert('Sorry, your browser does not support web storage...')
+                    }
+            });
+            $( document ).ready(function() {
+                if(typeof(Storage) !== "undefined") {
+                    if (sessionStorage.checkSlider=='active') {
+                        if ($('body').hasClass('sidebar-enable enlarged')){
+                         cosole.log('You are in slider')
+                        }else{
+                            $('body').addClass('sidebar-enable enlarged')
+                        }
+                    }else{
+                        if ($('body').hasClass('sidebar-enable enlarged')){
+                          $('body').removeClass('sidebar-enable enlarged')
+                        }
+                    }
+                }else{
+                    alert('Sorry, your browser does not support web storage...')
+                }
+            });
+
+
+        </script>
+    </body>
+</html>

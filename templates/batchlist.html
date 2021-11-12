@@ -1,0 +1,1340 @@
+{% extends "extend.html" %}
+{% block tittle %}Batch List - ECOMM FLOW{% endblock tittle %}
+{% block css %}
+ <!-- Plugins css -->
+      <!-- <link href="static/libs/flatpickr/flatpickr.min.css" rel="stylesheet" type="text/css" />
+      <link href="static/libs/bootstrap-colorpicker/bootstrap-colorpicker.min.css" rel="stylesheet" type="text/css" />
+      <link href="static/libs/clockpicker/bootstrap-clockpicker.min.css" rel="stylesheet" type="text/css" />
+      <link href="static/libs/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" /> -->
+
+       <!-- third party css -->
+       <link href="static/libs/datatables/dataTables.bootstrap4.css" rel="stylesheet" type="text/css" />
+       <link href="static/libs/datatables/responsive.bootstrap4.css" rel="stylesheet" type="text/css" />
+       <link href="static/libs/datatables/buttons.bootstrap4.css" rel="stylesheet" type="text/css" />
+       <link href="static/libs/datatables/select.bootstrap4.css" rel="stylesheet" type="text/css" />
+       <!-- third party css end -->
+
+      <!-- editable table datepicker css -->
+       <link href="static/libs/flatpickr/flatpickr.min.css" rel="stylesheet" type="text/css" />
+
+      <!-- upperdropdown datepicker css -->
+      <link href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+     
+      <!-- custom css -->
+      <link rel="stylesheet" type="text/css" href="static/css/batch.css">
+
+   
+    <style>
+
+    .p-datepicker {
+        border: none !important;
+    }
+    .p-datepicker:focus {
+        border: 1px solid;
+    }
+
+   select {
+         border: none;
+    }
+
+    
+   #snackbar {
+     visibility: hidden;
+     min-width: 250px;
+     margin-left: -125px;
+     background: #f7b84b !important;
+     z-index: 999 !important;
+     color: #000 !important;
+     text-align: center;
+     border-radius: 2px;
+     padding: 16px;
+     position: fixed;
+     z-index: 1;
+     left: 50%;
+     top: 30px;
+     font-size: 17px;
+   }
+
+   #snackbar.show {
+     visibility: visible;
+     -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+     animation: fadein 0.5s, fadeout 0.5s 2.5s;
+   }
+
+   @-webkit-keyframes fadein {
+     from {top: 0; opacity: 0;}
+     to {top: 30px; opacity: 1;}
+   }
+
+   @keyframes fadein {
+     from {top: 0; opacity: 0;}
+     to {top: 30px; opacity: 1;}
+   }
+
+   @-webkit-keyframes fadeout {
+     from {top: 30px; opacity: 1;}
+     to {top: 0; opacity: 0;}
+   }
+
+   @keyframes fadeout {
+     from {top: 30px; opacity: 1;}
+     to {top: 0; opacity: 0;}
+   }
+
+   table.dataTable tbody > tr.selected, table.dataTable tbody > tr > .selected {
+      color: #000;
+      background-color: #f1f5f7;
+   }
+
+   table.dataTable tbody>tr.selected td, table.dataTable tbody>tr>.selected td {
+      border: 1px solid #dee2e6;
+   }
+
+   #cover-spin {
+      text-align: center;
+    font-size: large;
+    /* top: 164px; */
+    padding-top: 15%;
+    position:fixed;
+    width:100%;
+    left:0;right:0;top:0;bottom:0;
+    background-color: rgba(255,255,255,0.7);
+    z-index:9999;
+    display:none;
+}
+
+@-webkit-keyframes spin {
+	from {-webkit-transform:rotate(0deg);}
+	to {-webkit-transform:rotate(360deg);}
+}
+
+@keyframes spin {
+	from {transform:rotate(0deg);}
+	to {transform:rotate(360deg);}
+}
+
+#cover-spin::after {
+    content:'';
+    display:block;
+    position:absolute;
+    left:48%;top:40%;
+    width:40px;height:40px;
+    border-style:solid;
+    border-color:#3498db;
+    border-top-color:transparent;
+    border-width: 4px;
+    border-radius:50%;
+    -webkit-animation: spin .8s linear infinite;
+    animation: spin .8s linear infinite;
+}
+
+.bootstrap-select .inner {
+    overflow-y: auto !important;
+}
+
+#showcustomdate{
+    position: relative;
+    left: 11rem;
+    top: 25px;
+    border: 1px solid;
+    padding: 5px;
+    border-radius: 5px;
+    display:none;
+}
+
+#showselectedbox{
+    position: relative;
+    left: 12rem;
+    top: 25px;
+    border: 1px solid;
+    border-radius: 5px;
+    padding: 4px;
+    display:none;
+}
+
+/* CSS FOR upperdropdown datepicker */
+.ui-widget-header {
+	border: none !important;
+	background: transparent !important;
+}
+
+.ui-state-default,
+.ui-widget-content .ui-state-default {
+	border-radius: 4px !important;
+	border: none !important;
+}
+
+/*
+.ui-state-highlight,
+.ui-widget-content .ui-state-highlight {
+	background: #6658dd!important;
+	color: #fff;
+}*/
+
+.ui-datepicker td a {
+	text-align: center;
+}
+
+.ui-widget-content {
+	border: none;
+	background: #ffffff;
+	color: #212529;
+	font-size: 16px;
+	font-weight: initial;
+	line-height: 1.5;
+}
+
+.ui-widget {
+	font-family: Nunito, sans-serif;
+}
+
+.ui-widget.ui-widget-content {
+	border: none;
+}
+
+.ui-datepicker {
+	width: 13em;
+}
+
+</style>
+{% endblock css %}
+
+{% block js %}
+
+      <!-- Bootstrap Tables js -->
+      <!-- <script src="static/libs/bootstrap-table/bootstrap-table.min.js"></script> -->
+      <!-- Init js -->
+      <!-- <script src="static/js/pages/bootstrap-tables.init.js"></script> -->
+
+      <!-- bootstrap filter js -->
+      <script src="static/libs/bootstrap-select/bootstrap-select.min.js"></script>
+
+
+        <!---------- cell editable js ---------------->
+       <!-- https://stackoverflow.com/questions/35869054/using-jeditable-and-getting-typeerror-editable-is-not-a-function-what-t -->
+        <script src="http://www.appelsiini.net/download/jquery.jeditable.mini.js"></script>
+
+        <!-- third party js -->
+        <script src="static/libs/datatables/jquery.dataTables.min.js"></script>
+        <script src="static/libs/datatables/dataTables.bootstrap4.js"></script>
+        <script src="static/libs/datatables/dataTables.responsive.min.js"></script>
+        <script src="static/libs/datatables/responsive.bootstrap4.min.js"></script>
+        <script src="static/libs/datatables/buttons.bootstrap4.min.js"></script>
+        <script src="static/libs/datatables/dataTables.keyTable.min.js"></script>
+
+        <script src="https://cdn.datatables.net/select/1.3.1/js/dataTables.select.min.js"></script>
+        
+
+
+        <!-- third party js ends -->
+
+        <!-- Datatables init -->
+        <script src="static/js/pages/datatables.init.js"></script>
+
+        <!-- App js -->
+        <script src="static/js/app.min.js"></script>
+
+        <!-- editable table datepicker js -->
+        <script src="static/libs/flatpickr/flatpickr.min.js"></script>
+
+        <!-- Sweetalert -->
+      <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+        <!-- upper dropdown datepicker js -->
+        <script src="static/libs/jquery-ui/jquery-ui.min.js"></script>
+
+        
+{% endblock js %}
+{% block body %}
+<div id="snackbar">Some text some message..</div>
+<div id="cover-spin">lease wait generating...</div>
+
+         <!-- ============================================================== -->
+         <!-- Start Page Content here -->
+         <!-- ============================================================== -->
+         <div class="content-page">
+            <div class="content">
+               <!-- Start Content-->
+               <div class="container-fluid">
+                  <!-- start page title -->
+                  <div class="row">
+                     <div class="col-12">
+                        <div class="page-title-box">
+                           <h4 class="page-title">Batch List</h4>
+                        </div>
+                     </div>
+                  </div>
+                  <!-- end page title -->
+                  <div class="row">
+                     <div id="modal-date-custom" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                        <div class="modal-dialog">
+                           <div class="modal-content">
+                              <div class="modal-header">
+                                 <h4 class="modal-title">Select Date Range</h4>
+                                 <button type="button" class="close" data-dismiss="modal" onclick="closemodal()" aria-hidden="true">×</button>
+                              </div>
+                              <div class="modal-body p-4">
+                                 <div class="form-group mb-0">
+                                    <div class="input-group">
+                                       <div class="form-group">
+                                          <div class="row">
+                                             <div class="col-md-6">
+                                                <label>From:</label>
+                                                <input type="text" id="dp-from" class="form-control" data-provide="datepicker" placeholder="Start Date">
+                                             </div>
+                                             <div class="col-md-6">
+                                                <label>To:</label>
+                                                <input type="text" id="dp-to" class="form-control" data-provide="datepicker" placeholder="End Date">
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="modal-footer">
+                                 <button type="button" id = 'dateButton' class="btn btn-info waves-effect waves-light" onclick="customDate()">Submit</button>
+                                 <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal" onclick="closemodal()">Close</button>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <!-- /.modal -->
+                  <div class="row">
+                     <div class="col-sm-12">
+                        <div class="card-box">
+                           <div class="form-inline mb-2"> 
+                              <!-- /btn-group -->
+                              <div class="form-group mr-2">    
+                                 <button type="button" id="selectall" onclick='selectAll(id)'  class="btn btn-secondary waves-effect waves-light btn-block ">Select All</button>
+                              </div>
+
+                              <div class="form-group mr-2">    
+                                 <button type="button" id="Delete" onclick='deleteRow()'  class="btn btn-danger waves-effect waves-light btn-block ">Delete</button>
+                              </div>
+
+                              <div class="form-group mr-2">
+                                 <!-- <select class="selectpicker  btn-info" id="downloadreport" onchange="downloadReport(this)">
+                                    <option value="downloadreport">Bulk Action</option>
+                                    <option value="excel">Excel</option>
+                                    <option value="csv">CSV</option>  
+                                 </select> -->
+
+
+                                 <div class="btn-group btn-block boxline1">
+                                    <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Bulk Action <i class="mdi mdi-chevron-down"></i></button>
+                                    <div class="dropdown-menu">
+                                       <a class="dropdown-item"  onclick="downloadReport('excel')" value="excel" style="cursor:pointer;">Download Report</a>
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="form-group mr-2">
+                                 <select class="selectpicker" id="timefilter" onchange="dateFilter(this)">
+                                    <option value="Date Range">Date Range</option>
+                                    <option value="Last7days">Last 7 days</option>
+                                    <option value="ThisWeek">This Week</option>
+                                    <option value="Last30days">Last 30 days</option>
+                                    <option value="LastMonth">Last Month</option>
+                                    <option value="ThisMonth">This Month</option>
+                                    <option value="Custom">Custom</option>
+                                 </select>
+                              </div>
+                              <div class="form-group mr-2">  
+                                <select class="selectpicker vendor" onchange="vendorFilter(this)" data-size="10">
+                                    <option>Vendors</option>
+                                    {% for ven in distinct_vendor %}
+                                    <option value="{{ven.0}}">{{ven.0}}</option>
+                                    {% endfor %}
+                                 </select>
+                              </div>
+                              <div class="form-group mr-2">
+                                 <select class="selectpicker status" onchange="statusFilter(this)">
+                                    <option >Status</option>
+                                    <option value="New Batch">New Batch</option>
+                                    <option value="Checked">Checked</option>
+                                    <option value="Card Issues">Card Issues</option>
+                                    <option value="No Status">No Status</option>                                    
+                                 </select>
+                               </div>
+                           </div>
+                           <div class=" row">
+                              <div class="col-md-12" style='overflow-x: auto'>
+                                <table id="batchTable" class="table w-100 nowrap table-bordered table-hover">
+                                    <span id="showcustomdate"></span>
+                                    <span id="showselectedbox"></span>
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th class="no-sort"><input type="checkbox" name="check1" id="cb-bulk" class="cb-tab"></th>
+                                            <th>Date</th>
+                                            <th>Vendor</th>
+                                            <th>Batch #</th>
+                                            <th>Status</th>
+                                            <th>No. of Cards</th>
+                                            <th>Total</th>
+                                            <th>View Details</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                              </div>
+                           </div>
+                           <!-- end .table-responsive-->                                
+                        </div>
+                     </div>
+                     <!-- end card-box -->
+                  </div>
+                  <!-- end col -->
+               </div>
+            </div>
+            <!-- container -->
+         </div>
+         <!-- content -->
+         <!-- Footer Start -->
+         <footer class="footer">
+            <div class="container-fluid">
+               <div class="row">
+                  <div class="col-md-6">
+                     2020 &copy; Prime Electronics, LLC
+                  </div>
+                  <div class="col-md-6">
+                     <div class="text-md-right footer-links d-none d-sm-block">
+                        <a href="javascript:void(0);">About Us</a>
+                        <a href="javascript:void(0);">Help</a>
+                        <a href="javascript:void(0);">Contact Us</a>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </footer>
+         <!-- end Footer -->
+      </div>
+      <!-- ============================================================== -->
+      <!-- End Page content -->
+      <!-- ============================================================== -->
+      </div>
+      <!-- END wrapper -->
+      <!-- Right Sidebar -->
+      <div class="right-bar">
+         <div class="rightbar-title">
+            <a href="javascript:void(0);" class="right-bar-toggle float-right">
+            <i class="dripicons-cross noti-icon"></i>
+            </a>
+            <h5 class="m-0 text-white">Settings</h5>
+         </div>
+         <div class="slimscroll-menu">
+            <!-- User box -->
+            <div class="user-box">
+               <div class="user-img">
+                  <img src="static/images/users/user-1.jpg" alt="user-img" title="Mat Helme" class="rounded-circle img-fluid">
+                  <a href="javascript:void(0);" class="user-edit"><i class="mdi mdi-pencil"></i></a>
+               </div>
+               <h5><a href="javascript: void(0);">Geneva Kennedy</a> </h5>
+               <p class="text-muted mb-0"><small>Admin Head</small></p>
+            </div>
+            <!-- Settings -->
+            <hr class="mt-0" />
+            <h5 class="pl-3">Basic Settings</h5>
+            <hr class="mb-0" />
+            <div class="p-3">
+               <div class="checkbox checkbox-primary mb-2">
+                  <input id="Rcheckbox1" type="checkbox" checked>
+                  <label for="Rcheckbox1">
+                  Notifications
+                  </label>
+               </div>
+               <div class="checkbox checkbox-primary mb-2">
+                  <input id="Rcheckbox2" type="checkbox" checked>
+                  <label for="Rcheckbox2">
+                  API Access
+                  </label>
+               </div>
+               <div class="checkbox checkbox-primary mb-2">
+                  <input id="Rcheckbox3" type="checkbox">
+                  <label for="Rcheckbox3">
+                  Auto Updates
+                  </label>
+               </div>
+               <div class="checkbox checkbox-primary mb-2">
+                  <input id="Rcheckbox4" type="checkbox" checked>
+                  <label for="Rcheckbox4">
+                  Online Status
+                  </label>
+               </div>
+               <div class="checkbox checkbox-primary mb-0">
+                  <input id="Rcheckbox5" type="checkbox" checked>
+                  <label for="Rcheckbox5">
+                  Auto Payout
+                  </label>
+               </div>
+            </div>
+            <!-- Timeline -->
+            <hr class="mt-0" />
+            <h5 class="px-3">Messages <span class="float-right badge badge-pill badge-danger">25</span></h5>
+            <hr class="mb-0" />
+            <div class="p-3">
+               <div class="inbox-widget">
+                  <div class="inbox-item">
+                     <div class="inbox-item-img"><img src="static/images/users/user-2.jpg" class="rounded-circle" alt=""></div>
+                     <p class="inbox-item-author"><a href="javascript: void(0);" class="text-dark">Tomaslau</a></p>
+                     <p class="inbox-item-text">I've finished it! See you so...</p>
+                  </div>
+                  <div class="inbox-item">
+                     <div class="inbox-item-img"><img src="static/images/users/user-3.jpg" class="rounded-circle" alt=""></div>
+                     <p class="inbox-item-author"><a href="javascript: void(0);" class="text-dark">Stillnotdavid</a></p>
+                     <p class="inbox-item-text">This theme is awesome!</p>
+                  </div>
+                  <div class="inbox-item">
+                     <div class="inbox-item-img"><img src="static/images/users/user-4.jpg" class="rounded-circle" alt=""></div>
+                     <p class="inbox-item-author"><a href="javascript: void(0);" class="text-dark">Kurafire</a></p>
+                     <p class="inbox-item-text">Nice to meet you</p>
+                  </div>
+                  <div class="inbox-item">
+                     <div class="inbox-item-img"><img src="static/images/users/user-5.jpg" class="rounded-circle" alt=""></div>
+                     <p class="inbox-item-author"><a href="javascript: void(0);" class="text-dark">Shahedk</a></p>
+                     <p class="inbox-item-text">Hey! there I'm available...</p>
+                  </div>
+                  <div class="inbox-item">
+                     <div class="inbox-item-img"><img src="static/images/users/user-6.jpg" class="rounded-circle" alt=""></div>
+                     <p class="inbox-item-author"><a href="javascript: void(0);" class="text-dark">Adhamdannaway</a></p>
+                     <p class="inbox-item-text">This theme is awesome!</p>
+                  </div>
+               </div>
+               <!-- end inbox-widget -->
+            </div>
+            <!-- end .p-3-->
+         </div>
+         <!-- end slimscroll-menu-->
+      </div>
+      <!-- /Right-bar -->
+      <!-- Right bar overlay-->
+      <div class="rightbar-overlay"></div>
+      <!-- Vendor js -->
+      <script src="static/js/vendor.min.js"></script>
+
+
+
+<script type="text/javascript">
+   function closemodal(){
+            // get modals
+            const modals = document.getElementsByClassName('modal');
+   
+            // on every modal change state like in hidden modal
+            for(let i=0; i<modals.length; i++) {
+               modals[i].classList.remove('show');
+               modals[i].setAttribute('aria-hidden', 'true');
+               modals[i].setAttribute('style', 'display: none');
+            }
+   }
+</script>     
+
+<!-- loader functionality -->
+<script>
+   function showLoader(text){
+      var y = document.getElementById("cover-spin");
+      y.innerHTML = text;
+      $('#cover-spin').show(0);
+      
+   }
+   function hideLoader(){
+      $('#cover-spin').hide(0)
+      
+   }
+</script>
+
+<!------- toast functionality  ------->     
+<script>
+    function showSnackbar(text) {
+    var x = document.getElementById("snackbar");
+    x.innerHTML = text;
+    x.className = "show";
+    setTimeout(function(){ x.className = x.className.replace("show", ''); }, 3000);
+    }
+</script>
+
+<!-- !-- checkbox functionality ------------> 
+<!-- <script type="text/javascript">
+
+  $(document).on("click", "#cb-bulk", function(){
+     $(".cb-single").prop("checked", $(this).prop("checked"));
+     if($(this).prop("checked")) {
+        let total_checked =  "You’ve Selected "+ $(".cb-single").length + " Items"
+        document.getElementById("showselectedbox").innerHTML = total_checked;
+        document.getElementById("showselectedbox").style.display= 'inline';
+     } else  {
+        document.getElementById("showselectedbox").style.display= 'none';
+
+     }
+  });
+
+  $(document).on("click", ".cb-single", function(){
+     var all = $(".cb-single").length;
+
+     var checked = $(".cb-single:checked").length;
+     //this works for selecting each check-box
+     let total_checked =  "You’ve Selected "+ checked + " Items"
+     document.getElementById("showselectedbox").innerHTML = total_checked;
+     document.getElementById("showselectedbox").style.display= 'inline';
+
+     if(all == checked){
+        $(".cb-tab").prop("checked", true);
+     }else{
+        $(".cb-tab").prop("checked", false);
+        if (checked == 0){
+           document.getElementById("showselectedbox").style.display= 'none';
+
+        }
+
+     }
+  });
+</script> -->
+
+
+
+ <!-- checkbox functionality ------------>
+ <script type="text/javascript">
+
+   unSelectArr = [];
+
+   $(document).on("click", "#cb-bulk", function(){
+      //when selectall button is used with uppermost checkbox
+      if(selectall == "allrecords"){
+               var checkboxes = document.getElementsByName("check[]");
+               // loop over them all
+               for (var i=0; i<checkboxes.length; i++) {
+                        // And stick the checked ones onto an array...
+                  if (checkboxes[i].checked) {
+                     unSelectArr.push(checkboxes[i].value);
+                  }
+               }
+                  $(".cb-single").prop("checked", $(this).prop("checked"));
+                  if($(this).prop("checked")) {
+                     unSelectArr = []
+                     var total_checked =  "You’ve Selected "+ (total_selected_record + unSelectArr.length) + " Items"
+                     document.getElementById("showselectedbox").innerHTML = total_checked;
+                     document.getElementById("showselectedbox").style.display= 'inline';
+                  }
+               else{
+                  var total_checked =  "You’ve Selected "+ (total_selected_record - unSelectArr.length) + " Items"
+                  document.getElementById("showselectedbox").innerHTML = total_checked;
+                  document.getElementById("showselectedbox").style.display= 'inline';
+
+               }
+      //when uppermostcheckbox button is clicked without selectall
+      }else{
+          $(".cb-single").prop("checked", $(this).prop("checked"));
+         if($(this).prop("checked")) {
+            let total_checked =  "You’ve Selected "+ $(".cb-single").length + " Items"
+            document.getElementById("showselectedbox").innerHTML = total_checked;
+            document.getElementById("showselectedbox").style.display= 'inline';
+         } else  {
+            document.getElementById("showselectedbox").style.display= 'none';
+
+         }
+      }
+     
+   });
+
+
+   $(document).on("click", ".cb-single", function(){
+      var all = $(".cb-single").length;
+
+      // get index of given id from an array
+      const index = unSelectArr.indexOf(event.target.value);
+      // add in unSelectArr only when event.target.checked is false
+      if (!event.target.checked) {
+         // index is -1 means the vslue not exists in array
+         if (index == -1) {
+            unSelectArr.push(event.target.value);
+         }
+      } else {
+         // remove from unSelectArr if checked
+         // remove that index from an array using splice function
+         unSelectArr.splice(index, 1);
+      }
+      console.log('unSelectArr', unSelectArr);
+
+      var checked = $(".cb-single:checked").length;
+      //this works for selecting each check-box
+      if(unSelectArr.length > 0 && selectall == "allrecords"){
+         var total_checked =  "You’ve Selected "+ (total_selected_record - unSelectArr.length) + " Items"
+      }else{
+         var total_checked =  "You’ve Selected "+ checked + " Items"
+      }
+      
+      document.getElementById("showselectedbox").innerHTML = total_checked;
+      document.getElementById("showselectedbox").style.display= 'inline';
+
+      if(all == checked){
+         $(".cb-tab").prop("checked", true);
+      }else{
+         $(".cb-tab").prop("checked", false);
+         // if select checkbox become zero then it will hide
+         if (checked == 0){
+            document.getElementById("showselectedbox").style.display= 'none';
+
+         }
+
+      }
+   });
+</script>
+
+<!----- upper dropdown custom date picker functionality -------->
+<script type="text/javascript">
+	$(function(){
+           $("#dp-from").datepicker({
+              dateFormat: "mm-dd-yy",
+               "endDate": "today",
+                maxDate: 0,
+                onSelect: function(selected) {
+                  $("#dp-to").datepicker("option","minDate", selected)
+                }
+           });
+             $("#dp-to").datepicker({
+                dateFormat: "mm-dd-yy",
+                "endDate": "today",
+                maxDate: 0,
+                onSelect: function(selected) {
+                   $("#dp-from").datepicker("option","maxDate", selected)
+                }
+           });
+       });
+
+      $('#dp-from').keydown(function(e) {
+               e.preventDefault();
+               return false;
+            });
+            $('#dp-to').keydown(function(e) {
+               e.preventDefault();
+               return false;
+            });
+   </script>
+
+
+<!-- flat datepicker functionality -->
+   <script>
+       function initDP() {
+                var today = new Date();
+                $(".p-datepicker").flatpickr({
+                    dateFormat:"m-d-Y",
+                    disableMobile: true,
+                    maxDate: today
+                });
+        }
+   </script>
+
+
+   <script>
+      function getVendorFilter(data, row){ 
+         let htmlString = '<select  onchange="changeVendor(this)" class="hd3">'+
+
+                           '<option value='+row.id+'>'+data+'</option>';
+
+                              if (data !== "Cardpool")
+                                 htmlString = htmlString +   "<option value='"+ row.id +"'>Cardpool</option>";
+
+                              if (data !== "Retail Me Not")
+                                 htmlString = htmlString +   "<option value='"+ row.id +"'>Retail Me Not</option>";
+
+                              if (data !== "Cardcash")
+                                 htmlString = htmlString +   "<option value='"+ row.id +"'>Cardcash</option>";
+
+                              if (data !== "Giftcard Spread")
+                                 htmlString = htmlString +   "<option value='"+ row.id +"'>Giftcard Spread</option>";
+
+                              if (data !== "Monheit")
+                              htmlString = htmlString +   "<option value='"+ row.id +"'>Monheit</option>";
+
+
+         htmlString = htmlString + '</select>';
+
+         return htmlString
+
+      }
+
+   </script>
+
+   
+   <!-- append status -->
+<script>
+     
+   function  getStatusSelectFilter(data, row) {
+      let htmlString   =  '<select onchange="changeStatus(this)" class="hd3">'+
+            '<option value='+row.id+'>'+data+'</option>';
+
+            if (data !== "No Status")
+            htmlString = htmlString + "<option value='" + row.id +"'>No Status</option>";
+
+            if (data !== "New Batch")
+            htmlString = htmlString + "<option value='" + row.id +"'>New Batch</option>";
+
+            if (data !== "Checked")
+            htmlString = htmlString + "<option value='" + row.id +"'>Checked</option>";
+
+            if (data !== "Card Issues")
+            htmlString = htmlString + "<option value='" + row.id +"'>Card Issues</option>";
+
+      htmlString = htmlString + '</select>';
+      
+      return htmlString
+
+   }
+
+
+</script>
+
+
+
+
+<!-- All functions for updating the rows -->
+   <script>
+
+        //function for updating date from the datepicker
+         function changeDate(selectedDate) {
+            //id of the selected date 
+            var selectedDateId = selectedDate.classList[2];
+            console.log(selectedDateId)
+            //getting a selected date from the date-picker
+            var newDate = selectedDate.value;
+            console.log(newDate)
+            const updateValue = {"cellName":"date_of_creation", "selectedDateId":selectedDateId, "newDate":newDate };
+            // call API here to update date in database
+            $.ajax({
+                type: "put",
+                url: "/updatebatchdate",
+                data: JSON.stringify(updateValue),
+                success: function(d) {
+                    console.log('Success', d);
+                    showSnackbar('Date Updated')
+
+                },
+                dataType: 'json',
+                contentType: "application/json"
+            });
+         }
+
+
+         function changeVendor(SelectedVendor){
+
+            //id of the selected vendor
+            var id = SelectedVendor.value;
+            //name of the vendor
+            var selectedVendor =  SelectedVendor.options[SelectedVendor.selectedIndex].text;
+            console.log(id)
+            console.log(selectedVendor)
+
+            const updateValue = { "cellName":"vendor", "id":id, "newValue":selectedVendor };
+            // call API here to update date in database
+            $.ajax({
+                type: "put",
+                url: "/updatebatchvendor",
+                data: JSON.stringify(updateValue),
+                success: function(d) {
+                    console.log('Success', d);
+                    showSnackbar('Vendor Updated')
+                    batchTable.draw()
+                },
+                dataType: 'json',
+                contentType: "application/json"
+            });
+            // **API CODE END**
+        }
+
+         
+
+      </script>
+
+
+<!-------------------------------------- Datatable functionality--------------------------------------------------->
+   <script>
+      var batchTable = undefined;
+      $(document).ready(function() {   
+             //this code work when you refresh the page
+         if (performance.navigation.type != 2){ 
+            //checks if page is accessed through a link or refresh
+            batchTable = $('#batchTable').DataTable();
+            batchTable.state.clear();
+            batchTable.destroy(); // need to destroy the table, I don't know why..
+         }       
+            batchTable = $('#batchTable').DataTable({
+            stateSave: true,
+            serverSide: true,
+            ordering:  true,
+            searching: true,
+            searchDelay: 1500,
+
+            // language: {
+            //                searchPlaceholder: "Press Enter to Search"
+            //             },
+            columns: [
+               {"data":"", orderable: false,
+               "render": function (data, type, row, meta) {
+                           return '<input type="checkbox" name="check[]" value="' + row.id + '" class="cb-single">'}
+                        },
+               {"data": "date",
+               "render": function (data, type, row, meta) {
+                           return '<input type="text" onchange="changeDate(this)" class="hd3 p-datepicker ' + row.id + '" value="' + data + '">';
+                  }
+               },
+               {"data": "vendor",
+               "render": function (data, type, row, meta) {
+                           return getVendorFilter(data, row)
+                  }
+               },
+               {"data": "orderNo"}, 
+               {"data": "status", orderable: false,
+               "render": function (data, type, row, meta) {
+                           return getStatusSelectFilter(data, row)
+                  }
+               },
+               {"data": "no_of_cards"},
+               {"data": "total"}, 
+               {"data": "batchdetailsview",  orderable: false,
+               "render": function (data, type, row, meta) {
+                           return '<a href="/batchdetailsview/'+row.id+'">View</a>'
+                        }
+               }
+            ], 
+
+            "ajax": {
+               'type': 'post',
+               'url': '/batchlistdatatable',
+               'dataType': 'json',
+               "contentType": "application/json",
+               "data": function ( d ) {
+                           if(d.search.value.length ==0){
+                                       showLoader('Processing....')
+                              console.log(d)
+                            }
+                           console.log(d)
+                           return JSON.stringify(d)
+                     }
+               },
+
+               "drawCallback": function(settings) {
+                    //this hide the loader on reponse from the table
+                     hideLoader()
+
+                  if(selectall == "allrecords") {
+                     if (batchTable.search(this.value) ==''){
+                        selectAllShow()
+                     }else{
+                        deselectOnOperation()
+                     }
+                  }else if(selectall == "") {
+                     //make checkbox display header none
+                     document.getElementById("showselectedbox").style.display= 'none';
+                     //make uppercheckbox none
+                     $(".cb-tab").prop("checked", false);
+                  }
+                  
+                  //for initializing date picker
+                  initDP();
+
+
+                
+
+                  //search the batchlist data on press enter & past
+
+                  // $('#batchTable_filter input').unbind();
+                  // $('#batchTable_filter input').bind('keyup', function(e) {
+                  //       var code = e.keyCode || e.which;
+                  //       if(e.keyCode == 13 || e.keyCode == 86 || (e.keyCode == 8 && this.value == "")){
+                  //          batchTable.search(this.value).draw();
+                           
+                  //       }
+                  // })
+
+
+               }
+            });
+            
+          
+      });
+
+
+   </script>
+
+
+<!------------------------------ all top select filters comes here --------------------------------------->
+   <script>
+
+      
+
+   //function for the filtering the status from the upperdropdown 
+   this.statusValue ='';  
+   function statusFilter(selectedStatus){
+   this.statusValue = selectedStatus.value;
+   console.log('selectedStatus',  this.statusValue)
+
+   // apply search to table 'batchTable' by passing value to the search function
+      // and filter process will automatically manage by datatable
+      batchTable.columns(4).search( this.statusValue).draw();
+      if (selectall  == 'allrecords'){
+         deselectOnOperation()
+      }
+   }
+
+   //function for the filtering the vendor from the upperdropdown
+      this.vendorValue='';
+      function vendorFilter(filteredVendor){
+      //get value of vendor from the filter
+      this.vendorValue = filteredVendor.value;
+      console.log("vendor", this.vendorValue)
+
+      // apply search to table 'batchTable' by passing value to the search function
+      // and filter process will automatically manage by datatable
+      batchTable.columns(2).search(this.vendorValue).draw();
+         if (selectall  == 'allrecords'){
+            deselectOnOperation()
+         }
+
+      }
+   //---------function end vendorFilter-------------// 
+
+   //function for the filtering the date from the upperdropdown
+   this.dateValue='';
+   function dateFilter(filteredDate){ 
+        //get value of vendor from the filter
+         this.dateValue = filteredDate.value;
+         // console.log(this.dateValue)
+
+         if (this.dateValue != 'Custom'){
+            // console.log('selectedStatus',  this.dateValue)
+            //this is used for hiding the custom date
+            document.getElementById("showcustomdate").style.display= 'none';
+            batchTable.columns(1).search(this.dateValue).draw();
+            if (selectall  == 'allrecords'){
+               deselectOnOperation()
+            }
+         }
+         else{
+            if (this.dateValue == 'Custom'){
+            $("#timefilter").find('option[value="Custom"]').prop("selected", true);
+            $("#modal-date-custom").modal("show");
+            }
+         }
+   }
+
+   //get model pop date range and send to the datatable through search value
+   function customDate(){
+     let date1=document.getElementById("dp-from").value
+     let date2=document.getElementById("dp-to").value
+
+     if(date1 == "" || date2 == ""){
+      return 
+     }else{
+      $('#dateButton').attr("data-dismiss","modal"); 
+     }
+   //   console.log(date1)
+   //   console.log(date2)
+     this.dateValue = ["Custom", date1, date2]
+     //this is used for displaying the custom date range
+     let customdate = ["<b>Date Range</b>: " + date1 + " to " + date2];
+     document.getElementById("showcustomdate").innerHTML = customdate;
+     document.getElementById("showcustomdate").style.display= 'inline';
+     //this is used for date table code
+     batchTable.columns(1).search([this.dateValue]).draw()
+      if (selectall  == 'allrecords'){
+         deselectOnOperation()
+      }
+   }
+
+   //-------------------------function end dateFilter --------------------//
+
+   
+   //function for deleting the row
+   function deleteRow(){
+      if (this.selectall_data != ''){
+         var delete_records = this.selectall_data;
+         console.log(delete_records)
+            swal({
+               title: "Are you sure?",
+               text: "Once deleted, you will not be able to recover this data!",
+               icon: "warning",
+               buttons: true,
+               dangerMode: true,
+            }).then((willDelete) => {
+               if (willDelete) {
+                  $.ajax({
+                        type: "POST",
+                        url: "/deleteallbatch",
+                        data: JSON.stringify(delete_records),
+                        success: function(d) {
+                           console.log('Success', d);
+                           batchTable.rows(trSelectorArray).remove().draw(false);
+
+                        },
+                        dataType: 'json',
+                        contentType: "application/json"
+                  });
+               }
+
+            })
+      }else{
+            var checkboxes = document.getElementsByName("check[]");
+            var checkboxesArray = [];
+            var trSelectorArray = [];
+            // loop over them all
+            for (var i=0; i<checkboxes.length; i++) {
+               // And stick the checked ones onto an array...
+               if (checkboxes[i].checked) {
+                  checkboxesArray.push(checkboxes[i].value);
+                  const id = checkboxes[i].value;
+
+                  const tr = checkboxes[i].parentElement.parentElement;
+                  trSelectorArray.push(tr);
+               }
+            }
+
+
+         if(checkboxesArray.length !== 0){
+
+               var data = {"checkboxesArray":checkboxesArray}
+               // console.log(data)
+               swal({
+                  title: "Are you sure?",
+                  text: "Once deleted, you will not be able to recover this data!",
+                  icon: "warning",
+                  buttons: true,
+                  dangerMode: true,
+               }).then((willDelete) => {
+                  if (willDelete) {
+
+                     $.ajax({
+                              type: "DELETE",
+                              url: "/deletebatchrows",
+                              data: JSON.stringify(data),
+                              success: function(d) {
+                                 console.log('Success', d);
+                                 if (d.code == 400){
+                                    showSnackbar("can't delete, exist in GCs for sale")
+                                 }else
+                                 // remove row from view
+                                 batchTable.rows(trSelectorArray).remove().draw(false);
+                                 //make checkbox display header none
+                                 document.getElementById("showselectedbox").style.display= 'none';
+                                 //make uppercheckbox none
+                                 $(".cb-tab").prop("checked", false);
+                                 if(checkboxesArray.length == 1){
+                                        showSnackbar(checkboxesArray.length + " item is deleted");
+                                 }else{
+                                    showSnackbar(checkboxesArray.length + " items are deleted");
+                                 }
+                                 
+                              },
+                              dataType: 'json',
+                              contentType: "application/json"
+                        });
+                  }
+
+               })
+            
+            }else{
+               showSnackbar("Please select at least one item.");
+           }
+
+      }
+
+   }
+   //-------------------------function end deleting row --------------------//
+
+   function downloadReport(value){
+      this.report_format = value;
+
+      //getting checkbox value
+      var checkboxes = document.getElementsByName("check[]");
+      var checkboxesArray = [];
+      var trSelectorArray = [];
+      // loop over them all
+      for (var i=0; i<checkboxes.length; i++) {
+         // And stick the checked ones onto an array...
+         if (checkboxes[i].checked) {
+            checkboxesArray.push(checkboxes[i].value);
+            const id = checkboxes[i].value;
+
+            const tr = checkboxes[i].parentElement.parentElement;
+            trSelectorArray.push(tr);
+         }
+      }
+
+         var data = {"report_format": this.report_format, "statusValue":this.statusValue, "vendorValue":this.vendorValue, "dateValue":this.dateValue, "selectall":this.selectall, "checkboxesArray":checkboxesArray, "unSelectArr":unSelectArr}
+         if ((data.statusValue != "" && data.statusValue != "Status") || (data.dateValue != "" && data.dateValue != "Date Range") || (data.vendorValue != "" && data.vendorValue != "Vendors" ) || data.selectall != "" ||  data.checkboxesArray != "") {
+               showLoader('Please wait while report is being generated')
+               $.ajax({
+                        type: "POST",
+                        url: "/export",
+                        data: JSON.stringify(data),
+                        success: function(d) {
+                           console.log('Success', d);
+
+                           if (d.code == 400){
+                              hideLoader()
+                              showSnackbar("No batch exist")
+
+                           }else{
+
+                              location.href = "/export"
+                              hideLoader()
+
+                           }
+                          
+
+
+                        },
+                        dataType: 'json',
+                        contentType: "application/json"
+                  });
+            }else if ((checkboxesArray.length == 0)){
+
+               showSnackbar("Please select an item")
+
+            }
+
+   }
+
+   //this function is for select all button
+   this.selectall = '';
+   this.selectall_data = '';
+   total_selected_record = 0;
+
+   
+   function selectAll(id){
+      let id_select = id
+
+       //there will not be any empty data in batchlist datatable
+      //otherwise selectall will not work
+      if(batchTable.data().any() == true){
+
+         if(batchTable.$('tr').hasClass('selected')) {
+            this.selectall_data = '';
+            selectall = "";
+
+            $('#'+id_select).text("Select All");
+            batchTable.rows().deselect();
+            $(".cb-tab").prop("checked", false)
+            $(".cb-single").prop("checked", false)
+
+            //this line hide checkbox message
+            document.getElementById("showselectedbox").style.display= 'none';
+            showSnackbar("You’ve De-Selected All Items")
+         } else {
+            $('#'+id_select).text("De-Select All");
+            batchTable.rows().select();
+            $(".cb-tab").prop("checked", true)
+            $(".cb-single").prop("checked", true)
+
+            this.selectall = "allrecords"
+            //this line hide checkbox message
+            document.getElementById("showselectedbox").style.display= 'none';
+
+            this.selectall_data = {"records":"total_record", "statusValue":this.statusValue, "vendorValue":this.vendorValue, "dateValue":this.dateValue,}
+
+                  $.ajax({
+                           type: "POST",
+                           url: "/batchlistselectall",
+                           data: JSON.stringify(this.selectall_data),
+                           success: function(d) {
+                              console.log('Success', d);
+                              total_selected_record = d['total_record']
+                              showSnackbar("You’ve Selected "+ d['total_record'] + " Items")
+                           
+
+                           },
+                           dataType: 'json',
+                           contentType: "application/json"
+                     });
+         
+         }
+      }
+   }
+
+   
+   function selectAllShow(){
+         batchTable.rows().select();
+         selectall = "allrecords"
+         $(".cb-tab").prop("checked", true)
+         $(".cb-single").prop("checked", true)
+
+         for (id of unSelectArr) {
+            // find checkbox by value
+            const checkbox = document.querySelector("input[value='" + id + "']");
+            // uncheck this checkbox because its unselected
+            if (checkbox) {
+               $(checkbox).prop("checked", false)
+            }
+         }
+
+
+         data = {"records":"total_record", "statusValue":this.statusValue, "vendorValue":this.vendorValue, "dateValue":this.dateValue,}
+
+
+         if ((data.statusValue != "" && data.statusValue != "Status") || (data.dateValue != "" && data.dateValue != "Date Range") || (data.vendorValue != "" && data.vendorValue != "Vendors" )) {
+
+            $.ajax({
+                     type: "POST",
+                     url: "/batchlistselectall",
+                     data: JSON.stringify(data),
+                     success: function(d) {
+                        console.log('Success', d);
+                        total_selected_record = d['total_record']
+                        if (unSelectArr.length == 0){
+                              showSnackbar("You’ve Selected "+ d['total_record'] + " Items")
+                           }
+                     },
+                     dataType: 'json',
+                     contentType: "application/json"
+               });
+            }
+
+   }
+
+   </script>
+
+   <!-- this function work in change of filters so it deselectall -->
+<script>
+   function deselectOnOperation(){
+      this.selectall_data = '';
+      selectall = "";
+      $('#selectall').text("Select All");
+      batchTable.rows().deselect();
+      $(".cb-tab").prop("checked", false)
+      $(".cb-single").prop("checked", false)
+
+      //this line hide checkbox message
+      document.getElementById("showselectedbox").style.display= 'none';
+   }
+</script>
+
+<!-- for removing sorting from first column -->
+<script type="text/javascript">  
+   $(document).ready(function(){
+              function checkfirstcolumn(){
+                  if($(".no-sort").hasClass("sorting_asc")){
+                      $(".no-sort").removeClass("sorting_asc");
+                  }
+                  setTimeout(function(){
+                  checkfirstcolumn();
+                  },2000)}
+             checkfirstcolumn();
+          });
+  </script>
+
+   
+   
+
+<!--    
+<script type="text/javascript">
+
+   $( document ).ready(function() {
+      $('.metismenu li').removeClass('active');
+      $('.metismenu ul').removeClass('in');
+   });
+   $(".button-menu-mobile").click(function () {
+        $('.metismenu li').removeClass('active');
+        $('.metismenu ul').removeClass('in');
+   });
+</script>  -->
+
+{% endblock %}
+
+
+

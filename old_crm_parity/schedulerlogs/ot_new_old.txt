@@ -1,0 +1,28 @@
+INFO 04/08/2021 04:02:20 AM syntax error at or near "S"
+LINE 1: ...FROM public.order_addresses WHERE address = 'LOWE'S OF BRICK...
+                                                             ^
+
+INFO 04/09/2021 04:02:01 AM syntax error at or near "S"
+LINE 1: ...FROM public.order_addresses WHERE address = 'LOWE'S OF BRICK...
+                                                             ^
+
+INFO 04/10/2021 04:01:59 AM syntax error at or near "S"
+LINE 1: ...FROM public.order_addresses WHERE address = 'LOWE'S OF BRICK...
+                                                             ^
+
+INFO 04/11/2021 04:01:57 AM syntax error at or near "S"
+LINE 1: ...FROM public.order_addresses WHERE address = 'LOWE'S OF BRICK...
+                                                             ^
+
+INFO 04/12/2021 04:01:56 AM syntax error at or near "S"
+LINE 1: ...FROM public.order_addresses WHERE address = 'LOWE'S OF BRICK...
+                                                             ^
+
+INFO 04/13/2021 04:01:58 AM syntax error at or near "S"
+LINE 1: ...FROM public.order_addresses WHERE address = 'LOWE'S OF BRICK...
+                                                             ^
+
+INFO 04/14/2021 04:01:37 AM syntax error at or near "S"
+LINE 1: ...FROM public.order_addresses WHERE address = 'LOWE'S OF BRICK...
+                                                             ^
+

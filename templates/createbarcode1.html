@@ -1,0 +1,757 @@
+{% extends "extend.html" %}
+{% block tittle %}Create Bar Codes- ECOMM FLOW{% endblock tittle %}
+{% block css %}
+ <!-- Plugins css -->
+      <!-- <link href="static/libs/flatpickr/flatpickr.min.css" rel="stylesheet" type="text/css" />
+      <link href="static/libs/bootstrap-colorpicker/bootstrap-colorpicker.min.css" rel="stylesheet" type="text/css" />
+      <link href="static/libs/clockpicker/bootstrap-clockpicker.min.css" rel="stylesheet" type="text/css" />
+      <link href="static/libs/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" /> -->
+
+       <!-- third party css -->
+       <link href="static/libs/datatables/dataTables.bootstrap4.css" rel="stylesheet" type="text/css" />
+       <link href="static/libs/datatables/responsive.bootstrap4.css" rel="stylesheet" type="text/css" />
+       <link href="static/libs/datatables/buttons.bootstrap4.css" rel="stylesheet" type="text/css" />
+       <link href="static/libs/datatables/select.bootstrap4.css" rel="stylesheet" type="text/css" />
+       <!-- third party css end -->
+
+     
+        <!-- editable table datepicker css -->
+        <link href="static/libs/flatpickr/flatpickr.min.css" rel="stylesheet" type="text/css" />
+
+        <!-- upperdropdown datepicker css -->
+        <link href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+
+         <!-- custom css -->
+         <link rel="stylesheet" type="text/css" href="static/css/giftcard.css">
+
+
+
+    <style>
+
+    .p-datepicker {
+        border: none !important;
+    }
+    .p-datepicker:focus {
+        border: 1px solid;
+    }
+
+   select {
+         border: none;
+    }
+
+    
+
+
+   
+   #snackbar {
+     visibility: hidden;
+     min-width: 250px;
+     margin-left: -125px;
+     background: #f7b84b !important;
+     z-index: 999 !important;
+     color: #000 !important;
+     text-align: center;
+     border-radius: 2px;
+     padding: 16px;
+     position: fixed;
+     z-index: 1;
+     left: 50%;
+     top: 30px;
+     font-size: 17px;
+   }
+
+   #snackbar.show {
+     visibility: visible;
+     -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+     animation: fadein 0.5s, fadeout 0.5s 2.5s;
+   }
+
+   @-webkit-keyframes fadein {
+     from {top: 0; opacity: 0;}
+     to {top: 30px; opacity: 1;}
+   }
+
+   @keyframes fadein {
+     from {top: 0; opacity: 0;}
+     to {top: 30px; opacity: 1;}
+   }
+
+   @-webkit-keyframes fadeout {
+     from {top: 30px; opacity: 1;}
+     to {top: 0; opacity: 0;}
+   }
+
+   @keyframes fadeout {
+     from {top: 30px; opacity: 1;}
+     to {top: 0; opacity: 0;}
+   }
+
+   .bootstrap-select .inner {
+    overflow-y: auto !important;
+}
+
+#showcustomdate{
+    position: relative;
+    left: 11rem;
+    top: 25px;
+    border: 1px solid;
+    padding: 5px;
+    border-radius: 5px;
+    display:none;
+}
+
+#showselectedbox{
+    position: relative;
+    left: 12rem;
+    top: 25px;
+    border: 1px solid;
+    border-radius: 5px;
+    padding: 4px;
+    display:none;
+}
+
+/* CSS FOR upperdropdown datepicker */
+.ui-widget-header {
+	border: none !important;
+	background: transparent !important;
+}
+
+.ui-state-default,
+.ui-widget-content .ui-state-default {
+	border-radius: 4px !important;
+	border: none !important;
+}
+
+/*
+.ui-state-highlight,
+.ui-widget-content .ui-state-highlight {
+	background: #6658dd!important;
+	color: #fff;
+}*/
+
+.ui-datepicker td a {
+	text-align: center;
+}
+
+.ui-widget-content {
+	border: none;
+	background: #ffffff;
+	color: #212529;
+	font-size: 16px;
+	font-weight: initial;
+	line-height: 1.5;
+}
+
+.ui-widget {
+	font-family: Nunito, sans-serif;
+}
+
+.ui-widget.ui-widget-content {
+	border: none;
+}
+
+.ui-datepicker {
+	width: 13em;
+}
+
+</style>
+{% endblock css %}
+
+{% block js %}
+
+      <!-- Bootstrap Tables js -->
+      <!-- <script src="static/libs/bootstrap-table/bootstrap-table.min.js"></script> -->
+      <!-- Init js -->
+      <!-- <script src="static/js/pages/bootstrap-tables.init.js"></script> -->
+
+      <!-- bootstrap filter js -->
+      <script src="static/libs/bootstrap-select/bootstrap-select.min.js"></script>
+
+
+        <!---------- cell editable js ---------------->
+       <!-- https://stackoverflow.com/questions/35869054/using-jeditable-and-getting-typeerror-editable-is-not-a-function-what-t -->
+        <script src="http://www.appelsiini.net/download/jquery.jeditable.mini.js"></script>
+
+        <!-- third party js -->
+        <script src="static/libs/datatables/jquery.dataTables.min.js"></script>
+        <script src="static/libs/datatables/dataTables.bootstrap4.js"></script>
+        <script src="static/libs/datatables/dataTables.responsive.min.js"></script>
+        <script src="static/libs/datatables/responsive.bootstrap4.min.js"></script>
+        <script src="static/libs/datatables/dataTables.buttons.min.js"></script>
+        <script src="static/libs/datatables/buttons.bootstrap4.min.js"></script>
+        <script src="static/libs/datatables/buttons.html5.min.js"></script>
+        <script src="static/libs/datatables/dataTables.keyTable.min.js"></script>
+
+        
+
+        <!-- third party js ends -->
+
+        <!-- Datatables init -->
+        <script src="static/js/pages/datatables.init.js"></script>
+
+        <!-- App js -->
+        <script src="static/js/app.min.js"></script>  
+
+         <!-- editable table datepicker js -->
+         <script src="static/libs/flatpickr/flatpickr.min.js"></script>
+
+             <!-- Sweetalert -->
+         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+         
+         <!-- upper dropdown datepicker js -->
+         <script src="static/libs/jquery-ui/jquery-ui.min.js"></script>
+
+{% endblock js %}
+{% block body %}
+<div id="snackbar">Some text some message..</div>
+         <!-- ============================================================== -->
+         <!-- Start Page Content here -->
+         <!-- ============================================================== -->
+         <div class="content-page">
+            <div class="content">
+               <!-- Start Content-->
+               <div class="container-fluid">
+                  <!-- start page title -->
+                  <div class="row">
+                     <div class="col-12">
+                        <div class="page-title-box">
+                            <h4 class="page-title">Barcodes</h4>
+                         </div>
+                     </div>
+                  </div>
+                  <!-- end page title -->
+                  <div class="row">
+                     <div id="modal-date-custom" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                        <div class="modal-dialog">
+                           <div class="modal-content">
+                              <div class="modal-header">
+                                 <h4 class="modal-title">Select Date Range</h4>
+                                 <button type="button" class="close" data-dismiss="modal" onclick="closemodal()" aria-hidden="true">×</button>
+                              </div>
+                              <div class="modal-body p-4">
+                                 <div class="form-group mb-0">
+                                    <div class="input-group">
+                                       <div class="form-group">
+                                          <div class="row">
+                                             <div class="col-md-6">
+                                                <label>From:</label>
+                                                <input type="text" id="dp-from" class="form-control" data-provide="datepicker">
+                                             </div>
+                                             <div class="col-md-6">
+                                                <label>To:</label>
+                                                <input type="text" id="dp-to" class="form-control" data-provide="datepicker">
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="modal-footer">
+                                 <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal" onclick="customDate()">Submit</button>
+                                 <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal" onclick="closemodal()">Close</button>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <!-- /.modal -->
+                  <div class="row">
+                     <div class="col-sm-12">
+                        <div class="card-box">
+                           <div class="form-inline mb-2">
+
+                              <div class="form-group mr-2 boxline1">    
+                                 <button type="button" id="Delete" onclick='deleteRow()'  class="btn btn-danger waves-effect waves-light btn-block ">Delete</button>
+                              </div>
+
+                              <!-- /btn-group -->
+                              <div class="form-group mr-2">
+                                 <select class="selectpicker" id="timefilter" onchange="dateFilter(this)">
+                                    <option value="Date Range">Date Range</option>
+                                    <option value="Last7days">Last 7 days</option>
+                                    <option value="ThisWeek">This Week</option>
+                                    <option value="Last30days">Last 30 days</option>
+                                    <option value="LastMonth">Last Month</option>
+                                    <option value="ThisMonth">This Month</option>
+                                    <option value="Custom">Custom</option>
+                                 </select>
+                              </div>
+                         
+                           </div>
+                           <div class="row">
+                              <div class="col-md-12" style='overflow-x: auto'>
+                                <table id="barcodeTable" class="table w-100 nowrap table-bordered table-hover">
+                                 <span id="showcustomdate"></span>
+                                 <span id="showselectedbox"></span>
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th class="no-sort"><input type="checkbox" name="check1" id="cb-bulk" class="cb-tab"></th>
+                                            <th>Date</th>
+                                            <th>Retailer</th>
+                                            <th># of Cards</th>
+                                            <th>Download</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                              </div>
+                           </div>
+                           <!-- end .table-responsive-->                                
+                        </div>
+                     </div>
+                     <!-- end card-box -->
+                  </div>
+                  <!-- end col -->
+               </div>
+            </div>
+            <!-- container -->
+         </div>
+         <!-- content -->
+         <!-- Footer Start -->
+         <footer class="footer">
+            <div class="container-fluid">
+               <div class="row">
+                  <div class="col-md-6">
+                     2020 &copy; Prime Electronics, LLC
+                  </div>
+                  <div class="col-md-6">
+                     <div class="text-md-right footer-links d-none d-sm-block">
+                        <a href="javascript:void(0);">About Us</a>
+                        <a href="javascript:void(0);">Help</a>
+                        <a href="javascript:void(0);">Contact Us</a>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </footer>
+         <!-- end Footer -->
+      </div>
+      <!-- ============================================================== -->
+      <!-- End Page content -->
+      <!-- ============================================================== -->
+      </div>
+      <!-- END wrapper -->
+      <!-- Right Sidebar -->
+      <div class="right-bar">
+         <div class="rightbar-title">
+            <a href="javascript:void(0);" class="right-bar-toggle float-right">
+            <i class="dripicons-cross noti-icon"></i>
+            </a>
+            <h5 class="m-0 text-white">Settings</h5>
+         </div>
+         <div class="slimscroll-menu">
+            <!-- User box -->
+            <div class="user-box">
+               <div class="user-img">
+                  <img src="static/images/users/user-1.jpg" alt="user-img" title="Mat Helme" class="rounded-circle img-fluid">
+                  <a href="javascript:void(0);" class="user-edit"><i class="mdi mdi-pencil"></i></a>
+               </div>
+               <h5><a href="javascript: void(0);">Geneva Kennedy</a> </h5>
+               <p class="text-muted mb-0"><small>Admin Head</small></p>
+            </div>
+            <!-- Settings -->
+            <hr class="mt-0" />
+            <h5 class="pl-3">Basic Settings</h5>
+            <hr class="mb-0" />
+            <div class="p-3">
+               <div class="checkbox checkbox-primary mb-2">
+                  <input id="Rcheckbox1" type="checkbox" checked>
+                  <label for="Rcheckbox1">
+                  Notifications
+                  </label>
+               </div>
+               <div class="checkbox checkbox-primary mb-2">
+                  <input id="Rcheckbox2" type="checkbox" checked>
+                  <label for="Rcheckbox2">
+                  API Access
+                  </label>
+               </div>
+               <div class="checkbox checkbox-primary mb-2">
+                  <input id="Rcheckbox3" type="checkbox">
+                  <label for="Rcheckbox3">
+                  Auto Updates
+                  </label>
+               </div>
+               <div class="checkbox checkbox-primary mb-2">
+                  <input id="Rcheckbox4" type="checkbox" checked>
+                  <label for="Rcheckbox4">
+                  Online Status
+                  </label>
+               </div>
+               <div class="checkbox checkbox-primary mb-0">
+                  <input id="Rcheckbox5" type="checkbox" checked>
+                  <label for="Rcheckbox5">
+                  Auto Payout
+                  </label>
+               </div>
+            </div>
+            <!-- Timeline -->
+            <hr class="mt-0" />
+            <h5 class="px-3">Messages <span class="float-right badge badge-pill badge-danger">25</span></h5>
+            <hr class="mb-0" />
+            <div class="p-3">
+               <div class="inbox-widget">
+                  <div class="inbox-item">
+                     <div class="inbox-item-img"><img src="static/images/users/user-2.jpg" class="rounded-circle" alt=""></div>
+                     <p class="inbox-item-author"><a href="javascript: void(0);" class="text-dark">Tomaslau</a></p>
+                     <p class="inbox-item-text">I've finished it! See you so...</p>
+                  </div>
+                  <div class="inbox-item">
+                     <div class="inbox-item-img"><img src="static/images/users/user-3.jpg" class="rounded-circle" alt=""></div>
+                     <p class="inbox-item-author"><a href="javascript: void(0);" class="text-dark">Stillnotdavid</a></p>
+                     <p class="inbox-item-text">This theme is awesome!</p>
+                  </div>
+                  <div class="inbox-item">
+                     <div class="inbox-item-img"><img src="static/images/users/user-4.jpg" class="rounded-circle" alt=""></div>
+                     <p class="inbox-item-author"><a href="javascript: void(0);" class="text-dark">Kurafire</a></p>
+                     <p class="inbox-item-text">Nice to meet you</p>
+                  </div>
+                  <div class="inbox-item">
+                     <div class="inbox-item-img"><img src="static/images/users/user-5.jpg" class="rounded-circle" alt=""></div>
+                     <p class="inbox-item-author"><a href="javascript: void(0);" class="text-dark">Shahedk</a></p>
+                     <p class="inbox-item-text">Hey! there I'm available...</p>
+                  </div>
+                  <div class="inbox-item">
+                     <div class="inbox-item-img"><img src="static/images/users/user-6.jpg" class="rounded-circle" alt=""></div>
+                     <p class="inbox-item-author"><a href="javascript: void(0);" class="text-dark">Adhamdannaway</a></p>
+                     <p class="inbox-item-text">This theme is awesome!</p>
+                  </div>
+               </div>
+               <!-- end inbox-widget -->
+            </div>
+            <!-- end .p-3-->
+         </div>
+         <!-- end slimscroll-menu-->
+      </div>
+      <!-- /Right-bar -->
+      <!-- Right bar overlay-->
+      <div class="rightbar-overlay"></div>
+      <!-- Vendor js -->
+      <script src="static/js/vendor.min.js"></script>
+
+<script type="text/javascript">
+   function closemodal(){
+            // get modals
+            const modals = document.getElementsByClassName('modal');
+   
+            // on every modal change state like in hidden modal
+            for(let i=0; i<modals.length; i++) {
+               modals[i].classList.remove('show');
+               modals[i].setAttribute('aria-hidden', 'true');
+               modals[i].setAttribute('style', 'display: none');
+            }
+   }
+</script>  
+
+      
+<!------- toast functionality  ------->     
+<script>
+    function showSnackbar(text) {
+    var x = document.getElementById("snackbar");
+    x.innerHTML = text;
+    x.className = "show";
+    setTimeout(function(){ x.className = x.className.replace("show", ''); }, 3000);
+    }
+</script>
+
+ <!-- checkbox functionality ------------>
+ <script type="text/javascript">
+   $(document).on("click", "#cb-bulk", function(){
+      $(".cb-single").prop("checked", $(this).prop("checked"));
+      if($(this).prop("checked")) {
+         let total_checked =  "You’ve Selected "+ $(".cb-single").length + " Items"
+         document.getElementById("showselectedbox").innerHTML = total_checked;
+         document.getElementById("showselectedbox").style.display= 'inline';
+      } else  {
+         let total_checked =  "You’ve Selected "+ 0 + " Items"
+         document.getElementById("showselectedbox").innerHTML = total_checked;
+         document.getElementById("showselectedbox").style.display= 'inline';
+      }
+   });
+
+   $(document).on("click", ".cb-single", function(){
+      var all = $(".cb-single").length;
+
+      var checked = $(".cb-single:checked").length;
+      //this works for selecting each check-box
+      let total_checked =  "You’ve Selected "+ checked + " Items"
+      document.getElementById("showselectedbox").innerHTML = total_checked;
+      document.getElementById("showselectedbox").style.display= 'inline';
+
+      if(all == checked){
+         $(".cb-tab").prop("checked", true);
+      }else{
+         $(".cb-tab").prop("checked", false);
+      }
+   });
+</script>
+
+<!----- upper dropdown custom date picker functionality -------->
+<script type="text/javascript">
+	$(function(){
+           $("#dp-from").datepicker({
+              dateFormat: "mm-dd-yy",
+               "endDate": "today",
+                maxDate: 0,
+                onSelect: function(selected) {
+                  $("#dp-to").datepicker("option","minDate", selected)
+                }
+           });
+             $("#dp-to").datepicker({
+                dateFormat: "mm-dd-yy",
+                "endDate": "today",
+                maxDate: 0,
+                onSelect: function(selected) {
+                   $("#dp-from").datepicker("option","maxDate", selected)
+                }
+           });
+       });
+
+      $('#dp-from').keydown(function(e) {
+               e.preventDefault();
+               return false;
+            });
+            $('#dp-to').keydown(function(e) {
+               e.preventDefault();
+               return false;
+            });
+   </script>
+
+
+<!-- flat datepicker functionality -->
+<script>
+   function initDP() {
+            var today = new Date();
+            $(".p-datepicker").flatpickr({
+                dateFormat:"m-d-Y",
+                disableMobile: true,
+                maxDate: today
+            });
+    }
+</script>
+
+
+
+<script>
+    var barcodeTable = undefined;
+    $(document).ready(function() {
+         barcodeTable = $('#barcodeTable').DataTable({
+            serverSide: true,
+            ordering: true,
+            searching: true,
+            searchDelay: 1500, //milli seconds
+            columns: [  
+                        {   
+                        data:"", orderable: false,
+                        "render": function ( data, type, row, meta ) {
+                              return '<input type="checkbox" name="check[]" value="' + row.id + '" class="cb-single">'}
+                        },
+                        {"data": "date"},
+                        {"data": "retailler"}, 
+                        {"data": "card_count"},
+                        {"data": "download",orderable: false,
+                                "render": function ( data, type, row, meta ) {
+                                    return '<a href="' + data + '" download="barcode"><span class=" mdi mdi-file-download fa-2x" value="' + row.id + '"></span></a>'}
+                                 }
+
+                     ],
+            "ajax": {
+                        'type': 'post',
+                        'url': '/barcodedatatable',
+                        'dataType': 'json',
+                        "contentType": "application/json",
+                        "data": function ( d ) {
+                                    console.log(d)
+                                    return JSON.stringify(d)       
+                                }
+                     },
+                        "drawCallback": function( settings ) {
+                           document.getElementById("showselectedbox").style.display= 'none';
+                           initDP();
+                        }
+
+         });
+
+
+            // //code for making the cell editable 
+            //    // //https://datatables.net/reference/api/cell().data()
+            //    $('#barcodeTable tbody').on( 'click', 'td', function (ev) {
+
+            //       $('#barcodeTable td:not(:first-child, :nth-child(2), :nth-child(3), :nth-child(4), :nth-child(5), :nth-child(7), :nth-child(8) , :nth-child(10))').editable( function( sValue, settings ) {
+            //          /* Get the position of the current data from the node */
+            //          var aPos = oTable.fnGetPosition( this );
+                     
+            //          /* Get the data array for this row */
+            //          var aData = oTable.fnGetData( aPos[0] );
+                     
+            //          /* Update the data array and return the value */
+            //          aData[ aPos[1] ] = sValue;
+
+            //          // call this code only when previous value(prev val contain in this.revert) is not equal to current new value after change
+            //          if (this.revert !== sValue) {
+            //             // **UPDATE CODE TO CALL API TO UPDATE IN DATABASE**
+            //             const cellIndex =  this.cellIndex; // used to identify cell - which cell is clicked
+            //             // set column list to get cell name by index
+            //             columnlist = [
+            //                   "checkbox",
+            //                   "date",
+            //                   "retailler",
+            //                   "card_count",
+            //                   "download",
+
+            //             ]
+            //             const cellName = columnlist[cellIndex]; // name of the column which is updated
+            //             const id = aData.id; // get id of this row toidentify row
+            //             const newValue = sValue; // new value of the coulmn updated by user from input
+            //             const updateValue = { "cellName":cellName, "id":id, "newValue":newValue };
+
+            //             $.ajax({
+            //                   type: "put",
+            //                   url: "/updategiftcardsales",
+            //                   data: JSON.stringify(updateValue),
+            //                   success: function(d) {
+            //                      console.log('Success', d);
+            //                      if (d.column =='gift_card_no') {var x = 'giftcard no.'} else if (d.column =='gift_card_value') {var x = 'giftcard value'} else if (d.column =='amount_paid') {var x = 'cost'} else if (d.column =='purchased_by') {var x = 'purchased by'} else {var x = d.column }
+            //                     showSnackbar(x+' updated')
+            //                   },
+            //                   dataType: 'json',
+            //                   contentType: "application/json"
+            //             });
+            //             // **API CODE END**
+            //          }
+            //          return sValue;
+            //       }, { "onblur": 'submit' } ); /* Submit the form when bluring a field */
+
+            //       /* Init DataTables */
+            //       oTable = $('#barcodeTable').dataTable();
+
+            //       });
+
+   });
+</script>
+
+
+<!-- -------------------------function start deleting row -------------------- -->
+<script>
+    //function for deleting the row
+    function deleteRow(){
+      {
+            var checkboxes = document.getElementsByName("check[]");
+            var checkboxesArray = [];
+            var trSelectorArray = [];
+            // loop over them all
+            for (var i=0; i<checkboxes.length; i++) {
+               // And stick the checked ones onto an array...
+               if (checkboxes[i].checked) {
+                  checkboxesArray.push(checkboxes[i].value);
+                  const id = checkboxes[i].value;
+
+                  const tr = checkboxes[i].parentElement.parentElement;
+                  trSelectorArray.push(tr);
+               }
+            }
+
+            var data = {"checkboxesArray":checkboxesArray}
+            // console.log(data)
+
+     
+
+         swal({
+            title: "Are you sure?",
+            text: "Once deleted, you will not be able to recover this data!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+         }).then((willDelete) => {
+            if (willDelete) {
+
+               $.ajax({
+                        type: "DELETE",
+                        url: "/deletebarcode",
+                        data: JSON.stringify(data),
+                        success: function(d) {
+                           console.log('Success', d);
+                           if (d.code == 400){
+                              showSnackbar("can't delete, exist in GCs for sale")
+                           }else
+                           // remove row from view
+                           barcodeTable.rows(trSelectorArray).remove().draw(false);
+                           
+                        },
+                        dataType: 'json',
+                        contentType: "application/json"
+                  });
+            }
+
+         })
+
+      }
+
+   }
+   //-------------------------function end deleting row --------------------//
+</script>
+
+<script>
+   
+   //function for the filtering the date from the upperdropdown
+   this.dateValue='';
+   function dateFilter(filteredDate){
+        //get value of vendor from the filter
+         this.dateValue = filteredDate.value;
+         console.log(this.dateValue)
+
+         if (this.dateValue != 'Custom'){
+             // console.log('selectedStatus',  this.dateValue)
+            //this is used for hiding the custom date
+            document.getElementById("showcustomdate").style.display= 'none';
+            barcodeTable.columns(1).search(this.dateValue).draw();
+         }
+         else{
+            if (this.dateValue == 'Custom'){
+         $("#timefilter").find('option[value="Custom"]').prop("selected", true);
+         $("#modal-date-custom").modal("show");
+            }
+         }
+   }
+
+   //get model pop date range and send to the datatable through search value
+   function customDate(){
+     let date1=document.getElementById("dp-from").value
+     let date2=document.getElementById("dp-to").value
+   //   console.log(date1)
+   //   console.log(date2)
+     this.dateValue = ["Custom", date1, date2]
+      //this is used for displaying the custom date range
+      let customdate = ["<b>Date Range</b>: " + date1 + " to " + date2];
+     document.getElementById("showcustomdate").innerHTML = customdate;
+     document.getElementById("showcustomdate").style.display= 'inline';
+     //this is used for date table code
+     barcodeTable.columns(1).search([this.dateValue]).draw()
+   }
+
+   //-------------------------function end dateFilter --------------------//
+
+</script>
+
+
+<script type="text/javascript">
+   setTimeout(function(){
+   if($(".no-sort").hasClass("sorting_asc")){
+       $(".no-sort").removeClass("sorting_asc");
+   }},2000)
+</script>
+
+<script type="text/javascript">
+
+   $( document ).ready(function() {
+      $('.metismenu li').removeClass('active');
+      $('.metismenu ul').removeClass('in');
+   });
+   $(".button-menu-mobile").click(function () {
+        $('.metismenu li').removeClass('active');
+        $('.metismenu ul').removeClass('in');
+   });
+   </script>
+
+    
+{% endblock %}

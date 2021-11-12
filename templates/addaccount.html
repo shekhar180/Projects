@@ -1,0 +1,253 @@
+
+{% extends "extend.html" %}
+{% block tittle %}Add Account - ECOMM FLOW{% endblock tittle %}
+ {% block css %}<link rel="stylesheet" type="text/css" href="static/css/addaccount.css">{% endblock css %}
+ {% block js %}
+ <!-- Right bar overlay-->
+        <div class="rightbar-overlay"></div>
+
+        
+        <!-- Bootstrap Tables js -->
+        <script src="static/libs/bootstrap-table/bootstrap-table.min.js"></script>
+
+        <!-- Init js -->
+        <script src="static/js/pages/bootstrap-tables.init.js"></script>
+
+        <!-- App js -->
+        <script src="static/js/app.min.js"></script>
+ {% endblock js %}
+{% block body %}
+
+            <!-- ============================================================== -->
+            <!-- Start Page Content here -->
+            <!-- ============================================================== -->
+
+            <div class="content-page">
+                <div class="content">
+
+                    <!-- Start Content-->
+                    <div class="container-fluid">
+
+                        <!-- start page title -->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="page-title-box">
+                                    <h4 class="page-title">Add Account</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end page title -->
+                       <form action="/addaccount" method="post">
+                          <div class="row">
+                            <div class="col-12">
+                                <div class="card-box">
+
+
+
+                                    <div class="alert alert-warning d-none fade show">
+                                        <h4>Oh snap!</h4>
+                                        <p class="mb-0">This form seems to be invalid :(</p>
+                                    </div>
+
+                                    <div class="alert alert-info d-none {% if success %}d-block {% endif %} fade show">
+                                        <h4>Successfully</h4>
+                                        <p class="mb-0">Account is Created</p>
+                                    </div>
+
+
+                                        <div class="form-group">
+                                            <label for="fullname">Business Name :</label>
+                                            <input type="text" class="form-control" name="businessname" id="fullname" required="">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="email">Primary Contact Name :</label>
+                                            <input type="text" id="contactname"  class="form-control" name="contactname"
+                                                    data-parsley-trigger="change" required="">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="email">Primary Contact Email :</label>
+                                            <input type="email" id="email" class="form-control" name="email" data-parsley-trigger="change" required="">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="email">Primary Contact Phone :</label>
+                                            <input type="Phone" id="phoneno" class="form-control" name="phoneno" data-parsley-trigger="change" required="">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="fullname">Password :</label>
+                                            <input type="password" class="form-control" name="password" id="pwd" onkeyup="validatePassword(this.value);"  required="">
+                                            <span  id="msg"></span>
+                                        </div>
+
+<!--                                        <div class="custom-control custom-checkbox form-group waves-effect waves-light">-->
+<!--                                            <input type="checkbox" class="custom-control-input" id="customCheck1">-->
+<!--                                            <label class="custom-control-label" for="customCheck1">Auto Generate</label>-->
+<!--                                        </div>-->
+                                     <div class="form-group mb-0 float-md-right">
+                                            <input type="checkbox" onchange="generatePassword()" id='generatePwd'>
+                                            <label class="mb-1">Generate Password</label>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="fullname">Confirm Password :</label>
+                                            <input type="password" class="form-control" name="conpassword" id="confirmpwd" required="">
+                                        </div>
+
+                                </div> <!-- end card-box-->
+                            </div> <!-- end col-->
+                        </div>
+                            <!-- end row-->
+
+                            <div class="row">
+
+                                            <label for="switch1" class="mt-1 col-md-1">User </label>
+                                            <div class="col-md-3 form-group">
+                                                <label class="switch" id="switch1">
+                                                   <input value=1 name="user" type="checkbox">
+                                                   <span class="slider round"></span>
+                                                </label>
+                                            </div>
+
+
+                                            <label for="switch1" class="mt-1 col-md-1">Gift Cards </label>
+                                            <div class="col-md-3 form-group">
+                                                <label class="switch" id="switch1">
+                                                   <input value=1 name="giftCard" type="checkbox">
+                                                   <span class="slider round"></span>
+                                                </label>
+                                            </div>
+
+
+                                            <label for="switch1" class="mt-1 col-md-1">Order Tracking </label>
+                                            <div class="col-md-3 form-group">
+                                                <label class="switch" id="switch1">
+                                                   <input name="orderTracking" value=1 type="checkbox">
+                                                   <span class="slider round"></span>
+                                                </label>
+                                            </div>
+
+                                            <label for="switch1" class="mt-1 col-md-1">Buyer Manager </label>
+                                            <div class="col-md-3 form-group">
+                                                <label class="switch" id="switch1">
+                                                   <input value=1 name="buyerManager" type="checkbox">
+                                                   <span class="slider round"></span>
+                                                </label>
+                                            </div>
+
+                                            <label for="switch1" class="mt-1 col-md-1">Price Monitor </label>
+                                            <div class="col-md-3 form-group">
+                                                <label class="switch" id="switch1">
+                                                   <input value=1 name="priceMonitor" type="checkbox">
+                                                   <span class="slider round"></span>
+                                                </label>
+                                            </div>
+
+                                            <label for="switch1" class="mt-1 col-md-1">Inventory </label>
+                                            <div class="col-md-3 form-group">
+                                                <label class="switch" id="switch1">
+                                                   <input value=1 name="inventory" type="checkbox">
+                                                   <span class="slider round"></span>
+                                                </label>
+                                            </div>
+
+                                            <label for="switch1" class="mt-1 col-md-1">Cashflow </label>
+                                            <div class="col-md-3 form-group">
+                                                <label class="switch" id="switch1">
+                                                   <input value=1 name="cashFlow" type="checkbox">
+                                                   <span class="slider round"></span>
+                                                </label>
+                                            </div>
+
+                                            <label for="switch1" class="mt-1 col-md-1">Reports </label>
+                                            <div class="col-md-3 form-group">
+                                                <label class="switch" id="switch1">
+                                                   <input value=1 name="reports" type="checkbox">
+                                                   <span  class="slider round"></span>
+                                                </label>
+                                            </div>
+
+                                            <label for="switch1" class="mt-1 col-md-1">Cashback </label>
+                                            <div class="col-md-3 form-group">
+                                                <label class="switch" id="switch1">
+                                                   <input value=1 name="cashback" type="checkbox">
+                                                   <span class="slider round"></span>
+                                                </label>
+                                            </div>
+
+
+                                        </div>
+
+
+                            <div class="form-group mb-0">
+                                    <input type="submit" class="btn btn-success" value="Add Account">
+                            </div>
+                       </form>
+
+
+                    </div> <!-- container -->
+
+                </div> <!-- content -->
+                <!-- Vendor js -->
+        <script src="static/js/vendor.min.js"></script>
+
+                <script type="text/javascript">
+
+   $( document ).ready(function() {
+      $('.metismenu li').removeClass('active');
+      $('.metismenu ul').removeClass('in');
+   });
+   $(".button-menu-mobile").click(function () {
+        $('.metismenu li').removeClass('active');
+        $('.metismenu ul').removeClass('in');
+   });
+</script>
+
+ <script type="text/javascript">
+            function generatePassword(){
+                var x = document.getElementById("generatePwd").checked;
+                if (x == true) {
+                    var randPassword = Array(10).fill("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz").map(function(x) { return x[Math.floor(Math.random() * x.length)] }).join('');
+                    document.getElementById('pwd').value = randPassword;
+                    document.getElementById('confirmpwd').value = randPassword;
+
+                }
+                else {
+                    document.getElementById('pwd').value = '';
+                    document.getElementById('confirmpwd').value = '';
+                }
+            }
+        </script>
+
+         
+{% endblock %}
+
+
+<!--        &lt;!&ndash; Right bar overlay&ndash;&gt;-->
+<!--        <div class="rightbar-overlay"></div>-->
+
+<!--        &lt;!&ndash; Vendor js &ndash;&gt;-->
+<!--        <script src="static/js/vendor.min.js"></script>-->
+
+<!--        &lt;!&ndash; Init js &ndash;&gt;-->
+<!--        <script src="static/js/pages/bootstrap-tables.init.js"></script>-->
+
+<!--        &lt;!&ndash; App js &ndash;&gt;-->
+<!--        <script src="static/js/app.min.js"></script>-->
+
+
+<!--        <script src="static/libs/jquery-nice-select/jquery.nice-select.min.js"></script>-->
+<!--        <script src="./static/libs/switchery/switchery.min.js"></script>-->
+<!--        <script src="static/libs/multiselect/jquery.multi-select.js"></script>-->
+<!--        <script src="static/libs/select2/select2.min.js"></script>-->
+<!--        <script src="static/libs/jquery-mockjax/jquery.mockjax.min.js"></script>-->
+<!--        <script src="static/libs/autocomplete/jquery.autocomplete.min.js"></script>-->
+<!--        <script src="static/libs/bootstrap-select/bootstrap-select.min.js"></script>-->
+<!--        <script src="static/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js"></script>-->
+<!--        <script src="static/libs/bootstrap-maxlength/bootstrap-maxlength.min.js"></script>-->
+
+
+<!--    </body>-->
+<!--</html>-->

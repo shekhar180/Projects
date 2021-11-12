@@ -1,0 +1,497 @@
+{% extends "extend.html" %}
+{% block tittle %}Setting - RASM{% endblock tittle %}
+
+{% block css %}
+   <!-- third party css -->
+   <link href="static/libs/datatables/responsive.bootstrap4.css" rel="stylesheet" type="text/css" />
+   <link href="static/libs/datatables/buttons.bootstrap4.css" rel="stylesheet" type="text/css" />
+   <link href="static/libs/datatables/select.bootstrap4.css" rel="stylesheet" type="text/css" />
+   <!-- third party css end -->
+
+   <!-- flat picker css -->
+   <link href="static/libs/flatpickr/flatpickr.min.css" rel="stylesheet" type="text/css" />
+       
+   <!-- upper dropdown datepicker css -->
+   <link href="static/libs/clockpicker/bootstrap-clockpicker.min.css" rel="stylesheet" type="text/css" />
+
+   <link href="static/libs/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" />
+<style>
+.switch {
+	position: relative;
+	display: inline-block;
+	width: 60px;
+	height: 34px;
+}
+.switch input {
+	opacity: 0;
+	width: 0;
+	height: 0;
+}
+input:checked + .slider {
+	background-color: #2196F3;
+}
+input:focus + .slider {
+	box-shadow: 0 0 1px #2196F3;
+}
+input:checked + .slider:before {
+	-webkit-transform: translateX(26px);
+	-ms-transform: translateX(26px);
+	transform: translateX(26px);
+}
+.slider {
+	position: absolute;
+	cursor: pointer;
+	width: 56px;
+	height: 28px;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #ccc;
+	-webkit-transition: .4s;
+	transition: .4s;
+}
+.slider:before {
+	position: absolute;
+	content: "";
+	height: 18px;
+	width: 18px;
+	left: 7px;
+	bottom: 6px;
+	background-color: white;
+	-webkit-transition: .4s;
+	transition: .4s;
+}
+.nav-pills .nav-link.active,
+.nav-pills .show>.nav-link {
+	color: #1ABC9C;
+	background-color: transparent;
+}
+.Nav-link-PaddingL {
+	padding: 0;
+}
+.nav-justified .nav-item {
+	text-align: left;
+}
+.mailNav1 {
+	padding-left: 0;
+	margin-left: 0 !important;
+}
+.navtab-bg li>a {
+	background-color: transparent;
+	margin: 0 0px;
+}
+.setting-inputfiled {
+	background: #F4F5F7;
+	border: 0;
+	border-radius: 8px;
+	padding: 4px 20px;
+	height: 46px;
+}
+.setting-cont-btn {
+	border-radius: 8px;
+	height: 46px;
+	font-size: 17px;
+	font-weight: 600;
+}
+.gift-txt-spread {
+	border-left: 2px solid #1ABC9C;
+	padding: 4px 10px;
+}
+.hrcls {
+	width: 25%;
+	border-bottom: 2px solid #1ABC9C;
+	margin: 3px 0;
+}
+.tab-content {
+	padding: 10px 0 0 0;
+}
+@media (min-width: 320px) and (max-width: 767px) {
+	/* .boxline1 {
+   border-right: none;
+   }*/
+	.col-sm-2 {
+		max-width: none;
+	}
+}
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+	.col-md-2 {
+		max-width: none;
+	}
+}
+.p-datepicker {
+	border: none !important;
+}
+.p-datepicker:focus {
+	border: 1px solid;
+}
+select {
+	border: none;
+}
+#snackbar {
+	visibility: hidden;
+	min-width: 250px;
+	margin-left: -125px;
+	background: #f7b84b !important;
+	z-index: 999 !important;
+	color: #000 !important;
+	text-align: center;
+	border-radius: 2px;
+	padding: 16px;
+	position: fixed;
+	z-index: 1;
+	left: 50%;
+	top: 30px;
+	font-size: 17px;
+}
+#snackbar.show {
+	visibility: visible;
+	-webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+	animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+@-webkit-keyframes fadein {
+	from {
+		top: 0;
+		opacity: 0;
+	}
+	to {
+		top: 30px;
+		opacity: 1;
+	}
+}
+@keyframes fadein {
+	from {
+		top: 0;
+		opacity: 0;
+	}
+	to {
+		top: 30px;
+		opacity: 1;
+	}
+}
+@-webkit-keyframes fadeout {
+	from {
+		top: 30px;
+		opacity: 1;
+	}
+	to {
+		top: 0;
+		opacity: 0;
+	}
+}
+@keyframes fadeout {
+	from {
+		top: 30px;
+		opacity: 1;
+	}
+	to {
+		top: 0;
+		opacity: 0;
+	}
+}
+</style>
+{% endblock css %}
+
+{% block js %}
+   <!-- bootstrap filter js -->
+   <script src="static/libs/bootstrap-select/bootstrap-select.min.js"></script>
+
+   <script src="static/js/app.min.js"></script>
+
+   <!-- flatpicker js -->
+   <script src="static/libs/flatpickr/flatpickr.min.js"></script>
+
+   <!-- upper dropdown datepicker js -->
+   <script src="static/libs/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+{% endblock js %}
+
+{% block body %}
+<!-- ============================================================== -->
+<!-- Start Page Content here -->
+<!-- ============================================================== -->
+<div id="snackbar">Some text some message..</div>
+<div class="content-page">
+   <div class="content">
+      <!-- Start Content-->
+      <div class="container-fluid">
+         <!-- start page title -->
+         <div class="row">
+            <div class="col-12">
+               <div class="page-title-box">
+                  <h4 class="page-title">Setting</h4>
+               </div>
+            </div>
+         </div>
+         <div class="row">
+            <div class="col-sm-12">
+               <div class="card-box Nav-link-PaddingL">
+                  <div class="col-lg-5 col-md-6 col-sm-12 ">
+                     <div class="card-box">
+                        <ul class="nav nav-pills navtab-bg nav-justified ">
+                           <li class="nav-item pill-1">
+                              <a href="#aboutme" data-toggle="tab" aria-expanded="true" class="nav-link  link-1 active mailNav1">
+                                 Mail Account
+                                 <hr id="link-1" class="hrcls">
+                              </a>
+                           </li>
+                           <li class="nav-item pill-2">
+                              <a href="#timeline" data-toggle="tab" aria-expanded="false" class="nav-link link-2 mailNav1">
+                              Gift Card
+                              </a>
+                           </li>
+                        </ul>
+                        <div class="tab-content">
+                           <div class="tab-pane show active" id="aboutme">
+                              <p class="message_info">Please connect your mail setting.</p>
+                              <form id="idForm1" action="/settinguseroperation" method="POST">
+                                 <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                       <div class="form-group">
+                                          <label for="username">Username</label>
+                                          <input type="email" class="form-control setting-inputfiled" id="username1" onchange="updateinfo('mailaccount')" name="username" placeholder="example@example.com" value="{{userdata.username}}" required>
+                                          <input type="hidden" name="type" value="mailaccount">
+                                       </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                       <div class="form-group">
+                                          <label for="password">Password</label>
+                                          <input type="password" class="form-control setting-inputfiled" id="password1" onchange="updateinfo('mailaccount')" name="password" placeholder="***********" value="{{userdata.password}}" required>
+                                       </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                       <button type="submit" id="mailbutton" class="btn btn-success waves-effect waves-light col-md-12 mt-2 setting-cont-btn"> Connect</button>
+                                    </div>
+                                 </div>
+                                                         <!-- end row -->
+                              </form>
+                           </div>
+                           <!-- end tab-pane -->
+                           <!-- end about me section content -->
+                           <div class="tab-pane " id="timeline">
+                              <!-- comment box -->
+                              <h5 class="gift-txt-spread">Gift Card Spread</h5>
+                              <form id="idForm2" action="/settinguseroperation" method="POST">
+                                 <div class="row pb-3">
+                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                       <div class="form-group">
+                                          <label for="username">Username</label>
+                                          <input type="email" class="form-control setting-inputfiled" id="username2" onchange="updateinfo('giftcard')" name="username" placeholder="example@example.com" value="{{userdata.username}}" required>
+                                          <input type="hidden" name="type" value="giftcard">
+                                       </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                       <div class="form-group">
+                                          <label for="password">Password</label>
+                                          <input type="password" class="form-control setting-inputfiled" id="password2" onchange="updateinfo('giftcard')" name="password" placeholder="***********" value="{{userdata.password}}" required>
+                                       </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                       <button type="submit" id="giftcardbutton" class="btn btn-success waves-effect waves-light col-md-12 mt-2 setting-cont-btn"> Connect</button>
+                                    </div>
+                                 </div>
+                                 <!-- end row -->
+
+                              <h5 class="gift-txt-spread
+                                 gift-txt-spread">Monheit</h5>
+
+                                 <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                       <div class="form-group">
+                                          <label for="username">Monheit Link</label>
+                                          <input type="text" class="form-control setting-inputfiled" id="monheitlink" onchange="updateinfo(id)" name="monheitlink" placeholder="Paste your google sheet url here" value="{{userdata.monheit}}">
+                                       </div>
+                                    </div>
+                                     <div class="col-lg-12 col-md-12 col-sm-12">
+                                       <button type="submit" id="monheitbutton" class="btn btn-success waves-effect waves-light col-md-12 mt-2 setting-cont-btn"> Connect</button>
+                                    </div>
+                                 </div>
+                                 <!-- end row -->
+                              </form>
+                           </div>
+                        </div>
+                        <!-- end tab-content -->
+                     </div>
+                     <!-- end card-box-->
+                  </div>
+                  <!-- end col -->
+               </div>
+               <!-- end card-box -->
+            </div>
+            <!-- end col -->
+         </div>
+      </div>
+      <!-- container -->
+   </div>
+</div>
+<div class="rightbar-overlay"></div>
+<!-- content -->
+<!-- Vendor js -->
+<script src="static/js/vendor.min.js"></script>
+<!------- toast functionality  ------->
+<script>
+    function showSnackbar(text) {
+    var x = document.getElementById("snackbar");
+    x.innerHTML = text;
+    x.className = "show";
+    setTimeout(function(){ x.className = x.className.replace("show", ''); }, 3000);
+    }
+</script>
+<script>
+    /* function usersuggestion(input) {
+      let input_variable = $('#'+input).val()
+      var data = {
+                "method": input,
+                "input_variable": input_variable
+            }
+      $.ajax({
+          type: "POST",
+          url: "/settingusersuggetion",
+          data: JSON.stringify(data),
+          success: function(data) {
+             var response = data;
+             if(input === 'monheitlink'){
+               showSnackbar(response.message);
+               if(response.userdetail.monheit){
+                  $("#monheitlink").val(response.userdetail.monheit);
+               }
+               $("#monheitbutton").text("Connect");
+             }else if(response.userdetail.username){
+               showSnackbar(response.message);
+               if(response.userdetail.username!== undefined){
+                  $("#username1").val(response.userdetail.username);
+                  $("#username2").val(response.userdetail.username);
+               }else if(response.userdetail.password!== undefined){
+                  $("#password1").val(response.userdetail.password);
+                  $("#password2").val(response.userdetail.password);
+               }
+             }else{
+                  $("#mailbutton").text("Connect");
+                  $("#monheitbutton").text("Connect");
+                  $("#giftcardbutton").text("Connect");
+             }
+          },
+          dataType: 'json',
+          contentType: "application/json"
+    });
+
+    } */
+
+    function updateinfo(info){
+      if(info === 'mailaccount'){
+         $("#mailbutton").text("Connect");
+      }else if(info === 'giftcard'){
+         $("#giftcardbutton").text("Connect");
+      }else if(info === 'monheitlink'){
+         $("#monheitbutton").text("Connect");
+      }
+    }
+</script>
+
+
+<script>
+   $("#idForm1").submit(function(e) {
+    e.preventDefault();
+    var form = $(this);
+    var url = form.attr('action');
+    var method = form.attr('method');
+
+    $.ajax({
+           type: method,
+           url: url,
+           data: form.serialize(), // serializes the form's elements.
+           success: function(data)
+           {
+               var response = JSON.parse(data);
+               showSnackbar(response.message);
+               var userdetail = response.userdetail
+               if(userdetail){
+                  $("#username1").val(userdetail.username);
+                  $("#password1").val(userdetail.password);
+                  if(userdetail.type === 'mailaccount'){
+                     $("#mailbutton").text("Connected");
+                     $("#giftcardbutton").text("Connect");
+                     $("#monheitbutton").text("Connect");
+                  }else{
+                     $("#mailbutton").text("Connect");
+                     $("#giftcardbutton").text("Connect");
+                     $("#monheitbutton").text("Connect");
+                  }
+               }
+               else{
+                  $("#mailbutton").text("Connect");
+                  $("#monheitbutton").text("Connect");
+                  $("#giftcardbutton").text("Connect");
+               }
+           }
+         });
+});
+</script>
+<script>
+   $("#idForm2").submit(function(e) {
+    e.preventDefault();
+    var form = $(this);
+    var url = form.attr('action');
+    var method = form.attr('method');
+
+    $.ajax({
+           type: method,
+           url: url,
+           data: form.serialize(), // serializes the form's elements.
+           success: function(data)
+           {
+               var response = JSON.parse(data);
+               showSnackbar(response.message);
+               var userdetail = response.userdetail
+               if(userdetail){
+                  $("#username2").val(userdetail.username);
+                  $("#password2").val(userdetail.password);
+                  if(userdetail.type === 'giftcard'){
+                     $("#giftcardbutton").text("Connected");
+                     $("#mailbutton").text("Connect");
+                  }else{
+                     $("#giftcardbutton").text("Connect");
+                  }
+                  if(userdetail.monheit != null && userdetail.monheit !== 'None' && userdetail.monheit !== ""){
+                     $("#monheitlink").val(userdetail.monheit);
+                     $("#monheitbutton").text("Connected");
+                     setTimeout(function(){ showSnackbar("You are connected with Monheit link"); }, 3000);
+                  }else{
+                     setTimeout(function(){ showSnackbar("Monheit link not presents, Please use valid link."); }, 3000);
+                     $("#monheitbutton").text("Connect");
+                  }
+
+               }
+               else{
+                  $("#mailbutton").text("Connect");
+                  $("#monheitbutton").text("Connect");
+                  $("#giftcardbutton").text("Connect");
+               }
+           }
+         });
+});
+</script>
+<!-- tab hr line Toggle -->
+<script type="text/javascript">
+   $(document).ready(function(){
+         $(".pill-2 .link-2").click(function(){
+           $("#link-1").remove();
+           if($('#link-2').hasClass('hrcls')){
+             return false;
+           }
+           else{
+             $(".link-2").append("<hr id='link-2' class='hrcls'>")
+           }
+         });
+
+         $(".pill-1 .link-1").click(function(){
+           $("#link-2").remove();
+           if($('#link-1').hasClass('hrcls')){
+             return false;
+           }
+           else{
+             $(".link-1").append("<hr id='link-1' class='hrcls'>")
+           }
+         });
+       })
+</script>
+{% endblock %}

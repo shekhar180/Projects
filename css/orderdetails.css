@@ -1,0 +1,26 @@
+.rightFloat {
+	float: right;
+}
+
+@media only screen and(max-width: 411px) {
+	.rightFloat {
+		float: none !important;
+	}
+}
+@media only screen and (max-width: 436px){
+         			.float-rtol{
+         				float: none !important;
+         			}
+
+         		}
+/*@media only screen and (max-width: 375px) {
+	.rightFloat {
+		float: none !important;
+	}
+}
+
+@media only screen and(max-width: 360px) {
+	.rightFloat {
+		float: none !important;
+	}
+}*/

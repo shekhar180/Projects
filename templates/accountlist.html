@@ -1,0 +1,159 @@
+
+{% extends "extend.html" %}
+{% block tittle %}Account List - ECOMM FLOW{% endblock tittle %}
+ {% block css %}<link rel="stylesheet" type="text/css" href="static/css/accountlist.css">{% endblock css %}
+
+ {% block js %}
+ <!-- Right bar overlay-->
+        <div class="rightbar-overlay"></div>
+
+
+        <!-- Bootstrap Tables js -->
+        <script src="static/libs/bootstrap-table/bootstrap-table.min.js"></script>
+
+        <!-- Init js -->
+        <script src="static/js/pages/bootstrap-tables.init.js"></script>
+
+        <!-- App js -->
+        <script src="static/js/app.min.js"></script>
+{% endblock js %}
+{% block body %}
+            <div class="content-page">
+                <div class="content">
+
+                    <!-- Start Content-->
+                    <div class="container-fluid">
+
+                        <!-- start page title -->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="page-title-box">
+
+                                    <h4 class="page-title">Account List</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end page title -->
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="card-box">
+
+                                    <button id="demo-delete-row" class="btn btn-danger btn-sm " onclick="changedata()" ><i class="mdi mdi-close mr-1"></i>Delete</button>
+                                    <table id="demo-custom-toolbar"  data-toggle="table"
+                                           data-toolbar="#demo-delete-row"
+                                           data-search="true"
+                                           data-show-refresh="true"
+                                           data-show-columns="true"
+                                           data-sort-name="id"
+                                           data-page-list="[5, 10, 20]"
+                                           data-page-size="5"
+                                           data-pagination="true" data-show-pagination-switch="true" class="table-borderless">
+                                        <thead class="thead-light">
+                                        <tr>
+                                            <th><input type="checkbox" name="check1" id="cb-bulk"></th>
+                                            <th data-field="date" data-sortable="true" data-formatter="dateFormatter">Start Date</th>
+                                            <th data-field="name" data-sortable="true">Name</th>
+                                            <th data-field="Email" data-sortable="true">Email</th>
+                                            <th data-sortable="true">Modules Active</th>
+                                            <th data-sortable="true"># of Users</th>
+                                            <th data-field="status" data-align="center" data-sortable="true" data-formatter="statusFormatter">Status</th>
+                                            <th data-sortable="true">Edit</th>
+                                        </tr>
+                                        </thead>
+
+                                        <tbody>
+
+                                        {%for x in accountlist%}
+                                        <tr>
+                                            <td><input type="checkbox" id="check[]" name="check[]" value="{{x.id}}" class="cb-single"></td>
+                                            <td>{{x.creationDate}}</td>
+                                            <td>{{x.contactName}}</td>
+                                            <td>{{x.Email}}</td>
+                                            <td>{{x.activeModel}}</td>
+                                            <td>5</td>
+                                            <form id="changeStatus">
+                                                 <td><label class="switch"><input  {% if 1 == x.status%} checked {%endif%} type="checkbox" id="status{{x.companyID}}" onchange="statusFunction({{x.companyID}})" ><span  class="slider round"></span></label></td>
+                                            </form>
+                                              <td> <form action="/editaccount" method="post">
+                                              <button value={{x.companyID}} name="editAcc" class="btn btn-info waves-effect waves-light">Edit</button>
+                                            </form></td>
+                                        </tr>
+                                        {% endfor %}
+
+
+                                        </tbody>
+                                    </table>
+                                </div> <!-- end card-box-->
+                            </div> <!-- end col-->
+                        </div>
+                        <!-- end row-->
+
+                    </div> <!-- container -->
+
+                </div> <!-- content -->
+
+
+<script src="static/js/vendor.min.js"></script>
+<script type="text/javascript">
+function statusFunction(id) {
+    $.ajax({
+    type:'POST',
+    url:'/statusChange/'+id,
+    data:{
+    status: $('input#status'+id).prop('checked')
+           },
+       success:function(){
+       console.log("create")
+       }
+    });
+}
+</script>
+
+<script type="text/javascript">
+    function changedata(){
+              var checkboxes = document.getElementsByName("check[]");
+              var checkboxesChecked = [];
+              var checkedRows={}
+
+              // loop over them all
+              for (var i=0; i<checkboxes.length; i++) {
+                 // And stick the checked ones onto an array...
+                 if (checkboxes[i].checked) {
+                    checkboxesChecked.push(checkboxes[i].value);
+                 }
+              }
+               len=checkboxesChecked.length
+               for(var i = 0; i < checkboxesChecked.length; i++){
+                 checkedRows['id'+i] = checkboxesChecked[i] ;
+              
+               }
+               console.log(checkedRows)
+               $.ajax({
+                  type:'POST',
+                  url:'/deleteAccount/'+len,
+                  data:checkedRows,
+                  success:function(response){
+                  console.log(response);
+                  location.reload();
+                  },
+                  error:function(error) {
+                  console.log(error);
+                  }
+               });
+               }
+</script>
+
+
+<script type="text/javascript">
+
+   $( document ).ready(function() {
+      $('.metismenu li').removeClass('active');
+      $('.metismenu ul').removeClass('in');
+   });
+   $(".button-menu-mobile").click(function () {
+        $('.metismenu li').removeClass('active');
+        $('.metismenu ul').removeClass('in');
+   });
+</script> 
+{% endblock %}

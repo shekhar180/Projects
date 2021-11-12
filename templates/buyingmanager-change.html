@@ -1,0 +1,1339 @@
+﻿
+{% extends "extend.html" %}
+{% block tittle %}Buying Manager - RASM{% endblock tittle %}
+{% block css %}
+<!-- Plugins css -->
+      <!-- <link href="static/libs/flatpickr/flatpickr.min.css" rel="stylesheet" type="text/css" />
+      <link href="static/libs/bootstrap-colorpicker/bootstrap-colorpicker.min.css" rel="stylesheet" type="text/css" />
+      <link href="static/libs/clockpicker/bootstrap-clockpicker.min.css" rel="stylesheet" type="text/css" />
+      <link href="static/libs/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" /> -->
+
+      <!-- third party css -->
+      <link href="static/libs/datatables/dataTables.bootstrap4.css" rel="stylesheet" type="text/css" />
+      <link href="static/libs/datatables/responsive.bootstrap4.css" rel="stylesheet" type="text/css" />
+      <link href="static/libs/datatables/buttons.bootstrap4.css" rel="stylesheet" type="text/css" />
+      <link href="static/libs/datatables/select.bootstrap4.css" rel="stylesheet" type="text/css" />
+      <!-- third party css end -->
+
+      <!-- flat picker css -->
+      <link href="static/libs/flatpickr/flatpickr.min.css" rel="stylesheet" type="text/css" />
+
+      <!-- upper dropdown datepicker css -->
+      <link href="static/libs/clockpicker/bootstrap-clockpicker.min.css" rel="stylesheet" type="text/css" />
+
+      <link href="static/libs/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" />
+
+      <!-- custom css -->
+      <link rel="stylesheet" type="text/css" href="static/css/buyingmanager.css">
+
+
+
+      <style>
+      	.dataTables_filter, .dataTables_length { display: none; }
+      	span.select2.select2-container.select2-container--default.select2-container--focus{
+      		width: 100% !important;
+      	}
+      	li.select2-selection__choice {
+      		color: #000 !important;
+      	}
+      	.select2-selection__rendered{
+      		width: 350px !important;
+      	}
+      	.p-datepicker {
+      		border: none !important;
+      	}
+      	.p-datepicker:focus {
+      		border: 1px solid;
+      	}
+
+      	select {
+      		border: none;
+      	}
+
+      	
+
+
+      	
+      	#snackbar {
+      		visibility: hidden;
+      		min-width: 250px;
+      		margin-left: -125px;
+      		background: #f7b84b !important;
+      		z-index: 999 !important;
+      		color: #000 !important;
+      		text-align: center;
+      		border-radius: 2px;
+      		padding: 16px;
+      		position: fixed;
+      		z-index: 1;
+      		left: 50%;
+      		top: 30px;
+      		font-size: 17px;
+      	}
+
+      	#snackbar.show {
+      		visibility: visible;
+      		-webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+      		animation: fadein 0.5s, fadeout 0.5s 2.5s;
+      	}
+
+      	@-webkit-keyframes fadein {
+      		from {top: 0; opacity: 0;}
+      		to {top: 30px; opacity: 1;}
+      	}
+
+      	@keyframes fadein {
+      		from {top: 0; opacity: 0;}
+      		to {top: 30px; opacity: 1;}
+      	}
+
+      	@-webkit-keyframes fadeout {
+      		from {top: 30px; opacity: 1;}
+      		to {top: 0; opacity: 0;}
+      	}
+
+      	@keyframes fadeout {
+      		from {top: 30px; opacity: 1;}
+      		to {top: 0; opacity: 0;}
+      	}
+
+      </style>
+      {% endblock css %}
+
+      {% block js %}
+
+      <!-- Bootstrap Tables js -->
+      <!-- <script src="static/libs/bootstrap-table/bootstrap-table.min.js"></script> -->
+      <!-- Init js -->
+      <!-- <script src="static/js/pages/bootstrap-tables.init.js"></script> -->
+
+      <!-- bootstrap filter js -->
+      <script src="static/libs/bootstrap-select/bootstrap-select.min.js"></script>
+
+
+      <!---------- cell editable js ---------------->
+      <!-- https://stackoverflow.com/questions/35869054/using-jeditable-and-getting-typeerror-editable-is-not-a-function-what-t -->
+      <script src="http://www.appelsiini.net/download/jquery.jeditable.mini.js"></script>
+
+      <!-- third party js -->
+      <script src="static/libs/datatables/jquery.dataTables.min.js"></script>
+      <script src="static/libs/datatables/dataTables.bootstrap4.js"></script>
+      <script src="static/libs/datatables/dataTables.responsive.min.js"></script>
+      <script src="static/libs/datatables/responsive.bootstrap4.min.js"></script>
+      <script src="static/libs/datatables/dataTables.buttons.min.js"></script>
+      <script src="static/libs/datatables/buttons.bootstrap4.min.js"></script>
+      <script src="static/libs/datatables/buttons.html5.min.js"></script>
+      <script src="static/libs/datatables/dataTables.keyTable.min.js"></script>
+
+      
+
+      <!-- third party js ends -->
+      <script src="static/libs/select2/select2.min.js"></script>
+      <script src="static/js/pages/form-advanced.init.js"></script>
+      <!-- Datatables init -->
+      <script src="static/js/pages/datatables.init.js"></script>
+
+      <!-- App js -->
+      <script src="static/js/app.min.js"></script>
+
+      
+
+      <!-- flatpicker js -->
+      <script src="static/libs/flatpickr/flatpickr.min.js"></script>
+
+      <!-- upper dropdown datepicker js -->
+      <script src="static/libs/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+
+      {% endblock js %}
+      {% block body %}
+      <div id="snackbar">Some text some message..</div>
+      <!-- ============================================================== -->
+      <!-- Start Page Content here -->
+      <!-- ============================================================== -->
+      <div class="content-page">
+      	<div class="content">
+      		<!-- Start Content-->
+      		<div class="container-fluid">
+      			<!-- start page title -->
+      			<div class="row">
+      				<div class="col-12">
+      					<div class="page-title-box">
+
+      						<h4 class="page-title">Buying Manager</h4>
+
+      						<div id="con-close-modal" class="modal fade "  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+
+      							<div class="modal-dialog modal-lg" >
+
+      								<div class="modal-content" >
+
+      									<div class="modal-header">
+
+      										<h4 class="modal-title">Add Buy</h4>
+
+      										<button type="button" class="close" data-dismiss="modal" onclick="closemodal()" aria-hidden="true">×</button>
+      									</div>
+
+      									<form method="post" action="/buyingManager">
+      										<div class="modal-body p-4" id="loaderMain">
+      											<div class="row" >
+
+      												<div class="col-md-12" >
+      													<div class="form-group">
+      														<label for="field-3" class="control-label">Retailers</label>
+      														<select  class="form-control" name="Retailers" id="Retailers" required>
+      															<option selected disabled hidden value="">Select Retailers</option>
+      															<option value="All">All</option>
+      															<option value="Bass">Bass</option>
+      															<option value="Cabela’s">Cabela’s</option>
+      															<option value="DSG">DSG</option>
+      															<option value="Home Depot">Home Depot</option>
+      															<option value="Kohls">Kohls</option>
+      															<option value="Lowes">Lowes</option>
+      															<option value="Sears">Sears</option>
+      															<option value="Sams Club">Sams Club</option>
+      															<option value="Target">Target</option>
+      															<option value="Walmart">Walmart</option>
+      														</select>
+      													</div>
+      												</div>
+      											</div>
+
+      											<div id="buying-items">
+
+      												<div class="row">
+      													<div class="col-md-3">
+      														<div class="form-group">
+      															<label for="field-2" class="control-label">Item Sku </label>
+      															<input required type="text" class="form-control"  id="Sku-1" name="Sku-1"  placeholder="3452">
+      														</div>
+      													</div>
+
+
+      													<div class="col-md-3">
+      														<div class="form-group">
+      															<label for="field-3" class="control-label">Price </label>
+      															<input required type="text" class="form-control" name="Price-1" onkeyup="total(id)" id="Price-1" placeholder=" $29 ">
+      														</div>
+      													</div>
+      													<div class="col-md-3">
+      														<div class="form-group">
+      															<label for="field-4" class="control-label">Qty Per Cart</label>
+      															<input required type="text" class="form-control" name="QtyPerCart-1" id="QtyPerCart-1" onkeyup="total(id)" placeholder="1">
+      														</div>
+      													</div>
+
+
+      													<div class="col-md-3">
+      														<div class="form-group">
+      															<label for="field-5" class="control-label">Total Qty</label>
+      															<input required type="text" class="form-control" name="TotalQty-1" id="TotalQty-1" onkeyup="total(id)" placeholder="10">
+      														</div>
+      													</div>
+      												</div>
+      												<h5><span style="color:red" id="Warring-1"></span></h5>
+      											</div>
+
+      											<div class="row">
+      												<div class="col-md-3">
+      													<div class="form-group">
+      														<label for="switch11" class="control-label">Shipping</label>
+      														<div class="form-group">
+      															<label class="switch" id="switch11">
+      																<input name="Shipping" type="checkbox" value= "1" >
+      																<span class="slider round"></span>
+      															</label>
+      														</div>
+      													</div>
+      												</div>
+      												<div class="col-md-3">
+      													<div class="form-group">
+      														<label for="switch12" class="control-label">Tax</label>
+      														<div class=" form-group">
+      															<label class="switch" id="switch12">
+      																<input name="Tax" type="checkbox" value="1">
+      																<span class="slider round"></span>
+      															</label>
+      														</div>
+      													</div>
+      												</div>
+      												<div class="col-md-3">
+      													<div class="form-group">
+      														<label for="field-8" class="control-label">Subtotal</label>
+      														<input required  type="text" class="form-control" name="TotalCart" id="TotalCart" placeholder="$100 ">
+      													</div>
+      												</div>
+      												<div class="col-md-3">
+      													<div class="form-group">
+      														<label for="field-9" class="control-label">Payment Type</label>
+      														<select class=" form-control" name="PaymentType" id="PaymentType">
+      															<option>Credit Card</option>
+      															<option>Gift Cards</option>
+      															<option>Maximize Gift Card</option>
+      														</select>
+      													</div>
+      												</div>
+      											</div>
+
+      											<div class="row">
+      												<div class="col-md-6">
+      													<label for="field-9" class="control-label">Assign Users</label>
+      													
+
+      													<select name="userDataList" class="form-control select2-multiple" id="userDataList" onchange="dataList()" data-toggle="select2" multiple="multiple" data-placeholder="Choose ...">
+      														<optgroup label="All Users">
+      															<option class='allValue' value="All">All</option>
+      															{% for x  in userData %}
+      															<option class='userData' value="{{x.id}}">{{x.contactName}}</option>
+      															{% endfor %}
+      														</optgroup>
+      													</select>
+      													
+      												</div>
+      												<div class="col-md-3">
+      													<div class="form-group mt-1">
+      														<label for="field-9" class="control-label"></label>
+      														<select name="shipping_set" class=" form-control" id="">
+      															<option value="ShipToHome">Ship To Home</option>
+      															<option value="ShipToStore">Ship To Store</option>
+      															
+      														</select>
+      													</div>
+      												</div>
+      												<div class="col-md-3">
+      													<div class="form-group mt-1">
+      														<label for="field-9" class="control-label"></label>
+      														<select name="loginId_Set" class=" form-control" id="">
+      															<option value="Login">Login </option>
+      															<option value="GuestCheckout"> Guest Checkout</option>
+      															
+      														</select>
+      													</div>
+      													
+      												</div>
+      											</div>
+
+      											<div class="row">
+      												<div class="col-md-6">
+      													<label for="field-3" class="control-label">Affiliate</label>
+      													<select class="form-control" name="vendor" id="vendor" required>
+      														<option selected disabled hidden value="">Select Affiliate</option>
+      														<option value="MrRebates">Mr Rebates</option>
+      														<option value="BeFrugal">BeFrugal</option>
+      														<option value="iConsumer">iConsumer</option>
+      														<option value="Rakuten">Rakuten</option>
+      													</select>
+      												</div>
+      											</div>
+      											<h5><span style="color:red" id="Warring-3"></span></h5>
+      											<h5><span id="total" ></span></h5>
+
+      										</div>
+      										<!--                                          <div style="display:none;" id="updateMsg"><h5 style="color:#1abc9c;">Successfully Record inserted</h5></div>-->
+      										<div class="modal-footer">
+      											<button type="button" id="add_field_button" type="button"  class="btn btn-info waves-effect waves-light" >Add Item</button>
+      											<button   class="btn btn-info waves-effect waves-light">Submit</button>
+      										</div>
+      										<input  type="hidden" name="noRow" id="noRow" value="1" >
+      									</form>
+      								</div>
+      							</div>
+      						</div>
+      						<div class="float-right modal-cusm">
+      							<button type="button" class="btn btn-success waves-effect waves-light" data-toggle="modal" data-target="#con-close-modal">Add Buy</button>
+      						</div>
+      					</div>
+      				</div>
+      			</div>
+
+      			<!-- end page title -->
+      			<div id="modal-date-custom" class="modal fade mt-5" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+      				<div class="modal-dialog">
+      					<div class="modal-content">
+
+      						<div class="modal-header">
+
+      							<h4 class="modal-title">Select Date Range</h4>
+      							<button type="button" class="close" data-dismiss="modal" onclick="closemodal()" aria-hidden="true">×</button>
+      						</div>
+      						<div class="modal-body p-4">
+      							<div class="form-group mb-0">
+      								<div class="input-group">
+      									<div class="form-group">
+      										<div class="row">
+      											<div class="col-md-6">
+      												<label>From:</label>
+      												<input type="text" id="dp-from" class="form-control">
+      											</div>
+      											<div class="col-md-6">
+      												<label>To:</label>
+      												<input type="text" id="dp-to" class="form-control">
+      											</div>
+      										</div>
+      									</div>
+      								</div>
+      							</div>
+      						</div>
+      						<div class="modal-footer">
+      							<button type="button" class="btn btn-info waves-effect waves-light" data-dismiss="modal" onclick="customDate()">Submit</button>
+      							<button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal" onclick="closemodal()">Close</button>
+      						</div>
+      					</div>
+      				</div>
+      			</div>
+      			<!-- /.modal -->
+      			<div id="con-close-modal" class="modal fade " tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+      				<div class="modal-dialog modal-lg">
+      					<div class="modal-content">
+      						<div class="modal-header">
+      							<h4 class="modal-title">Add Buy</h4>
+
+      							<button type="button" class="close" data-dismiss="modal" onclick="closemodal()" aria-hidden="true">×</button>
+      						</div>
+      						<div    id="loader" class="mb-5 mt-5" style="display:none;"  align="center">
+      							<div class="spinner-border text-success"  role="status"></div>
+      						</div>
+      						<div style="display:none;" id="errorMsg" align="center">
+      							<h5 style="color:red;">Oops! Something went wrong. Please try again</h5>
+      						</div>
+      						<div class="modal-body p-4" id="updateMain" >
+
+      							<div class="row"  >
+      								<div class="col-md-4">
+      									<div class="form-group">
+      										<label for="field-3" class="control-label">Retailers</label>
+      										<input type="text" class="form-control" id="updateRetailers" readonly placeholder=" Target ">
+      									</div>
+      								</div>
+      								<div class="col-md-4">
+      									<div class="form-group">
+      										<label for="field-2" class="control-label">Item Sku </label>
+      										<input type="text" class="form-control" id="updateSku" readonly placeholder="3451" >
+      									</div>
+      								</div>
+      								<div class="col-md-4">
+      									<div class="form-group">
+      										<label for="field-3" class="control-label">Price </label>
+      										<input type="text" class="form-control" id="updatePrice" placeholder=" $22 ">
+      									</div>
+      								</div>
+      								<div class="col-md-4">
+      									<div class="form-group">
+      										<label for="field-4" class="control-label">Qty Per Cart</label>
+      										<input type="text" class="form-control" onkeyup="updateDataManage()" id="updateQtyPerCart" placeholder="1">
+      									</div>
+      								</div>
+
+      								<div class="col-md-4">
+      									<div class="form-group">
+      										<label for="field-5" class="control-label">Total Qty</label>
+      										<input type="text" class="form-control" onkeyup="updateDataManage()" id="updateTotalQty" placeholder="10">
+      									</div>
+      								</div>
+      								<div class="col-md-4">
+      									<div class="form-group">
+      										<label for="field-8" class="control-label">Subtotal</label>
+      										<input type="text" class="form-control" id="updateTotalCart" placeholder="$100 ">
+      									</div>
+      									<h5><span style="color:red" id="Warring-2"></span></h5>
+      								</div>
+
+
+      								<div class="col-md-4">
+      									<div class="form-group">
+      										<label for="field-9" class="control-label">Payment Type</label>
+      										<select class="form-control" id="updatePaymentType">
+      											<option value="Credit Card">Credit Card</option>
+      											<option value="Gift Cards">Gift Cards</option>
+      											<option value="Maximize Gift Card">Maximize Gift Card</option>
+      										</select>
+      									</div>
+      								</div>
+      							</div>
+
+      							<div class="row">
+      								<div class="col-md-6">
+      									<label for="field-9" class="control-label">Assign Users</label>
+      									<select name="userDataList" class="form-control select2-multiple" onchange="dataList()" id="userDataList2" data-toggle="select2" multiple="multiple" data-placeholder="Choose ...">
+      										<optgroup label="All Users">
+      											{% for x  in userData %}
+      											<option value="{{x.id}}">{{x.contactName}}</option>
+      											{% endfor %}
+      										</optgroup>
+      									</select>
+      								</div>
+      								<div class="col-md-3">
+      									<div class="form-group mt-1">
+      										<label for="field-9" class="control-label"></label>
+      										<select name="shipping_set" class=" form-control" id="">
+      											<option value="ShipToHome">Ship To Home</option>
+      											<option value="ShipToStore">Ship To Store</option>
+      										</select>
+      									</div>
+      								</div>
+      								<div class="col-md-3">
+      									<div class="form-group mt-1">
+      										<label for="field-9" class="control-label"></label>
+      										<select name="loginId_Set" class="form-control" id="">
+      											<option value="log">Login </option>
+      											<option value="GuestCheckout"> Guest Checkout</option>
+
+      										</select>
+      									</div>
+
+      								</div>
+      							</div>
+
+      						</div>
+
+      						<div  id="updateMsg" style="display:none;" ><h5 style="color:#1abc9c;">Successfully Record updated</h5></div>
+      						<input type="hidden" id="updateId" readonly>
+      						<div class="modal-footer">
+
+      							<button type="button" class="btn btn-info waves-effect waves-light" id='updatedSave_btn' data-dismiss="modal" onclick="updateTable()">Save</button>
+      						</div>
+      					</div>
+      				</div>
+      			</div>
+
+      			<div class="row">
+      				<div class="col-sm-12">
+      					<div class="card-box">
+      						<div class="alert alert-info d-none {% if success %} d-block {% endif %} fade show">
+      							<h4>Successfully</h4>
+      							<p class="mb-0">Record inserted</p>
+      						</div>
+
+      						<div class="row">
+      							<div class="col-md-2 col-sm-3 btn-group boxline1 mb-4">
+      								<button type="button" class="btn btn-group btn-info dropdown-toggle"   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Bulk Action <i class="mdi mdi-chevron-down"></i></button>
+      								<div class="dropdown-menu" >
+      									<a class="dropdown-item" id="Priority" onclick="changedata(this.id)">Priority</a>
+      									<a class="dropdown-item" id="Active"    onclick="changedata(this.id)">Active </a>
+      									<a class="dropdown-item" id="Inactive"  onclick="changedata(this.id)">Inactive </a>
+      									<a class="dropdown-item" id="Paused"    onclick="changedata(this.id)">Paused </a>
+      									<a class="dropdown-item" id="Cancelled" onclick="changedata(this.id)">Cancelled </a>
+      									<a class="dropdown-item" id="Delete"    onclick="changedata(this.id)">Delete</a>
+      								</div>
+      							</div>
+      							<!-- /btn-group -->
+      							<div class="col-md-2 col-sm-2 mb-4">
+
+      								<select class="selectpicker" id="timefilter" onchange="dateFilter(this)">
+      									<option value="1">Date Range</option>
+      									<option value="All">All</option>
+      									<option value="Last7days">Last 7 days</option>
+      									<option value="ThisWeek">This Week</option>
+      									<option value="LastMonth">Last Month</option>
+      									<option value="ThisMonth">This Month</option>
+      									<option value="Custom">Custom</option>
+      								</select>
+      							</div>
+      							
+      							<div class="col-md-2 col-sm-2 mb-4">
+      								<select class="selectpicker"  id="statusFilter"  onchange="statusFilter(this)">
+      									<option value="Status">Status</option>
+      									<option value="All">All</option>
+      									<option value="Active">Active</option>
+      									<option value="Inactive">Inactive</option>
+      									<option value="Paused">Paused</option>
+      									<option value="Cancelled">Cancelled</option>
+      								</select>
+      							</div>
+      							<div class="form-group mr-2">
+      								<select class="selectpicker" id="retailersFilter"  onchange="retailerFilter(this)">
+      									<option>Retailers</option>
+      									<option value="Target">Target</option>
+      									<option value="Cabela's">Cabela’s</option>
+      									<option value="Home Depot">Home Depot</option>
+      									<option value="Lowes">Lowes</option>
+      									<option value="Walmart">Walmart</option>
+      									<option value="Best Buy">Best Buy</option>
+      									<option value="B&N">B&N</option>
+      									<option value="Toys R Us">Toys R Us</option>
+      									<option value="Kohls">Kohls</option>
+      									<option value="Sams Club">Sams Club</option>
+      									<option value="DSG">DSG</option>
+      									<option value="Sears">Sears</option>
+      									<option value="Office Depot">Office Depot</option> 
+      								</select>
+      							</div>
+      						</div>
+      						<div class="col-md-12">
+      							<table id="ptbl" class=" table w-100 nowrap table-bordered table-hover">
+      								<thead class="thead-light">
+      									<tr>
+      										<th><input type="checkbox" name="check1" id="cb-bulk" class="cb-tab"></th>
+      										<th>Start Date</th>
+      										<th>Affiliate</th>
+      										<th>Retailer</th>
+      										<th>Shipping</th>
+      										<th>Tax</th>
+      										<th>Subtotal</th>
+      										<th>Payment Type</th>
+      										<th>Total Cost</th>
+      										<th>Fulfilled</th>
+      										<th>Status</th>
+      										<th>View</th>
+      									</tr>
+      								</thead>
+      							</table>
+      						</div>
+      					</div>
+
+      					<!-- end card-box -->
+      				</div>
+      				<!-- end col -->
+      			</div>
+      		</div>
+
+
+      		<!-- container -->
+      	</div>
+      	<div class="rightbar-overlay"></div>
+      	<!-- content -->
+      	<!-- Vendor js -->
+      	<script src="static/js/vendor.min.js"></script>
+
+      	<script>
+      		var ptbl = undefined;
+      		$(document).ready(function(){
+      			
+        // table initialization code
+
+        ptbl = $('#ptbl').DataTable({
+
+        	"ordering":false,
+        	"serverSide": true,
+        	searching: true,
+        	columns: [  
+        	{   
+        		data:"",
+        		"render": function ( data, type, row, meta ) {
+        			return '<input type="checkbox" name="check[]" value="' + row.id + '" class="cb-single">'}
+        		},
+        		{ "data": "Start_Date" },
+        		{ "data": "Affiliate" },
+        		{ "data": "Retailer" },
+        		{ "data": "Shipping",
+        		"render": function ( data, type, row, meta ) {
+        			if(row.Shipping==1){
+        				return '<label class="switch"><input checked  type="checkbox" id="sp'+row.id+'" onchange="statusFunction(id)"><span class="slider round"></span></label>'
+        			}else{
+        				return '<label class="switch"><input  type="checkbox" id="sp'+row.id+'" onchange="statusFunction(id)"><span class="slider round"></span></label>'
+        			}
+        		}
+        	},
+        	{ "data": "Tax",
+        	"render": function ( data, type, row, meta ) {
+        		if(row.Tax==1){
+        			return '<label class="switch"><input checked  type="checkbox" id="tx'+row.id+'" onchange="statusFunction(id)"><span class="slider round"></span></label>'
+        		}else{
+        			return '<label class="switch"><input  type="checkbox" id="tx'+row.id+'" onchange="statusFunction(id)"><span class="slider round"></span></label>'
+        		}
+        	}                                
+        },
+        { "data": "Subtotal" },
+        { "data": "Payment_Type" },
+        { "data": "Total_Cost" },
+        { "data": "Fulfilled" },
+        { "data": "Status",
+        "render": function ( data, type, row, meta ) {
+        	htmlString='<select id="'+row.Edit+'"  onchange="changeStatus(this.id)" class="hd3">'+
+        	'<option value="'+row.Status+'" checked >'+row.Status+'</option>'
+        	if(row.Status != 'Active'){
+        		htmlString+= '<option value="Active" >Active  </option>'
+        	}
+        	if(row.Status != 'Inactive'){
+        		htmlString+='<option value="Inactive">Inactive</option>'
+        	}
+        	if(row.Status != 'Paused'){
+        		htmlString+='<option value="Paused">Paused</option>'
+        	}
+        	if(row.Status != 'Cancelled'){
+        		htmlString+='<option value="Cancelled">Cancelled</option>'
+        	}
+        	htmlString+='</select>'
+        	return htmlString
+        }
+    },
+    { "data": "Edit",
+    "render": function ( data, type, row, meta ) {
+    	return '<a href="/buyingAllProduct?id='+ row.Edit +'">View</a>'}
+    }                  
+    ],
+    
+    "ajax": {
+    	'type': 'post',
+    	'url' :  '/buyingdatatable',
+    	'dataType': 'json',
+    	"contentType": "application/json",
+    	"data": function ( d ) {
+    		console.log(d)
+    		return JSON.stringify(d)
+    	}
+    }
+});
+    });
+</script>
+
+<script>
+
+   //function for the filtering the retailer from the upperdropdown
+   function retailerFilter(selectedRetailer) {
+   	let value = selectedRetailer.value;
+   	console.log('selectedRetailer', value);
+      // apply search to table 'giftcardTable' by passing value to the search function
+      // and filter process will automatically manage by datatable
+      ptbl.columns(4).search(value).draw();
+  }
+   //---------function end retailerFilter-------------// 
+
+    //function for the filtering the date from the upperdropdown
+    function dateFilter(filteredDate){
+        //get value of vendor from the filter
+        let value = filteredDate.value;
+        console.log(value)
+
+        if (value != 'Custom'){
+        	console.log('selectedStatus', value)
+        	ptbl.columns(1).search(value).draw();
+        }
+        else{
+        	if (value == 'Custom'){
+        		$("#timefilter").find('option[value="1"]').prop("selected", true);
+        		$("#modal-date-custom").modal("show");
+        	}
+        }
+    }
+
+   //get model pop date range and send to the datatable through search value
+   function customDate(){
+   	let date1=document.getElementById("dp-from").value
+   	let date2=document.getElementById("dp-to").value
+   //   console.log(date1)
+   //   console.log(date2)
+   let value = ["Custom", date1, date2]
+   ptbl.columns(1).search([value]).draw()
+}
+
+   //-------------------------function end dateFilter --------------------//
+
+
+
+</script>
+
+<script type="text/javascript">
+	$(function(){
+		$("#dp-from").datepicker({
+			format: "mm-dd-yyyy",
+		});
+		$("#dp-to").datepicker({
+			format: "mm-dd-yyyy",
+		});
+	});
+
+	$("#p-tbl").on("page-change.bs.table", function(e, number, size){
+		setTableTotal()
+	});
+
+	
+	function setTableTotal(){
+		var totalCost = 0
+		lenOfTable=document.getElementById('allData').childNodes.length;
+		for(var x=0;x<lenOfTable;x++){
+			var data=Number(document.getElementById('allData').childNodes[x].childNodes[10].innerText)
+			console.log('data_if',data)
+			
+			if(Number.isNaN(data)){
+				data=0
+				console.log('data_else',data)
+			}
+			console.log('data_out',data)
+			console.log(totalCost)
+			totalCost=totalCost+data
+			totalprice=Math.round(totalCost * 100) / 100
+			document.getElementById("totalListData").innerHTML = '$'+totalprice;        
+		}
+	}
+
+	$(window).on('load', function(){
+		setTimeout(function(){
+			setTableTotal()
+		},1000)
+		
+	});
+</script>
+<script>
+	function timefilter(){
+		var value=document.getElementById("timefilter").value
+		if(value != 'Custom' && value != '1' && value !='All' )
+		{
+			jsonData={"data":value}
+			api(jsonData)
+		}
+		else{
+			if (value == 'Custom'){
+				$("#timefilter").find('option[value="1"]').prop("selected", true);
+				$("#modal-date-custom").modal("show");
+			}else{
+
+				$('.alldata').show();
+				$('.apiData').remove();
+				setTableTotal()
+			}
+		}
+	}
+	function customDate(){
+		var date1=document.getElementById("dp-from").value
+		var date2=document.getElementById("dp-to").value
+		console.log(date1)
+		console.log(date2)
+		jsonData={"data":"Custom","date1":date1,"date2":date2}
+		api(jsonData)
+	}
+
+	function statusFilter(){
+		var status=document.getElementById("statusFilter").value
+		if(status == 'Status' || status == 'All'){
+
+			$('.alldata').show();
+			$('.apiData').remove();
+			setTableTotal()
+		}else {
+			jsonData={"data":"status","status":status}
+			api(jsonData)
+		}
+	}
+
+	function api(jsonData){
+		$.ajax({
+			type:'POST',
+			url:'timefilter',
+			data:jsonData,
+			success:function(response){
+				simple = JSON.parse(response);
+				if (simple.tabData != "NoData") {
+					mainData=JSON.parse(simple.tabData);
+					console.log(mainData);
+					<!--  document.getElementById(.alldata).style.display = "none";-->
+					$('.alldata').hide();
+					$('.apiData').hide();
+					tableList=0
+					for(var i=0;i<mainData.length;i++){
+						tableList+=mainData[i].cart_total
+						htmlString='<select id="api'+mainData[i].id+'"  onchange="changeStatus(this.id)" class="hd3">'+
+						'<option value="'+mainData[i].status+'"  >'+mainData[i].status+'</option>'
+						if(mainData[i].status != 'Active'){
+							htmlString+= '<option value="Active" >Active  </option>'
+						}
+						if(mainData[i].status != 'Inactive'){
+							htmlString+='<option value="Inactive"   >Inactive</option>'
+						}
+						if(mainData[i].status != 'Paused'){
+							htmlString+='<option value="Paused"     >Paused  </option>'
+						}
+						if(mainData[i].status != 'Cancelled'){
+							htmlString+='<option value="Cancelled"  >Cancelled</option>'
+						}
+						htmlString+='</select>'
+						if(mainData[i].shipping==1){
+							htmlShipToggle='<td><label class="switch"><input  checked  type="checkbox" id="aS'+mainData[i].id+'" onchange="statusFunction(id)"><span class="slider round"></span></label></td>'
+						}else{
+							htmlShipToggle='<td><label class="switch"><input type="checkbox" id="aS'+mainData[i].id+'" onchange="statusFunction(id)"><span class="slider round"></span></label></td>'
+						}
+						if(mainData[i].shipping==1){
+							htmlTaxToggle='<td><label class="switch"><input  checked type="checkbox" id="aT'+mainData[i].id+'" onchange="statusFunction(id)"><span class="slider round"></span></label></td>'
+						}else{
+							htmlTaxToggle='<td><label class="switch"><input  type="checkbox" id="aT'+mainData[i].id+'" onchange="statusFunction(id)"><span class="slider round"></span></label></td>'
+						}
+
+						if(mainData[i].priority === 'yes')
+						{
+							htmlpriority = '<td>'+mainData[i].priority+'</td>'
+						}else{
+							htmlpriority= '<td></td>'
+						}
+               var wrapper= $("#allData"); //Fields wrapper
+               $(wrapper).append('<tr class="apiData" id="row'+mainData[i].id+'">'+
+               	'<td><input type="checkbox" name="check[]" value="'+mainData[i].id+'" class="cb-single"></td>'+
+               	'<td>'+mainData[i].creationDate+'</td>'+
+               	htmlpriority+
+               	'<td>'+mainData[i].retailler+'</td>'+
+               	'<td>'+mainData[i].item_sku+' </td>'+
+               	'<td>'+mainData[i].price+'</td>'+
+               	'<td>'+mainData[i].qty_percart+'</td>'+
+               	'<td>'+mainData[i].qty_total+'</td>'+
+               	htmlShipToggle+
+               	htmlTaxToggle+
+               	'<td>'+mainData[i].cart_total+'</td>'+
+               	'<td>'+mainData[i].payment_type+'</td>'+
+               	'<td>$7,498.50</td>'+
+               	'<td>l</td>'+
+               	'<td>'+
+               	htmlString+
+               	'</td>'+
+               	'<td style="white-space: nowrap; width: 1%;">'+
+               	'<div class="tabledit-toolbar btn-toolbar" style="text-align: left;">'+
+               	'<div class="btn-group btn-group-sm" style="float: none;"><button type="button" class="tabledit-edit-button btn btn-success active" style="float: none;" ><span class="mdi mdi-pencil" id="edit'+mainData[i].id+'" onclick="customFilter1(this.id)"></span></button></div>'+
+               	'</div>'+
+               	'</td>'+
+               	'</tr>');
+
+           }
+           document.getElementById("totalListData").innerHTML = '$'+tableList;
+
+       }
+       else{
+       	showSnackbar('NOT FOUND.');
+       	document.getElementById("totalListData").innerHTML = '$00';
+       	$('.alldata').hide();
+       	$('.apiData').hide();
+       }
+   },
+   error:function(error) {
+   	console.log(error);
+   }
+});
+	}
+</script>
+<!-- divided the loop value to user -->
+<script type="text/javascript">
+	function dataList(){
+		var values = [];
+		$('#userDataList :checked').each(function() {
+      //if(values.indexOf($(this).val()) === -1){
+      	values.push($(this).val());
+      // }
+  });
+
+		data=document.getElementById("userDataList").value
+		console.log("data",data)
+		if(data == 'All'){
+			$('.userData').prop('disabled', true);
+			$('.allValue').prop('disabled', false);
+		}else{
+			if(data != ''){
+				$('.userData').prop('disabled', false);
+				$('.allValue').prop('disabled', true);
+			}else{
+				$('.userData').prop('disabled', false);
+				$('.allValue').prop('disabled', false);
+			} 
+		}
+		
+	}
+</script>
+
+<script>
+	$(document).ready(function() {
+
+		$( '#ul' ).on( 'change', function () {
+			console.log(this.value)
+			console.log(table.column(13).search())
+			if ( table.column(13).search() !== this.value ) {
+
+				table
+				.column(13)
+				.search( this.value )
+				.draw();
+			}
+		});
+		$( '#akash1' ).on( 'click', function () {
+			console.log(this)
+			if ( table.column(1).search() !== this.value ) {
+				table
+				.column(1)
+				.search( this.value )
+				.draw();
+			}
+		});
+		var table = $('#p-tbl').DataTable( {
+			orderCellsTop: true,
+			fixedHeader: true,
+			"paging": false,
+			"info": false
+		} );
+	} );
+
+</script>
+
+<script type="text/javascript">
+	var totalLoop,totalValue
+
+	function customFilter1(idName){
+                 // get modals
+                 const modals = document.getElementsByClassName('modal');
+                 dataId=idName.slice(4,);
+
+                 // on every modal change state like in hidden modal
+                 for(let i=0; i<modals.length; i++) {
+                 	modals[2].classList.remove('fade');
+                 	modals[2].setAttribute('aria-hidden', 'false');
+                 	modals[2].setAttribute('style', 'display: block');
+                 }
+
+                 allData=document.getElementById('row'+dataId).getElementsByTagName("td");
+                 retailler=allData[3].innerText
+                 item_sku=allData[4].innerText
+                 price=allData[5].innerText
+                 qty_percart=allData[6].innerText
+                 qty_total=allData[7].innerText
+                 cart_total=allData[10].innerText
+                 payment_type=allData[11].innerText
+
+                 totalLoop=qty_total/qty_percart
+                 totalValue=cart_total-qty_total*price
+                 setTimeout(function(){
+                 	document.getElementById("updateRetailers").value=retailler;
+                 	document.getElementById("updateSku").value=item_sku;
+                 	document.getElementById("updatePrice").value=price;
+                 	document.getElementById("updateQtyPerCart").value=qty_percart;
+                 	document.getElementById("updateTotalQty").value=qty_total;
+                 	document.getElementById("updateTotalCart").value=cart_total;
+                 	document.getElementById("updatePaymentType").value=payment_type;
+                 	document.getElementById("updateId").value=dataId;
+
+                 },1000)
+
+             }
+
+             //update cart data set check to loop are correct or not
+
+             function updateDataManage(){
+             	qty=document.getElementById("updateQtyPerCart").value
+             	totalcart=document.getElementById("updateTotalQty").value
+             	price= document.getElementById("updatePrice").value
+             	console.log(totalcart/qty)
+             	console.log(totalLoop)
+             	if(totalLoop == totalcart/qty){
+             		total=totalValue+price*totalcart
+             		document.getElementById("Warring-2").innerHTML = '';
+             		document.getElementById("updatedSave_btn").disabled = false;
+             // document.getElementById("updateTotalCart").value=total;
+         }
+         else{
+         	document.getElementById("Warring-2").innerHTML = '&#9888; place enter valid data ';
+         	document.getElementById("updatedSave_btn").disabled = true;
+         }
+
+     }
+
+ </script>
+ <script>
+ 	function updateTable(){
+ 		document.getElementById("loader").style.display = "block";
+ 		document.getElementById("updateMain").style.display = "none";
+ 		updateData={}
+ 		updateData['retailler']=document.getElementById("updateRetailers").value;
+ 		updateData['item_sku']=document.getElementById("updateSku").value;
+ 		updateData['price']=document.getElementById("updatePrice").value;
+ 		updateData['qty_percart']=document.getElementById("updateQtyPerCart").value;
+ 		updateData['qty_total']=document.getElementById("updateTotalQty").value;
+ 		updateData['cart_total']=document.getElementById("updateTotalCart").value;
+ 		updateData['payment_type']=document.getElementById("updatePaymentType").value;
+
+ 		id=document.getElementById("updateId").value;
+
+ 		console.log(updateData)
+ 		console.log(status)
+ 		$.ajax({
+ 			type:'POST',
+ 			url:'/updateData/'+id,
+ 			data:updateData,
+ 			success:function(response){
+ 				console.log(response);
+ 				document.getElementById("loader").style.display = "none";
+ 				document.getElementById("updateMain").style.display = "block";
+ 				document.getElementById("updateMsg").style.display = "block";
+ 			},
+ 			error:function(error) {
+ 				console.log(error);
+ 				document.getElementById("loader").style.display = "none";
+ 				document.getElementById("errorMsg").style.display = "block";
+ 			}
+ 		});
+ 	}
+
+ 	function total(id){
+ 		var totalAmount=0
+ 		var loopValue=0
+ 		data=document.getElementById("noRow").value
+ 		<!--        data=id.split('-')[1]-->
+ 		Qty1=document.getElementById("TotalQty-1").value
+ 		QtyPerCart1=document.getElementById("QtyPerCart-1").value
+ 		loopValue=Qty1/QtyPerCart1
+ 		if(Qty1%QtyPerCart1 != 0  ){
+ 			document.getElementById("QtyPerCart-1").style.borderColor = "red";
+ 			document.getElementById("TotalQty-1").style.borderColor = "red";
+ 			document.getElementById("Warring-1").innerHTML = '&#9888; place enter valid data ';
+ 			console.log('incorrect data')
+ 		}
+ 		else{
+ 			document.getElementById("QtyPerCart-1").style.borderColor = "";
+ 			document.getElementById("TotalQty-1").style.borderColor = "";
+ 			document.getElementById("Warring-1").innerHTML = '';
+ 		}
+ 		for(var x=1;x<=Number(data);x++){
+ 			price=Number(document.getElementById("Price-"+String(x)).value)
+ 			Qty=document.getElementById("TotalQty-"+String(x)).value
+ 			QtyPerCart=document.getElementById("QtyPerCart-"+String(x)).value
+ 			var total=price*Qty
+ 			totalAmount+=total
+ 			console.log('%',Qty%QtyPerCart)
+ 			console.log('/',Qty/QtyPerCart)
+ 			console.log('loopValue',loopValue)
+
+ 			if(Qty%QtyPerCart==0 && Qty/QtyPerCart == loopValue && x >= 2 ){
+ 				document.getElementById("QtyPerCart-"+x).style.borderColor = "";
+ 				document.getElementById("TotalQty-"+x).style.borderColor = "";
+ 				document.getElementById("Warring-"+x).innerHTML = ' ';
+ 			}
+ 			else{
+ 				if(x >= 2){
+ 					document.getElementById("QtyPerCart-"+x).style.borderColor = "red";
+ 					document.getElementById("TotalQty-"+x).style.borderColor = "red";
+ 					document.getElementById("Warring-"+x).innerHTML = '&#9888; place enter valid data ';
+ 					console.log('incorrect data')
+ 				}
+ 			}
+ 		}
+
+ 		document.getElementById("total").innerHTML = 'Total Amount: '+String(totalAmount);
+         // document.getElementById("TotalCart").value = totalAmount;
+         console.log(totalAmount)
+     }
+ </script>
+
+ <script type="text/javascript">
+ 	function closemodal(){
+                 // get modals
+                 const modals = document.getElementsByClassName('modal');
+
+                 // on every modal change state like in hidden modal
+                 for(let i=0; i<modals.length; i++) {
+                 	modals[i].classList.remove('show');
+                 	modals[i].setAttribute('aria-hidden', 'true');
+                 	modals[i].setAttribute('style', 'display: none');
+                 	location.reload();
+                 }
+
+             }
+         </script>
+
+         <!-- select and chnage multiple status in one time -->
+         <script >
+         	function changedata(status){
+         		var checkboxes = document.getElementsByName("check[]");
+         		var checkboxesChecked = [];
+         		var checkedRows={}
+         		checkedRows['status'] = status;
+              // loop over them all
+              for (var i=0; i<checkboxes.length; i++) {
+                 // And stick the checked ones onto an array...
+                 if (checkboxes[i].checked) {
+                 	checkboxesChecked.push(checkboxes[i].value);
+                 }
+             }
+             len=checkboxesChecked.length
+             for(var i = 0; i < checkboxesChecked.length; i++){
+             	checkedRows['id'+i] = checkboxesChecked[i] ;
+             	<!--alert(checkboxesChecked[i])-->
+             }
+             console.log(checkedRows)
+
+             $.ajax({
+             	type:'POST',
+             	url:'/selectTable/'+len,
+             	data:checkedRows,
+             	success:function(response){
+             		console.log(response);
+             		location.reload();
+             	},
+             	error:function(error) {
+             		console.log(error);
+             	}
+             });
+         }
+     </script>
+
+     <script language="javascript">
+     	$(document).ready(function() {
+	var wrapper   	  = $("#buying-items"); //Fields wrapper
+	var add_button    = $("#add_field_button"); //Add button ID
+	var x = 1; //initlal text box count
+	$(add_button).click(function(e){ //on add input button click
+		e.preventDefault();
+		x++; //text box increment
+		document.getElementById("noRow").value=x
+		$(wrapper).append('<div class="row">'+
+			'<div class="col-md-3">'+
+			'<div class="form-group">'+
+			'<label for="field-2" class="control-label">Item Sku </label>'+
+			'<input required type="text" class="form-control"  name="Sku-'+x+'" id="Sku-'+x+'"   placeholder="3452">'+
+			'</div>'+
+			'</div>'+
+			'<div class="col-md-3">'+
+			'<div class="form-group">'+
+			'<label for="field-3" class="control-label">Price </label>'+
+			'<input required type="text" class="form-control" name="Price-'+x+'" id="Price-'+x+'" onkeyup="total(id)" placeholder=" $29 ">'+
+			'</div>'+
+			'</div>'+
+			'<div class="col-md-3">'+
+			'<div class="form-group">'+
+			'<label for="field-4" class="control-label">Qty Per Cart</label>'+
+			'<input required type="text" class="form-control" name="QtyPerCart-'+x+'" id="QtyPerCart-'+x+'" onkeyup="total(id)" placeholder="1">'+
+			'</div>'+
+			'</div>'+
+			'<div class="col-md-3">'+
+			'<div class="form-group">'+
+			'<label for="field-5" class="control-label">Total Qty</label>'+
+			'<input required type="text" class="form-control" name="TotalQty-'+x+'" id="TotalQty-'+x+'" onkeyup="total(id)" placeholder="10">'+
+			'</div>'+
+			'</div>'+
+			'</div>'+
+			'<h5><span style="color:red" id="Warring-'+x+'"></span></h5>');
+
+	});
+
+});
+</script>
+<script type="text/javascript">
+
+	$(document).on("click", "#cb-bulk", function(){
+		$(".cb-single").prop("checked", $(this).prop("checked"));
+	});
+
+	$(document).on("click", ".cb-single", function(){
+		var all = $(".cb-single").length;
+
+		var checked = $(".cb-single:checked").length;
+
+		if(all == checked){
+			$(".cb-tab").prop("checked", true);
+		}else{
+			$(".cb-tab").prop("checked", false);
+		}
+	});
+</script>
+
+<script>
+	function changeStatus(id){
+		status=document.getElementById(id).value
+		
+		statusData={}
+		var newUser = "id";
+		newValue=id
+		var newUser1 = "status";
+		newValue1=status
+		statusData[newUser] = newValue ;
+		statusData[newUser1] = newValue1 ;
+		console.log(statusData)
+		$.ajax({
+			type:'POST',
+			url:'/allOrderStatusChange',
+			data:statusData,
+			success:function(response){
+				console.log(response);
+				showSnackbar('Status updated.');
+			},
+			error:function(error) {
+				console.log(error);
+			}
+		});
+	}
+
+	function statusFunction(idData) {
+
+		id=String(idData).slice(2)
+		$.ajax({
+			type:'POST',
+			url:'/buyingstatusChange/'+id,
+			data:{
+				status: $('input#'+idData).prop('checked'),
+				change:idData
+			},
+			success:function(response){
+				var data=JSON.parse(response)
+				updateMsg=data.message
+				showSnackbar(updateMsg+' updated.');
+			}
+		});
+	}
+</script>
+<script type="text/javascript">
+	function saveDate(){
+		document.getElementById("loader").style.display = "block";
+		document.getElementById("loaderMain").style.display = "none";
+		noRow=document.getElementById("noRow").value
+
+		console.log(noRow)
+		{% for x in accessdata %}
+		var id={{x.userid}}
+		var comId = {{x.companyID}}
+		{% endfor %}
+
+		var data11={
+			noRow:noRow,
+			retailers:$('#Retailers').val(),
+			shipping:$('#Shipping').val(),
+			tax:$('#Tax').val(),
+			totalCart:$('#TotalCart').val(),
+			paymentType:$('#PaymentType').val(),
+			comId:comId
+		}
+
+		for(i=1; i<=noRow; i++){
+			var newUser = "Sku-" + i;
+			newValue=document.getElementById(newUser).value
+			var newUser1 = "Price-" + i;
+			newValue1=document.getElementById(newUser1).value
+			var newUser2 = "QtyPerCart-" + i;
+			newValue2=document.getElementById(newUser2).value
+			var newUser3 = "TotalQty-" + i;
+			newValue3=document.getElementById(newUser3).value
+
+			data11[newUser] = newValue ;
+			data11[newUser1] = newValue1 ;
+			data11[newUser2] = newValue2 ;
+			data11[newUser3] = newValue3 ;
+
+		}
+		console.log(data11)
+
+		$.ajax({
+			type:'POST',
+			url:'/cromeData/'+id,
+			data:data11,
+			success:function(response){
+				console.log(response);
+
+
+				document.getElementById("loader").style.display = "none";
+				document.getElementById("loaderMain").style.display = "block";
+				document.getElementById("updateMsg").style.display = "block";
+				$(".form-control").val("");
+			},
+			error: function(error) {
+				document.getElementById("loader").style.display = "none";
+				document.getElementById("errorMsg").style.display = "block";
+				console.log(error);
+			}
+		});
+	}
+
+</script>
+<script>
+   //function for showing toast on edit of the fields
+
+   function showSnackbar(text) {
+   	var x = document.getElementById("snackbar");
+   	x.innerHTML = text;
+   	x.className = "show";
+   	setTimeout(function(){ x.className = x.className.replace("show", ''); }, 3000);
+   }
+</script>
+
+
+
+{% endblock %}

@@ -1,0 +1,982 @@
+{% extends "extend.html" %} {% block tittle %}Order Details - ECOMMFLOW{% endblock tittle %} {% block css %}
+<!-- Plugins css -->
+
+<!-- upperdropdown datepicker css -->
+<link href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+
+<link href="static/libs/bootstrap-colorpicker/bootstrap-colorpicker.min.css" rel="stylesheet" type="text/css" />
+<!--<link rel="stylesheet" type="text/css" href="static/css/orderdetails.css">-->
+<style>
+.dataTables_filter,
+.dataTables_length {
+	display: none;
+}
+
+
+span.select2.select2-container.select2-container--default.select2-container--focus {
+	width: 100% !important;
+}
+
+li.select2-selection__choice {
+	color: #000 !important;
+}
+
+.select2-selection__rendered {
+	width: 350px !important;
+}
+
+.p-datepicker {
+	border: none !important;
+}
+
+.p-datepicker:focus {
+	border: 1px solid;
+}
+
+select {
+	border: none;
+}
+
+/* / CSS FOR UI DATEPICKER / */
+.ui-widget-header {
+	border: none !important;
+	background: transparent !important;
+}
+
+.ui-state-default,
+.ui-widget-content .ui-state-default {
+	border-radius: 4px !important;
+	border: none !important;
+}
+
+/*
+.ui-state-highlight,
+.ui-widget-content .ui-state-highlight {
+	background: #6658dd!important;
+	color: #fff;
+}*/
+
+.ui-datepicker td a {
+	text-align: center;
+}
+
+.ui-widget-content {
+	border: none;
+	background: #ffffff;
+	color: #212529;
+	font-size: 16px;
+	font-weight: initial;
+	line-height: 1.5;
+}
+
+.ui-widget {
+	font-family: Nunito, sans-serif;
+}
+
+.ui-widget.ui-widget-content {
+	border: none;
+}
+
+.ui-datepicker {
+	width: 13em;
+}
+
+
+#snackbar {
+	visibility: hidden;
+	min-width: 250px;
+	margin-left: -125px;
+	background: #f7b84b !important;
+	z-index: 999 !important;
+	color: #000 !important;
+	text-align: center;
+	border-radius: 2px;
+	padding: 16px;
+	position: fixed;
+	z-index: 1;
+	left: 50%;
+	top: 30px;
+	font-size: 17px;
+}
+
+#snackbar.show {
+	visibility: visible;
+	-webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+	animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+@-webkit-keyframes fadein {
+	from {
+		top: 0;
+		opacity: 0;
+	}
+	to {
+		top: 30px;
+		opacity: 1;
+	}
+}
+
+@keyframes fadein {
+	from {
+		top: 0;
+		opacity: 0;
+	}
+	to {
+		top: 30px;
+		opacity: 1;
+	}
+}
+
+@-webkit-keyframes fadeout {
+	from {
+		top: 30px;
+		opacity: 1;
+	}
+	to {
+		top: 0;
+		opacity: 0;
+	}
+}
+
+@keyframes fadeout {
+	from {
+		top: 30px;
+		opacity: 1;
+	}
+	to {
+		top: 0;
+		opacity: 0;
+	}
+}
+</style> {% endblock css %} {% block js %}
+<!-- Bootstrap Tables js -->
+<!-- <script src="static/libs/bootstrap-table/bootstrap-table.min.js"></script> -->
+<!-- Init js -->
+<!-- <script src="static/js/pages/bootstrap-tables.init.js"></script> -->
+<!-- bootstrap filter js -->
+<script src="static/libs/bootstrap-select/bootstrap-select.min.js"></script>
+<!---------- cell editable js ---------------->
+<!-- https://stackoverflow.com/questions/35869054/using-jeditable-and-getting-typeerror-editable-is-not-a-function-what-t -->
+<script src="http://www.appelsiini.net/download/jquery.jeditable.mini.js"></script>
+<!-- third party js -->
+<script src="static/libs/datatables/jquery.dataTables.min.js"></script>
+<script src="static/libs/datatables/dataTables.bootstrap4.js"></script>
+<script src="static/libs/datatables/dataTables.responsive.min.js"></script>
+<script src="static/libs/datatables/responsive.bootstrap4.min.js"></script>
+<script src="static/libs/datatables/dataTables.buttons.min.js"></script>
+<script src="static/libs/datatables/buttons.bootstrap4.min.js"></script>
+<script src="static/libs/datatables/buttons.html5.min.js"></script>
+<script src="static/libs/datatables/dataTables.keyTable.min.js"></script>
+<!-- third party js ends -->
+<!-- Datatables init -->
+<script src="static/js/pages/datatables.init.js"></script>
+<!-- App js -->
+<script src="static/js/app.min.js"></script>
+<!-- user select box-->
+<script src="static/libs/select2/select2.min.js"></script>
+<script src="static/js/pages/form-advanced.init.js"></script>
+
+
+<!-- Sweetalert -->
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+<!-- upper dropdown datepicker js -->
+<script src="static/libs/jquery-ui/jquery-ui.min.js"></script>
+
+		{% endblock js %} {% block body %}
+<div id="snackbar">Some text some message..</div>
+<!-- ============================================================== -->
+<!-- Start Page Content here -->
+<!-- ============================================================== -->
+<div class="content-page">
+	<div class="content">
+		<!-- Start Content-->
+		<div class="container-fluid">
+			<!-- start page title -->
+			<div class="row">
+				<div class="col-12">
+					<div class="page-title-box">
+						<h4 class="page-title">Order Details</h4> </div>
+				</div>
+			</div>
+			<!-- end page title -->
+			<div class="row">
+				<div class="col-12">
+					<div class="card-box">
+						<!-- Logo & title -->
+						<div class="clearfix">
+							<div class="float-left">
+								<h4>{{order_Detail['retailler']}} </h4>
+								<p class="mb-0"><strong>Order #:</strong> <span class="float-right">{{order_Detail['order_no']}}</span></p>
+								<p class="mb-0"><strong>DOP :</strong> <span class="float-right">{{order_Detail['dop']}}</span></p>
+								<p class="mb-0"><strong>Status :</strong> <span class="float-right">{{order_Detail['status']}}</span></p>
+                                <p class="mb-0"><strong>Shipments :</strong> <span class="float-right">{{order_Detail['shipping_count']}}</span></p>
+							</div>
+							<div class="float-right">
+								<h4>Delivered To:</h4>
+								<!-- <p class="m-b-10"><span class="float-left">170 Oberlin Ave N</span></p>
+                                             <p class="m-b-10"><span class="float-left"> Unit 17</span></p>
+                                            <p class="m-b-10"><span class="float-left">Lakewood, NJ 08701</span></p> -->
+								<p class="m-b-10"><span class="float-left">{{order_Detail['shipping_address']}}</span></p>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12 float-left">
+								<div class="mt-3 float-left"> </div>
+							</div>
+							<!-- end col -->
+						</div>
+						<!-- end row -->
+						<div class="row">
+							<div id="con-close-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h4 class="modal-title">Add Item</h4>
+											<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+										</div>
+										<form id="order_detail_form" action="/orderdetailitems" method="post">
+										<div class="modal-body p-4">
+											<div class="row">
+												<div class="col-md-6">
+													<div class="form-group">
+														<label for="field-1" class="control-label">Sku </label>
+														<input type="text" name="sku" class="form-control" id="field-1" placeholder="123 " required>
+													</div>
+												</div>
+												<div class="col-md-6">
+													<div class="form-group">
+														<label for="field-2" class="control-label">Title </label>
+														<input type="text" name="title" class="form-control" id="field-2" placeholder="xyz " required>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-md-6">
+													<div class="form-group">
+														<label for="field-3" class="control-label">Qty </label>
+														<input type="number" min="0" name="qty" class="form-control" id="field-3" placeholder="10" required>
+													</div>
+												</div>
+												<div class="col-md-6">
+													<div class="form-group">
+														<label for="field-4" class="control-label">Price</label>
+														<input type="number" min="0" step="any" name="price" class="form-control" id="field-4" placeholder="$999.99" required>
+													</div>
+												</div>
+											</div>
+<!--											<div class="row">-->
+<!--												<div class="col-md-6">-->
+<!--													<div class="form-group">-->
+<!--														<label for="field-9" class="control-label">Tax </label>-->
+<!--														<input type="number" min="0" step="any" name="tax" class="form-control" id="field-9" placeholder="$5.75" required> </div>-->
+<!--												</div>-->
+<!--												<div class="col-md-6">-->
+<!--													<div class="form-group">-->
+<!--														<label for="field-10" class="control-label">Delivery Cost </label>-->
+<!--														<input type="number" min="0" step="any" name="delivery" class="form-control" id="field-10" placeholder="$2.5" required> </div>-->
+<!--												</div>-->
+<!--											</div>-->
+											<div class="row">
+												<div class="col-md-6">
+													<div class="form-group">
+														<label for="field-5" class="control-label">Carrier</label>
+														<input type="text" name="carrier" class="form-control" id="field-5" placeholder="fed-ex" required>
+													</div>
+												</div>
+												<div class="col-md-6">
+													<div class="form-group">
+														<label for="field-6" class="control-label">Tracking Number</label>
+														<input type="text" name="tnumber" class="form-control" id="field-6" placeholder="213213312" required>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-md-6">
+													<div class="form-group">
+														<label for="field-7" class="control-label">Status </label>
+														<select class="selectpicker" id="field-7" name="status" required>
+															<option value="">Status</option>
+															<option value="Processing">Processing</option>
+															<option value="Ordered">Ordered</option>
+															<option value="Cancelled">Cancelled</option>
+															<option value="Shipped">Shipped</option>
+															<option value="Delivered">Delivered</option>
+															<option value="Received">Received</option>
+														</select>
+													</div>
+												</div>
+												<div class="col-md-6">
+													<div class="form-group">
+														<label for="field-8" class="control-label">DOP</label>
+														<input type="text" name="dop"  value="{{order_Detail['dop']}}" class="form-control" id="datePickerId" placeholder="mm-dd-yy" required autocomplete="off">
+														<input type="hidden" name="product_number" value="{{data}}">
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="modal-footer">
+											<button type="submit" id="odsub1" class="btn btn-info waves-effect waves-light">Submit</button>
+										</div>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="float-left ml-2 ">
+								<button type="button" class="btn btn-success waves-effect waves-light" data-toggle="modal" data-target="#con-close-modal">Add Item</button>
+							</div>
+						</div>
+						<!-- Add payment trasaction details -->
+						<div class="row">
+							<div id="con-close-modal-1" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h4 class="modal-title">Add Payment For Items</h4>
+											<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+										</div>
+										<form id="payment_form" action="/orderdetailpayment" method="post">
+										<div class="modal-body p-4">
+											<div class="row">
+												<div class="col-md-6">
+													<div class="form-group">
+														<label for="payment-select" class="control-label">Payment Type </label>
+														<select class="selectpicker" id="payment-select" name="payment_type" required>
+															<option value="">Select Type</option>
+															<option value="cc">Credit Card</option>
+															<option value="gc">Gift Card</option>
+														</select>
+													</div>
+												</div>
+												<div class="col-md-6">
+													<div class="form-group">
+														<input type="hidden" name="product_number" value="{{data}}">
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-md-6">
+													<div class="form-group" id="cc_id" style="display:none">
+													<label for="fieldpy-0" class="control-label">Credit Card Number </label>
+														<input type="text" pattern="\d*" maxlength="4" name="payment_number_cc" class="form-control" id="fieldpy-0" placeholder="Last four digit - 1234 ">
+													</div>
+													<div class="form-group" id="gc_id" style="display:none">
+													<label for="fieldpy-1" class="control-label">Gift Card Number </label>
+														<input type="text" name="payment_number_gc" class="form-control" id="fieldpy-1" placeholder="1234567890 ">
+													</div>
+												</div>
+												<div class="col-md-6">
+													<div class="form-group" id="cc_gc_amount" style="display:none">
+														<label for="fieldpy-2" class="control-label">Payment Amount</label>
+														<input type="number" step="any" name="payment_amount" class="form-control" id="fieldpy-2" placeholder="$999.99 " required>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="modal-footer">
+											<button type="reset" class="btn btn-info waves-effect waves-light reset">Reset</button>
+											<button type="submit" class="btn btn-info waves-effect waves-light">Submit</button>
+										</div>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- Edit payment trasaction details -->
+						<div class="row">
+							<div id="con-close-modal-2" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h4 class="modal-title">Update Payment For Items</h4>
+											<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+										</div>
+										<form id="edit_payment_form" action="/orderdetailpayment" method="PUT">
+										<div class="modal-body p-4">
+											<div class="row">
+												<div class="col-md-6">
+													<div class="form-group">
+														<label for="edit_card_type" class="control-label">Payment Type </label>
+														<select class="selectpicker" id="edit_card_type" name="payment_type" disabled="disabled">
+															<option value="">Select Type</option>
+															<option value="cc">Credit Card</option>
+															<option value="gc">Gift Card</option>
+														</select>
+													</div>
+												</div>
+												<div class="col-md-6">
+													<div class="form-group">
+														<input type="hidden" id="edit_payment_type_alt" name="payment_type_alt" value="">
+														<input type="hidden" id="edit_payment_id" name="payment_id" value="">
+														<input type="hidden" name="product_number" value="{{data}}">
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-md-6">
+													<div class="form-group">
+														<label for="edit_payment_number" class="control-label">Payment Number </label>
+														<input type="text" name="payment_number" class="form-control" id="edit_payment_number" placeholder="1234 " required>
+													</div>
+												</div>
+												<div class="col-md-6">
+													<div class="form-group">
+														<label for="edit_payment_amount" class="control-label">Payment Amount</label>
+														<input type="number" min="0" step="any" name="payment_amount" class="form-control" id="edit_payment_amount" placeholder="$999.99 " required>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="modal-footer">
+											<button type="reset" class="btn btn-info waves-effect waves-light">Reset</button>
+											<button type="submit" class="btn btn-info waves-effect waves-light">Update</button>
+										</div>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- Edit Tracking details -->
+						<div class="row">
+							<div id="con-close-modal-3" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h4 class="modal-title">Update Tracking Number</h4>
+											<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+										</div>
+										<form id="edit_tracking_form" action="/orderdetailitems" method="PUT">
+										<div class="modal-body p-4">
+											<div class="row">
+												<div class="col-md-12">
+													<div class="form-group">
+														<label for="edit_tracking_no" class="control-label">Tracking Number </label>
+														<input type="text" name="tracking_number" class="form-control" id="edit_tracking_no" placeholder="23123323232 " required pattern="\S(.*\S)?">
+														<input type="hidden" id="edit_tracking_id" name="tracking_id" value="">
+														<input type="hidden" name="product_number" value="{{data}}">
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="modal-footer">
+											<button type="reset" class="btn btn-info waves-effect waves-light">Reset</button>
+											<button type="submit" class="btn btn-info waves-effect waves-light">Update</button>
+										</div>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- Display order detail table -->
+						<div class=" row">
+                              <div class="col-12" style='overflow-x: auto'>
+                                <div class="table-responsive">
+								  <table id="orderdetailtable" class="table table-centered mt-4">
+                                    <thead>
+										<tr>
+											<th>#</th>
+											<th>SKU</th>
+											<th>Title</th>
+											<th>QTY</th>
+											<th>Price</th>
+											<th>Item Status</th>
+											<th>Display Carrier</th>
+											<th>Tracking Number</th>
+											<th></th>
+										</tr>
+									</thead>
+                                </table>
+								</div>
+								</div>
+                           </div>
+						<!-- end row -->
+						<div class="row mt-4">
+							<div class="col-md-6 float-left">
+								<div class="d-print-none float-left">
+                                    <p><b>Payment Type:</b> <button type="button" class="btn btn-success waves-effect waves-light" style="margin-left: 40px;" data-toggle="modal" data-target="#con-close-modal-1">Add</button></p>
+                                    {% for x in ccData %}
+									<p><b>Credit Card - </b> <span class="float-right">&nbsp;&nbsp;&nbsp; {{x.creditCard_number}} - ${{'%0.2f'| format(x.amount|float)}} <span class="btnEdit" data-toggle="modal" data-target="#con-close-modal-2" data-id="{{x.id}}" data-payment-number="{{x.creditCard_number}}" data-payment-amount="{{x.amount}}" data-payment-type="cc"> <i class="icon-pencil" style="color:blue;margin-left: 10px;"></i></span> <span onclick=deletePayment(id,this) id="{{x.id}}" data-payment-type="cc"><i class="fe-trash-2" style="color:red;margin-left: 10px;"></i></span></span></p>
+                                    {% endfor %}
+                                    {% for x in gcData %}
+									<p><b>Gift Card - </b> <span class="float-right">&nbsp;&nbsp;&nbsp;{{x.giftCard_number}} - ${{'%0.2f'| format(x.amount|float)}} <span class="btnEdit" data-toggle="modal" data-target="#con-close-modal-2" data-id="{{x.id}}" data-payment-number="{{x.giftCard_number}}" data-payment-amount="{{x.amount}}" data-payment-type="gc"> <i class="icon-pencil" style="color:blue;margin-left: 10px;"></i> </span> <span onclick=deletePayment(id,this) id="{{x.id}}" data-payment-type="gc"><i class="fe-trash-2" style="color:red;margin-left: 10px;"></i></span></span></p>
+                                    {% endfor %} 
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="float-right">
+									<p><b>Sub-total:</b> <span class="float-right">${{'%0.2f'| format(order_Detail['sub_total']|float)}}</span></p>
+									<p><b>Tax:</b> <span class="float-right"> ${{'%0.2f'| format(order_Detail['cart_tax']|float)}}</span></p>
+									<p><b>Shipping:</b> <span class="float-right">${{'%0.2f'| format(order_Detail['shipping_cost']|float)}}</span></p>
+									<p><b>Total:</b> <span class="float-right"><b>${{'%0.2f'| format(order_Detail['cart_total']|float)}} </b></span></p>
+								</div>
+								<div class="clearfix"></div>
+							</div>
+							<div class="col-md-6 float-left">
+								<div class="d-print-none float-left">
+									<!-- <a href="#" class="btn btn-info waves-effect waves-light">View Invoice</a> <a href="#" class="btn btn-info waves-effect waves-light">Download Invoice</a> -->
+									<a href="javascript:window.print()" class="btn btn-primary waves-effect waves-light"><i class="mdi mdi-printer mr-1"></i> Print</a> </div>
+							</div>
+							<!-- end col -->
+						</div>
+						<!-- end row -->
+					</div>
+					<!-- end card-box -->
+				</div>
+				<!-- end col -->
+				{# endfor #} </div>
+			<!-- end row -->
+		</div>
+		<!-- container -->
+	</div>
+	<!-- content -->
+	<!-- Vendor js -->
+	<script src="static/js/vendor.min.js"></script>
+	<!-- Create form for add items in ordertracking -->
+	<script type="text/javascript">
+		var frm = $('#order_detail_form');
+		frm.submit(function (e) {
+			e.preventDefault();
+			$.ajax({
+				type: frm.attr('method'),
+				url: frm.attr('action'),
+				data: frm.serialize(),
+				success: function (data) {
+					console.log('Submission was successful.');
+					console.log(data);
+					closemodal();
+					showSnackbar(data);
+					setTimeout(function(){
+							location.reload();
+						  },1000)
+				},
+				error: function (data) {
+					console.log('An error occurred.');
+					console.log(data);
+					closemodal();
+					showSnackbar(data);
+					setTimeout(function(){
+							location.reload();
+						  },1000)
+				},
+			});
+		});
+	</script>
+	<script type="text/javascript">
+		var edittrfrm = $('#edit_tracking_form');
+		edittrfrm.submit(function (e) {
+			e.preventDefault();
+			$.ajax({
+				type: edittrfrm.attr('method'),
+				url: edittrfrm.attr('action'),
+				data: edittrfrm.serialize(),
+				success: function (data) {
+					console.log('Submission was successful.');
+					console.log(data);
+					closemodal();
+					showSnackbar(data);
+					setTimeout(function(){
+							location.reload();
+						  },1000)
+				},
+				error: function (data) {
+					console.log('An error occurred.');
+					console.log(data);
+					closemodal();
+					showSnackbar(data);
+					setTimeout(function(){
+							location.reload();
+						  },1000)
+				},
+			});
+		});
+	</script>
+	<script type="text/javascript">
+		var editfrm = $('#edit_payment_form');
+		editfrm.submit(function (e) {
+			e.preventDefault();
+			$.ajax({
+				type: editfrm.attr('method'),
+				url: editfrm.attr('action'),
+				data: editfrm.serialize(),
+				success: function (data) {
+					console.log('Submission was successful.');
+					console.log(data);
+					closemodal();
+					showSnackbar(data);
+					setTimeout(function(){
+							location.reload();
+						  },1000)
+				},
+				error: function (data) {
+					console.log('An error occurred.');
+					console.log(data);
+					closemodal();
+					showSnackbar(data);
+					setTimeout(function(){
+							location.reload();
+						  },1000)
+				},
+			});
+		});
+	</script>
+	<script type="text/javascript">
+		var payfrm = $('#payment_form');
+		payfrm.submit(function (e) {
+			e.preventDefault();
+			$.ajax({
+				type: payfrm.attr('method'),
+				url: payfrm.attr('action'),
+				data: payfrm.serialize(),
+				success: function (data) {
+					console.log('Submission was successful.');
+					console.log(data);
+					closemodal();
+					showSnackbar(data);
+					setTimeout(function(){
+							location.reload();
+						  },1000)
+				},
+				error: function (data) {
+					console.log('An error occurred.');
+					console.log(data);
+					closemodal();
+					showSnackbar(data);
+					setTimeout(function(){
+							location.reload();
+						  },1000)
+				},
+			});
+		});
+	</script>
+
+	<!-- flat datepicker functionality --> 
+<script>
+	function initDP() {
+		 var today = new Date();
+		  $("#datePickerId").datepicker({
+		   todayHighlight: true,
+		   dateFormat: "mm-dd-yy",
+		   "endDate": "today",
+		   maxDate: today,
+		   autoclose: true,
+		});
+	 }
+ </script>
+
+
+
+	<script type="text/javascript">
+       function closemodal(){
+                // get modals
+                const modals = document.getElementsByClassName('modal');
+
+                // on every modal change state like in hidden modal
+                for(let i=0; i<modals.length; i++) {
+                   modals[i].classList.remove('show');
+                   modals[i].setAttribute('aria-hidden', 'true');
+                   modals[i].setAttribute('style', 'display: none');
+                }
+       }
+    </script>
+	<!------- toast functionality  ------->
+    <script>
+        function showSnackbar(text) {
+        var x = document.getElementById("snackbar");
+        x.innerHTML = text;
+        x.className = "show";
+        setTimeout(function(){ x.className = x.className.replace("show", ''); }, 3000);
+        }
+    </script>
+	<!-- append status -->
+	<script>
+	   function  getStatusSelectFilter(data, row) {
+		  let htmlString   =  '<select onchange="changeStatus(this)" class="hd3">'+
+				'<option value='+row.id+'>'+data+'</option>';
+				if (data !== "Processing")
+				htmlString = htmlString + "<option value='" + row.id +"'>Processing</option>";
+				if (data !== "Ordered")
+				htmlString = htmlString + "<option value='" + row.id +"'>Ordered</option>";
+				if (data !== "Cancelled")
+				htmlString = htmlString + "<option value='" + row.id +"'>Cancelled</option>";
+				if (data !== "Shipped")
+				htmlString = htmlString + "<option value='" + row.id +"'>Shipped</option>";
+				if (data !== "Delivered")
+				htmlString = htmlString + "<option value='" + row.id +"'>Delivered</option>";
+				if (data !== "Received")
+				htmlString = htmlString + "<option value='" + row.id +"'>Received</option>";
+		  htmlString = htmlString + '</select>';
+		  return htmlString
+	   }
+	</script>
+	<script>
+	  var orderdetailtable = undefined;
+	  $(document).ready(function(){
+		 //this code work when you refresh the page
+		 if (performance.navigation.type != 2){
+		 //checks if page is accessed through a link or refresh
+		 orderdetailtable = $('#orderdetailtable').DataTable();
+		 orderdetailtable.state.clear();
+		 orderdetailtable.destroy(); // need to destroy the table, I don't know why..
+	  }
+	   // table initialization code
+	   orderdetailtable = $('#orderdetailtable').DataTable({
+		       stateSave: true,
+			   serverSide: true,
+			   paging: false,
+			   info:false,
+			   searching:false,
+			   columns: [
+					    {"data": "counter"},
+						{"data": "sku", "defaultContent": "Click to edit"},
+						{"data": "title", "defaultContent": "Click to edit"},
+						{"data": "qty", "defaultContent": "Click to edit"},
+						{"data": "price", "defaultContent": "Click to edit",
+						"render": function(data, type, row, meta) {
+							if (data){
+							return '$'+data
+							}
+							else{return "Click to edit"}
+						}
+						},
+						{"data": "status", "defaultContent": "Click to edit",
+						"render": function( data, type, row, meta ) {
+									  return getStatusSelectFilter(data, row);
+								   }
+						},
+						{"data": "carrier", "defaultContent": "Click to edit"},
+						{"data": "tracking_number", "defaultContent": "Click on edit"},
+						{"data":'id',
+						"render": function(data, type, row, meta) {
+							return '<span class="" onclick=deleteRow(id) id="'+data+'"><i class="fe-trash-2" style="color:red"></i></span>'
+						}},
+			],
+		   "ajax": {
+				'type': 'post',
+				'url': '/orderdetails?id={{data}}',
+				'dataType': 'json',
+				"contentType": "application/json",
+				"data": function ( d ) {
+							console.log(d)
+							return JSON.stringify(d)
+					 }
+			  },
+			  "drawCallback": function(settings) {
+                                     initDP();
+				}
+	     });
+
+	     //code for making the cell editable
+         // //https://datatables.net/reference/api/cell().data()
+         $('#orderdetailtable tbody').on( 'click', 'td', function (ev) {
+               $('#orderdetailtable td:not(:first-child, :nth-child(6),:nth-child(8),:last-child)').editable( function( sValue, settings ) {
+                  /* Get the position of the current data from the node */
+                  var aPos = oTable.fnGetPosition( this );
+
+                  /* Get the data array for this row */
+                  var aData = oTable.fnGetData( aPos[0] );
+
+                  /* Update the data array and return the value */
+                  aData[ aPos[1] ] = sValue;
+
+                  // call this code only when previous value(prev val contain in this.revert) is not equal to current new value after change
+                  if (this.revert !== sValue) {
+                     // **UPDATE CODE TO CALL API TO UPDATE IN DATABASE**
+                     const cellIndex =  this.cellIndex; // used to identify cell - which cell is clicked
+                     // set column list to get cell name by index
+                     columnlist = [
+                        "#",
+                        "sku",
+                        "title",
+                        "qty",
+                        "price",
+                        "status",
+                        "carrier",
+                        "tracking_number",
+                     ]
+                     const cellName = columnlist[cellIndex]; // name of the column which is updated
+                     const id = aData.id; // get id of this row toidentify row
+                     const newValue = sValue; // new value of the coulmn updated by user from input
+                     const updateValue = { "cellName":cellName, "id":id, "newValue":newValue };
+                     $.ajax({
+                        type: "PUT",
+                        url: "/orderdetails",
+                        data: JSON.stringify(updateValue),
+                        success: function(d) {
+                           console.log('Success', d);
+                           if (d.column =='sku') {var x = 'SKU Items'} else if (d.column =='title') {var x = 'Title'} else if (d.column =='qty') {var x = 'cart quantity'}else if (d.column =='price') {var x = 'Cart Price'} else if (d.column =='carrier') {var x = 'Carrier'} else if (d.column =='tracking_number') {var x = 'Tracking Number'} else {var x = d.column }
+                           showSnackbar(x+' updated')
+                           setTimeout(function(){
+							location.reload();
+						  },1000)
+                        },
+                        dataType: 'json',
+                        contentType: "application/json"
+                     });
+                     // **API CODE END**
+                  }
+                  return sValue;
+               }, { "onblur": 'submit' } ); /* Submit the form when bluring a field */
+            /* Init DataTables */
+            oTable = $('#orderdetailtable').dataTable();
+       });
+	});
+
+	//---------------function for updating the status --------------//
+      function changeStatus(selectedObject) {
+         //id of the selected retailer
+         var id = selectedObject.value;
+         var selectedStatus =  selectedObject.options[selectedObject.selectedIndex].text;
+         console.log(id)
+         console.log(selectedStatus)
+
+         const updateValue = {"cellName":"status", "id":id, "newValue":selectedStatus};
+         // call API here to update date in database
+         $.ajax({
+               type: "PUT",
+               url: "/orderdetailstatus",
+               data: JSON.stringify(updateValue),
+               success: function(d) {
+                  //console.log('Success', d);
+                  if (d.column == 'status'){
+                     showSnackbar(d.column+' updated')
+                     setTimeout(function(){
+						location.reload();
+					  },1000)
+                  }
+               },
+               dataType: 'json',
+               contentType: "application/json"
+         });
+         // **API CODE END**
+      }
+    </script>
+
+	<script>
+	function deleteRow(row_num) {
+		var data = {
+			"row_num": row_num
+		}
+		swal({
+			title: "Are you sure?",
+			text: "Once deleted, you will not be able to recover this data!",
+			icon: "warning",
+			buttons: true,
+			dangerMode: true,
+		}).then((willDelete) => {
+			if (willDelete) {
+				var table_data = document.getElementById(row_num);
+				var row_info = [];
+				const tr = table_data.parentElement.parentElement;
+				row_info.push(tr)
+
+				$.ajax({
+					type: "DELETE",
+					url: "/orderdetails",
+					data: JSON.stringify(data),
+					dataType: 'json',
+					contentType: "application/json",
+					success: function(d) {
+						console.log('Success', d);
+						// remove row from view
+						if (d.code == 400) {
+							showSnackbar("can't deleted")
+						} else {
+							tr.remove();
+							showSnackbar("1 item is deleted");
+							setTimeout(function(){
+								location.reload();
+							  },1000)
+						}
+					},
+					error: function(xhr, ajaxOptions, thrownError) {
+						swal("Error deleting!", "Please try again", "error");
+					}
+				});
+			}
+		});
+    }
+   //-------------------------function end deleting row --------------------//
+	</script>
+	<script>
+	function deletePayment(id, el) {
+		var data = {
+			"payment_id": id,
+			"payment_type": el.dataset.paymentType
+		}
+		swal({
+			title: "Are you sure?",
+			text: "Once deleted, you will not be able to recover this data!",
+			icon: "warning",
+			buttons: true,
+			dangerMode: true,
+		}).then((willDelete) => {
+			if (willDelete) {
+				const payment_row = el.parentElement.parentElement;
+				$.ajax({
+					type: "DELETE",
+					url: "/orderdetailpayment",
+					data: JSON.stringify(data),
+					dataType: 'json',
+					contentType: "application/json",
+					success: function(d) {
+						console.log('Success', d);
+						// remove row from view
+						if (d.code == 400) {
+							showSnackbar("can't deleted")
+						} else {
+						    payment_row.remove();
+							showSnackbar("1 item is deleted");
+						    setTimeout(function(){
+								location.reload();
+							  },1000)
+						}
+					},
+					error: function(xhr, ajaxOptions, thrownError) {
+						swal("Error deleting!", "Please try again", "error");
+					}
+				});
+			}
+		});
+    }
+   //-------------------------function end deleting row --------------------//
+	</script>
+	<script>
+		$(".btnEdit").bind("click", function(element){
+			var edit_data = element.currentTarget.dataset;
+			$("#edit_payment_number").val(edit_data.paymentNumber);
+			$("#edit_payment_amount").val(edit_data.paymentAmount);
+			$("#edit_card_type").val(edit_data.paymentType).change();
+			$("#edit_payment_type_alt").val(edit_data.paymentType);
+			$("#edit_payment_id").val(edit_data.id);
+		});
+	</script>
+	<script type="text/javascript">
+		function edit_tracking(element){
+			var edit_data = element.dataset;
+			$("#edit_tracking_no").val(edit_data.trackingNumber);
+			$("#edit_tracking_id").val(edit_data.id);
+		}
+	</script>
+	<script>
+		$('#payment-select').on('change',function(){
+			  var selection = $(this).val();
+		   	  switch(selection){
+		      case "cc":
+		        $("#cc_id").show()
+		        $("#gc_id").hide()
+		        $("#cc_gc_amount").show()
+	            break;
+	          case "gc":
+	          	$("#gc_id").show()
+	          	$("#cc_id").hide()
+	          	$("#cc_gc_amount").show()
+	            break;
+		      default:
+		        $("#cc_id").hide()
+		        $("#gc_id").hide()
+		        $("#cc_gc_amount").hide()
+	   	   }
+	   });
+	</script>
+
+	{% endblock %}

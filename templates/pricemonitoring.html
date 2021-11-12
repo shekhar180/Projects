@@ -1,0 +1,366 @@
+﻿
+{% extends "extend.html" %}
+{% block tittle %}Price Monitoring - ECOMMFLOW{% endblock tittle %}
+{% block css %}
+ <!-- Plugins css -->
+      <link href="static/libs/flatpickr/flatpickr.min.css" rel="stylesheet" type="text/css" />
+      <link href="static/libs/bootstrap-colorpicker/bootstrap-colorpicker.min.css" rel="stylesheet" type="text/css" />
+      <link href="static/libs/clockpicker/bootstrap-clockpicker.min.css" rel="stylesheet" type="text/css" />
+      <link href="static/libs/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" />
+
+<style>
+    .switch {
+         position: relative;
+         display: inline-block;
+         width: 60px;
+         height: 34px;
+         }
+         .switch input {
+         opacity: 0;
+         width: 0;
+         height: 0;
+         }
+         .slider {
+         position: absolute;
+         cursor: pointer;
+         top: 0;
+         left: 0;
+         right: 0;
+         bottom: 0;
+         background-color: #ccc;
+         -webkit-transition: .4s;
+         transition: .4s;
+         }
+         .slider:before {
+         position: absolute;
+         content: "";
+         height: 26px;
+         width: 26px;
+         left: 4px;
+         bottom: 4px;
+         background-color: white;
+         -webkit-transition: .4s;
+         transition: .4s;
+         }
+         input:checked + .slider {
+         background-color: #2196F3;
+         }
+         input:focus + .slider {
+         box-shadow: 0 0 1px #2196F3;
+         }
+         input:checked + .slider:before {
+         -webkit-transform: translateX(26px);
+         -ms-transform: translateX(26px);
+         transform: translateX(26px);
+         }
+         /* Rounded sliders */
+         .slider.round {
+         border-radius: 34px;
+         }
+         .slider.round:before {
+         border-radius: 50%;
+         }
+         .hd3{
+         border: 0;
+         background: transparent;
+         }
+         .hd3:hover{
+         background: transparent;
+         }
+         .boxline1
+         {
+         border-right: 1px solid #000;
+         padding-right: 12px;
+         }
+         .modal-cusm
+         {
+         margin-top: -50px;
+         margin-bottom: 25px;
+         }
+         @media(max-width: 575px){
+         .float-right.search.btn-group{
+         width: 100%;
+         margin-top: -11px;
+        }
+         .form-group {
+         width: 100%;
+         }
+         .boxline1{
+         	border-right: none;
+         padding-right:0;
+
+         }
+         }
+</style>
+{% endblock css %}
+
+{% block js %}
+
+      <!-- Bootstrap Tables js -->
+      <script src="static/libs/bootstrap-table/bootstrap-table.min.js"></script>
+      <!-- Init js -->
+      <script src="static/js/pages/bootstrap-tables.init.js"></script>
+
+      <!-- Datatables init -->
+<!--      <script src="static/js/pages/datatables.init.js"></script>-->
+      <script src="static/libs/bootstrap-select/bootstrap-select.min.js"></script>
+
+             <!-- App js -->
+      <script src="static/js/app.min.js"></script>
+      <script src="static/libs/flatpickr/flatpickr.min.js"></script>
+      <script src="static/libs/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+
+{% endblock js %}
+{% block body %}
+
+         <!-- ============================================================== -->
+         <!-- Start Page Content here -->
+         <!-- ============================================================== -->
+         <div class="content-page">
+            <div class="content">
+               <!-- Start Content-->
+               <div class="container-fluid">
+                  <!-- start page title -->
+                  <div class="row">
+                     <div class="col-12">
+                        <div class="page-title-box">
+                           <h4 class="page-title">Price Monitoring</h4>
+                           <div id="con-close-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                                    <div class="modal-dialog">
+                                       <div class="modal-content">
+                                          <div class="modal-header">
+                                             <h4 class="modal-title">Track Product</h4>
+                                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                          </div>
+                                          <div class="modal-body p-4">
+                                             <div class="row">
+                                                <div class="col-md-4">
+                                                   <div class="form-group">
+                                                      <label for="field-1" class="control-label">Retailers</label>
+                                                      <select class="selectpicker form-control" id="field-1">
+                                                         <option>Retailers</option>
+                                                         <option>All</option>
+                                                         <option>Target</option>
+                                                         <option>Cabela’s</option>
+                                                         <option>Home Depot</option>
+                                                         <option>Lowes</option>
+                                                         <option>Walmart</option>
+                                                      </select>
+                                                   </div>
+                                                </div>
+                                                <div class="col-md-8">
+                                                   <div class="form-group">
+                                                      <label for="field-1" class="control-label">URL </label>
+                                                      <input type="text" class="form-control" id="field-1" placeholder="www.com">
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="row">
+                                                <div class="col-md-6">
+                                                   <div class="form-group">
+                                                      <label for="field-1" class="control-label">Price </label>
+                                                      <input type="text" class="form-control" id="field-1" placeholder=" $29.00 ">
+                                                   </div>
+                                                </div>
+                                             </div>
+                                          </div>
+                                          <div class="modal-footer">
+                                             <button type="button" class="btn btn-info waves-effect waves-light" data-dismiss="modal">Submit</button>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <!-- /.modal -->
+
+                                 <div class="float-right modal-cusm">
+                                    <button type="button" class="btn btn-success waves-effect waves-light" data-toggle="modal" data-target="#con-close-modal">Track Product</button>
+                                 </div>
+                        </div>
+                     </div>
+                  </div>
+                  <!-- end page title -->
+                  <div id="modal-date-custom" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                     <div class="modal-dialog">
+                        <div class="modal-content">
+                           <div class="modal-header">
+                              <h4 class="modal-title">Select Date Range</h4>
+                              <button type="button" class="close" data-dismiss="modal" onclick="closemodal()" aria-hidden="true">×</button>
+                           </div>
+                           <div class="modal-body p-4">
+                              <div class="form-group mb-0">
+                                 <div class="input-group">
+                                    <div class="form-group">
+                                       <div class="row">
+                                          <div class="col-md-6">
+                                             <label>From:</label>
+                                             <input type="text" id="dp-from" class="form-control">
+                                          </div>
+                                          <div class="col-md-6">
+                                             <label>To:</label>
+                                             <input type="text" id="dp-to" class="form-control">
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="modal-footer">
+                              <button type="button" class="btn btn-info waves-effect waves-light" data-dismiss="modal" onclick="savedate()">Submit</button>
+                              <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal" onclick="closemodal()">Close</button>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <!-- /.modal -->
+                  <div class="row">
+                     <div class="col-sm-12">
+                        <div class="card-box">
+                           <div class="form-inline mb-2">
+                              <div class="form-group mr-2 boxline1">
+                                 <button type="button" class="btn btn-danger waves-effect waves-light btn-block">Delete</button>
+                              </div>
+                              <div class="form-group mr-2">
+                                     <select class="selectpicker" id="timefilter" onchange="customFilter()">
+                                    <option value="1">Date Range</option>
+                                    <option value="2">Last 7 days</option>
+                                    <option value="3">This Week</option>
+                                    <option value="4">Last Month</option>
+                                    <option value="5">This Month</option>
+                                    <option value="6">Custom</option>
+                                 </select>
+                              </div>
+                              <div class="form-group mr-2">
+                                 <select class="selectpicker">
+                                    <option>Retailers</option>
+                                    <option>All</option>
+                                    <option>Target</option>
+                                    <option>Cabela’s</option>
+                                    <option>Home Depot</option>
+                                    <option>Lowes</option>
+                                    <option>Walmart</option>
+                                 </select>
+                              </div>
+                           </div>
+                           <div class="row">
+                              <br>
+                              <div class="col-md-12">
+                                 <table data-toggle="table"
+                                    data-pagination="true"
+                                    data-search="true"
+                                    data-show-columns="false"
+                                    data-search-align="left"
+                                    data-show-toggle="false"
+                                    data-show-refresh="false"
+                                    data-show-pagination-switch="false"
+                                    data-pagination-pre-text="Previous"
+                                    data-pagination-next-text="Next"
+                                    data-pagination-h-align="right"
+                                    data-pagination-detail-h-align="left"
+                                    data-page-list="[5, 10, 25, 50, 100, 200]"
+                                    data-page-size="5"
+                                    data-show-footer="false"
+                                    data-buttons-class="xs btn-light"
+                                    class="table-responsive table-bordered">
+                                    <thead class="thead-light">
+                                       <tr>
+                                          <th data-field="state" data-checkbox="true"></th>
+                                          <th data-field="date" data-switchable="false">Date</th>
+                                          <th data-field="retailer" data-searchable="true">Retailer</th>
+                                          <th data-field="sku"data-searchable="true">Sku </th>
+                                          <th data-field="pricepoint"data-searchable="true">Price Point</th>
+                                          <th data-field="currentprice"data-searchable="true">Current Price </th>
+                                          <th data-field="differential"data-searchable="true">Differential </th>
+                                          <th data-field="trend"data-searchable="true">Trend </th>
+                                          <th data-field="average"data-searchable="true">Average </th>
+                                          <th data-field="lastpurchased"data-searchable="true">Last Purchased</th>
+                                          <th data-field="notification"data-searchable="true">Notification  </th>
+                                          <th data-field="history"data-searchable="true">History  </th>
+                                          <th data-field="compare"data-searchable="true">Compare </th>
+                                       </tr>
+                                    </thead>
+                                    <tbody>
+                                       <tr>
+                                          <td></td>
+                                          <td>  02/30/2020</td>
+                                          <td contenteditable="true">Target</td>
+                                          <td contenteditable='true'>45654</td>
+                                          <td contenteditable='true'>$40.00</td>
+                                          <td >$44.50</td>
+                                          <td contenteditable="true">$4.50 </td>
+                                          <td contenteditable='true'>-7% ($3.50)</td>
+                                          <td> $48.00</td>
+                                          <td> 02/30/2020 ($40.00)</td>
+                                          <td><label class="switch">
+                                             <input type="checkbox" checked>
+                                             <span class="slider round"></span>
+                                             </label>
+                                          </td>
+                                          <td><a href="#" target="_blank"> <i class=" fab fa-windows"></i></a>
+                                          </td>
+                                          <td><a href="#" target="_blank"> <i class="ti-new-window"></i></a>
+                                          </td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </div>
+                           </div>
+                        </div>
+                        <!-- end card-box -->
+                     </div>
+                     <!-- end col -->
+                  </div>
+               </div>
+               <!-- container -->
+            </div>
+            
+      <!-- Vendor js -->
+      <script src="static/js/vendor.min.js"></script>
+
+       <script type="text/javascript">
+         function customFilter(){
+             var x = document.getElementById("timefilter").value;
+             $("#timefilter").find('option[value="1"]').prop("selected", true);
+
+             if (x=='6'){
+             	$("#modal-date-custom").modal("show");
+             }
+         }
+      </script>
+      <script type="text/javascript">
+         function closemodal(){
+                 // get modals
+                 const modals = document.getElementsByClassName('modal');
+
+                 // on every modal change state like in hidden modal
+                 for(let i=0; i<modals.length; i++) {
+                     modals[1].classList.remove('show');
+                     modals[1].setAttribute('aria-hidden', 'true');
+                     modals[1].setAttribute('style', 'display: none');
+                 }
+         }
+      </script>
+      <script type="text/javascript">
+         function savedate(){
+             var x = document.getElementById('range-datepicker').value;
+             const modals = document.getElementsByClassName('modal');
+
+                 // on every modal change state like in hidden modal
+                 for(let i=0; i<modals.length; i++) {
+                     modals[1].classList.remove('show');
+                     modals[1].setAttribute('aria-hidden', 'true');
+                     modals[1].setAttribute('style', 'display: none');
+                 }
+         }
+      </script>
+
+     <script type="text/javascript">
+$(function(){
+    $("#dp-from").datepicker({
+    	format: "yyyy-mm-dd",
+    });
+   	$("#dp-to").datepicker({
+   		format: "yyyy-mm-dd",
+    });
+});
+</script>
+ {% endblock %}

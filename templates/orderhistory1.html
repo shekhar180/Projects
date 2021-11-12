@@ -1,0 +1,815 @@
+{% extends "extend.html" %}
+{% block tittle %}Order History - ECOMMFLOW{%endblock tittle%}
+{% block css %}
+ <!-- Plugins css -->
+      <!-- <link href="static/libs/flatpickr/flatpickr.min.css" rel="stylesheet" type="text/css" />
+      <link href="static/libs/bootstrap-colorpicker/bootstrap-colorpicker.min.css" rel="stylesheet" type="text/css" />
+      <link href="static/libs/clockpicker/bootstrap-clockpicker.min.css" rel="stylesheet" type="text/css" />
+      <link href="static/libs/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" /> -->
+
+       <!-- third party css -->
+       <link href="static/libs/datatables/dataTables.bootstrap4.css" rel="stylesheet" type="text/css" />
+       <link href="static/libs/datatables/responsive.bootstrap4.css" rel="stylesheet" type="text/css" />
+       <link href="static/libs/datatables/buttons.bootstrap4.css" rel="stylesheet" type="text/css" />
+       <link href="static/libs/datatables/select.bootstrap4.css" rel="stylesheet" type="text/css" />
+       <!-- third party css end -->
+
+       <!-- flat picker css -->
+       <link href="static/libs/flatpickr/flatpickr.min.css" rel="stylesheet" type="text/css" />
+
+      <!-- upper dropdown datepicker css -->
+      <!-- <link href="static/libs/clockpicker/bootstrap-clockpicker.min.css" rel="stylesheet" type="text/css" /> -->
+
+      
+      <!-- upper dropdown datepicker css -->
+      <link href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+
+
+      <!-- custom css -->
+      <link rel="stylesheet" type="text/css" href="static/css/giftcard.css">
+
+
+
+    <style>
+
+    .p-datepicker {
+        border: none !important;
+    }
+    .p-datepicker:focus {
+        border: 1px solid;
+    }
+
+   select {
+         border: none;
+    }
+
+         /* CSS FOR upperdropdown datepicker */
+.ui-widget-header {
+  border: none !important;
+  background: transparent !important;
+}
+
+.ui-state-default,
+.ui-widget-content .ui-state-default {
+  border-radius: 4px !important;
+  border: none !important;
+}
+
+/*
+.ui-state-highlight,
+.ui-widget-content .ui-state-highlight {
+  background: #6658dd!important;
+  color: #fff;
+}*/
+
+.ui-datepicker td a {
+  text-align: center;
+}
+
+.ui-widget-content {
+  border: none;
+  background: #ffffff;
+  color: #212529;
+  font-size: 16px;
+  font-weight: initial;
+  line-height: 1.5;
+}
+
+.ui-widget {
+  font-family: Nunito, sans-serif;
+}
+
+.ui-widget.ui-widget-content {
+  border: none;
+}
+
+.ui-datepicker {
+  width: 13em;
+}
+
+
+    
+
+
+   
+   #snackbar {
+     visibility: hidden;
+     min-width: 250px;
+     margin-left: -125px;
+     background: #f7b84b !important;
+     z-index: 999 !important;
+     color: #000 !important;
+     text-align: center;
+     border-radius: 2px;
+     padding: 16px;
+     position: fixed;
+     z-index: 1;
+     left: 50%;
+     top: 30px;
+     font-size: 17px;
+   }
+
+   #snackbar.show {
+     visibility: visible;
+     -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+     animation: fadein 0.5s, fadeout 0.5s 2.5s;
+   }
+
+   @-webkit-keyframes fadein {
+     from {top: 0; opacity: 0;}
+     to {top: 30px; opacity: 1;}
+   }
+
+   @keyframes fadein {
+     from {top: 0; opacity: 0;}
+     to {top: 30px; opacity: 1;}
+   }
+
+   @-webkit-keyframes fadeout {
+     from {top: 30px; opacity: 1;}
+     to {top: 0; opacity: 0;}
+   }
+
+   @keyframes fadeout {
+     from {top: 30px; opacity: 1;}
+     to {top: 0; opacity: 0;}
+   }
+
+   #showselectedbox{
+    position: relative;
+    left: 12rem;
+    top: 25px;
+    border: 1px solid;
+    border-radius: 5px;
+    padding: 4px;
+    display:none;
+}
+
+</style>
+{% endblock css %}
+
+{% block js %}
+
+      <!-- Bootstrap Tables js -->
+      <!-- <script src="static/libs/bootstrap-table/bootstrap-table.min.js"></script> -->
+      <!-- Init js -->
+      <!-- <script src="static/js/pages/bootstrap-tables.init.js"></script> -->
+
+      <!-- bootstrap filter js -->
+      <script src="static/libs/bootstrap-select/bootstrap-select.min.js"></script>
+
+
+
+        <!---------- cell editable js ---------------->
+       <!-- https://stackoverflow.com/questions/35869054/using-jeditable-and-getting-typeerror-editable-is-not-a-function-what-t -->
+        <script src="http://www.appelsiini.net/download/jquery.jeditable.mini.js"></script>
+
+        <!-- third party js -->
+        <script src="static/libs/datatables/jquery.dataTables.min.js"></script>
+        <script src="static/libs/datatables/dataTables.bootstrap4.js"></script>
+        <script src="static/libs/datatables/dataTables.responsive.min.js"></script>
+        <script src="static/libs/datatables/responsive.bootstrap4.min.js"></script>
+        <script src="static/libs/datatables/dataTables.buttons.min.js"></script>
+        <script src="static/libs/datatables/buttons.bootstrap4.min.js"></script>
+        <script src="static/libs/datatables/buttons.html5.min.js"></script>
+        <script src="static/libs/datatables/dataTables.keyTable.min.js"></script>
+
+        
+
+        <!-- third party js ends -->
+
+        <!-- Datatables init -->
+        <script src="static/js/pages/datatables.init.js"></script>
+
+        <!-- App js -->
+        <script src="static/js/app.min.js"></script>
+
+        
+
+        <!-- flatpicker js -->
+        <script src="static/libs/flatpickr/flatpickr.min.js"></script>
+
+          <!-- Sweetalert -->
+         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+        <!-- upper dropdown datepicker js
+        <script src="static/libs/bootstrap-datepicker/bootstrap-datepicker.min.js"></script> -->
+
+        
+        <!-- upper dropdown datepicker js -->
+        <script src="static/libs/jquery-ui/jquery-ui.min.js"></script>
+
+
+
+
+{% endblock js %}
+{% block body %}
+<div id="snackbar">Some text some message..</div>
+         <!-- ============================================================== -->
+         <!-- Start Page Content here -->
+         <!-- ============================================================== -->
+         <div class="content-page">
+            <div class="content">
+               <!-- Start Content-->
+               <div class="container-fluid">
+                  <!-- start page title -->
+                  <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box">
+                            <h4 class="page-title">Order History</h4>
+                            <div id="con-Order-modal" class="modal fade mt-2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                                <div class="modal-dialog">
+
+                                 <!-- Add order manually -->
+                                    <form action="/addgiftcardorder?gid={{gift_card_no}}" method="post">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title">Add Order</h4>
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                            </div>
+                                            <div class="modal-body p-4"> 
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="amount-1" class="control-label">Amount </label>
+                                                            <input type="text" name="amount" pattern=".*\S+.*" class="form-control" id="amount-1" placeholder="$500" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="order-1" class="control-label">Order #</label>
+                                                            <input type="text" name="orderNumber" pattern=".*\S+.*" class="form-control" id="order-1" placeholder="123456789" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group mb-3">
+                                                            <label>Select</label>
+                                                            <!-- <input type="text" name="order_purchase_date"  style="border:1px solid #ced4da !important" class="form-control p-datepicker" id='datepickerID' placeholder="Select Order Date" readonly="readonly" required> -->
+                                                            <input type="text" name="order_purchase_date"   class="form-control" placeholder="Select Order Date" id="datePickerId" placeholder="mm-dd-yy" required autocomplete="off">
+                                                        </div>
+                                                    </div>
+                                                </div>                  
+                                            </div>
+                                                <div class="modal-footer">
+                                                    <!-- <button type="submit" form="form1" class="btn btn-info waves-effect waves-light"></button> -->
+                                                    <input type="submit" value="Save" class="btn btn-info waves-effect waves-light" />
+                                                </div>
+                                        </div>
+                                    </form>
+
+                                </div>
+                            </div>
+                        <div class="float-right modal-cusm">
+                        <button type="button" class="btn btn-success waves-effect waves-light" data-toggle="modal" data-target="#con-Order-modal">Add Order</button>
+                    </div>
+                        </div>
+                    </div>
+                </div>
+                  <!-- end page title -->
+
+                  <!-- /.modal -->
+                  <div class="row">
+                     <div class="col-sm-12">
+                        <div class="card-box">
+
+                                    <!-- Logo & title -->
+                        <div class="clearfix">
+                            <div class="float-left">
+                                <h4>{{retailler}}</h4>
+                            </div>
+                            <div class="float-right mt-1">
+                                 <p class="m-b-10"><strong>Batch #  &nbsp; &nbsp; &nbsp;: </strong> <a href="/batchdetailsview/{{batch_id}}"> &nbsp;{{batch_orderNo}} </a></p>
+                                 <p class="m-b-10"><strong>Gift Card # : </strong> <span> &nbsp;{{gift_card_no}} </span></p>
+                                 <p class="m-b-10"><strong>Face Value  : </strong> <span> &nbsp;{{gift_card_value}} </span></p>
+                            </div>
+                        </div>
+                           <div class="form-inline mb-2">
+                              <!-- /btn-group -->
+                              <div class="form-group mr-2">    
+                                 <button type="button" id="Delete" onclick='deleteRow()'  class="btn btn-danger waves-effect waves-light btn-block ">Delete</button>
+                              </div>  
+                           </div>
+                           <div class=" row">
+                              <div class="col-md-12" style='overflow-x: auto'>
+                                <table id="orderHistoryTable" class="table w-100 nowrap table-bordered table-hover">
+                                    <span id="showselectedbox"></span>
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th><input type="checkbox" name="check1" id="cb-bulk" class="cb-tab"></th>
+                                            <th>DOP</th>
+                                            <th>Order #</th>
+                                            <th>Order Total</th>
+                                            <th>Order Status</th>
+                                            <th>Amount Used</th>
+                                            <th>Balance</th>
+                                        </tr>
+                                        <!-- <tfoot>
+                                          <th></th>
+                                          <th></th>
+                                          <th></th>
+                                          <th></th>
+                                          <th></th>
+                                          <th><b>New Found Money</b></th>
+                                          <th></th>
+                                       </tfoot> -->
+                                    </thead>
+                                </table>
+                              </div>
+                           </div>
+                           <!-- end .table-responsive--> 
+                           
+                        <!-- end row -->            
+                        </div>
+                     </div>
+                     <!-- end card-box -->
+                  </div>
+                  <!-- end col -->
+               </div>
+            </div>
+            <!-- container -->
+         </div>
+         <!-- content -->
+         <!-- Footer Start -->
+         <footer class="footer">
+            <div class="container-fluid">
+               <div class="row">
+                  <div class="col-md-6">
+                     2020 &copy; Prime Electronics, LLC
+                  </div>
+                  <div class="col-md-6">
+                     <div class="text-md-right footer-links d-none d-sm-block">
+                        <a href="javascript:void(0);">About Us</a>
+                        <a href="javascript:void(0);">Help</a>
+                        <a href="javascript:void(0);">Contact Us</a>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </footer>
+         <!-- end Footer -->
+      </div>
+      <!-- ============================================================== -->
+      <!-- End Page content -->
+      <!-- ============================================================== -->
+      </div>
+      <!-- END wrapper -->
+      <!-- Right Sidebar -->
+      <div class="right-bar">
+         <div class="rightbar-title">
+            <a href="javascript:void(0);" class="right-bar-toggle float-right">
+            <i class="dripicons-cross noti-icon"></i>
+            </a>
+            <h5 class="m-0 text-white">Settings</h5>
+         </div>
+         <div class="slimscroll-menu">
+            <!-- User box -->
+            <div class="user-box">
+               <div class="user-img">
+                  <img src="static/images/users/user-1.jpg" alt="user-img" title="Mat Helme" class="rounded-circle img-fluid">
+                  <a href="javascript:void(0);" class="user-edit"><i class="mdi mdi-pencil"></i></a>
+               </div>
+               <h5><a href="javascript: void(0);">Geneva Kennedy</a> </h5>
+               <p class="text-muted mb-0"><small>Admin Head</small></p>
+            </div>
+            <!-- Settings -->
+            <hr class="mt-0" />
+            <h5 class="pl-3">Basic Settings</h5>
+            <hr class="mb-0" />
+            <div class="p-3">
+               <div class="checkbox checkbox-primary mb-2">
+                  <input id="Rcheckbox1" type="checkbox" checked>
+                  <label for="Rcheckbox1">
+                  Notifications
+                  </label>
+               </div>
+               <div class="checkbox checkbox-primary mb-2">
+                  <input id="Rcheckbox2" type="checkbox" checked>
+                  <label for="Rcheckbox2">
+                  API Access
+                  </label>
+               </div>
+               <div class="checkbox checkbox-primary mb-2">
+                  <input id="Rcheckbox3" type="checkbox">
+                  <label for="Rcheckbox3">
+                  Auto Updates
+                  </label>
+               </div>
+               <div class="checkbox checkbox-primary mb-2">
+                  <input id="Rcheckbox4" type="checkbox" checked>
+                  <label for="Rcheckbox4">
+                  Online Status
+                  </label>
+               </div>
+               <div class="checkbox checkbox-primary mb-0">
+                  <input id="Rcheckbox5" type="checkbox" checked>
+                  <label for="Rcheckbox5">
+                  Auto Payout
+                  </label>
+               </div>
+            </div>
+            <!-- Timeline -->
+            <hr class="mt-0" />
+            <h5 class="px-3">Messages <span class="float-right badge badge-pill badge-danger">25</span></h5>
+            <hr class="mb-0" />
+            <div class="p-3">
+               <div class="inbox-widget">
+                  <div class="inbox-item">
+                     <div class="inbox-item-img"><img src="static/images/users/user-2.jpg" class="rounded-circle" alt=""></div>
+                     <p class="inbox-item-author"><a href="javascript: void(0);" class="text-dark">Tomaslau</a></p>
+                     <p class="inbox-item-text">I've finished it! See you so...</p>
+                  </div>
+                  <div class="inbox-item">
+                     <div class="inbox-item-img"><img src="static/images/users/user-3.jpg" class="rounded-circle" alt=""></div>
+                     <p class="inbox-item-author"><a href="javascript: void(0);" class="text-dark">Stillnotdavid</a></p>
+                     <p class="inbox-item-text">This theme is awesome!</p>
+                  </div>
+                  <div class="inbox-item">
+                     <div class="inbox-item-img"><img src="static/images/users/user-4.jpg" class="rounded-circle" alt=""></div>
+                     <p class="inbox-item-author"><a href="javascript: void(0);" class="text-dark">Kurafire</a></p>
+                     <p class="inbox-item-text">Nice to meet you</p>
+                  </div>
+                  <div class="inbox-item">
+                     <div class="inbox-item-img"><img src="static/images/users/user-5.jpg" class="rounded-circle" alt=""></div>
+                     <p class="inbox-item-author"><a href="javascript: void(0);" class="text-dark">Shahedk</a></p>
+                     <p class="inbox-item-text">Hey! there I'm available...</p>
+                  </div>
+                  <div class="inbox-item">
+                     <div class="inbox-item-img"><img src="static/images/users/user-6.jpg" class="rounded-circle" alt=""></div>
+                     <p class="inbox-item-author"><a href="javascript: void(0);" class="text-dark">Adhamdannaway</a></p>
+                     <p class="inbox-item-text">This theme is awesome!</p>
+                  </div>
+               </div>
+               <!-- end inbox-widget -->
+            </div>
+            <!-- end .p-3-->
+         </div>
+         <!-- end slimscroll-menu-->
+      </div>
+      <!-- /Right-bar -->
+      <!-- Right bar overlay-->
+      <div class="rightbar-overlay"></div>
+      <!-- Vendor js -->
+      <script src="static/js/vendor.min.js"></script>
+
+
+      
+
+<!------- toast functionality  ------->     
+<script>
+    function showSnackbar(text) {
+    var x = document.getElementById("snackbar");
+    x.innerHTML = text;
+    x.className = "show";
+    setTimeout(function(){ x.className = x.className.replace("show", ''); }, 3000);
+    }
+</script>
+
+<!-- !-- checkbox functionality ------------> 
+ <script type="text/javascript">
+   $(document).on("click", "#cb-bulk", function(){
+      $(".cb-single").prop("checked", $(this).prop("checked"));
+      if($(this).prop("checked")) {
+         if($(".cb-single").length != 0){
+            let total_checked =  "You’ve Selected "+ $(".cb-single").length + " Items"
+            document.getElementById("showselectedbox").innerHTML = total_checked;
+            document.getElementById("showselectedbox").style.display= 'inline';
+         }
+      } else  {
+         document.getElementById("showselectedbox").style.display= 'none';
+
+      }
+   });
+
+   $(document).on("click", ".cb-single", function(){
+      var all = $(".cb-single").length;
+
+      var checked = $(".cb-single:checked").length;
+      //this works for selecting each check-box
+      let total_checked =  "You’ve Selected "+ checked + " Items"
+      document.getElementById("showselectedbox").innerHTML = total_checked;
+      document.getElementById("showselectedbox").style.display= 'inline';
+
+      if(all == checked){
+         $(".cb-tab").prop("checked", true);
+      }else{
+         $(".cb-tab").prop("checked", false);
+         if (checked == 0){
+            document.getElementById("showselectedbox").style.display= 'none';
+
+         }
+
+      }
+   });
+</script>
+
+
+<!-- flat datepicker functionality
+<script>
+   function initDP() {
+            var today = new Date();
+            var dd = today.getDate();
+            var mm = today.getMonth()+1; 
+            var yyyy = today.getFullYear();
+            if(dd<10) 
+            {
+               dd='0'+dd;
+            } 
+
+            if(mm<10) 
+            {
+               mm='0'+mm;
+            } 
+            current_date = mm+'-'+dd+'-'+yyyy;
+            console.log(current_date)
+
+
+            document.getElementById('datepickerID').value = current_date
+
+            $(".p-datepicker").flatpickr({
+                dateFormat:"m-d-Y",
+                disableMobile: true,
+                maxDate: today,
+                minDate: ""
+            });
+
+    }
+</script> -->
+
+<!-- flat datepicker functionality -->
+<script>
+   function initDP() {
+            var today = new Date();
+            $(".p-datepicker").flatpickr({
+                dateFormat:"m-d-Y",
+                disableMobile: true,
+                maxDate: today,
+                minDate: ""
+            });
+
+         $("#datePickerId").datepicker({
+          todayHighlight: true,
+          format: "mm-dd-yy",
+          "endDate": "today",
+          maxDate: today,
+          autoclose: true,
+       });
+    }
+</script>
+
+
+<!-- get id from the giftcardOrderHistory function from flask view -->
+<script>
+    var gift_card_no = '{{ gift_card_no }}'
+    console.log(gift_card_no)
+    var gift_card_value = '{{ gift_card_value }}'
+    console.log(gift_card_value)
+</script>
+
+<script>
+    var format = /[+]/;
+
+    var orderHistoryTable = undefined;
+    $(document).ready(function() {
+        orderHistoryTable = $('#orderHistoryTable').DataTable({
+                ordering: true,
+                paging:   false, //if you want to enable pagination remove this line
+                serverSide: true,
+                searching: true,
+                searchDelay: 1500, //milli seconds
+                columns: [  
+                            {data:"",  orderable: false,
+                            "render": function ( data, type, row, meta ) {
+                                return '<input type="checkbox" name="check[]" value="' + row.id + '" class="cb-single">'
+                                }
+                            },
+                            {"data": "order_purchase_date",
+                             "render": function (data, type, row, meta) {
+                                          if (data == " "){
+                                             return (data)
+                                          }else{
+                                             return '<input type="text" onchange="changeDate(this)" class="hd3 p-datepicker ' + row.id + '" value="' + data + '">';
+                                          }
+                                       }
+                           },
+                            {"data": "orderNumber", orderable: false,
+                              "render": function ( data, type, row, meta ) {
+                                             if (data == null){
+                                                   return ('')
+                                             }else{
+                                             return '<a href="/orderdetails?id='+ row.orderNumber +'">'+data+'</a>'}
+                                             }
+                                        },
+
+                            {"data": "order_purchase_total"},
+                            {"data": "order_purchase_status", "defaultContent": "NULL"},
+                            {"data": "amount"},
+                           //  {"data":"balance"}
+                            {"data": "balance", orderable: false,
+                              "render": function( data, type, row, meta ) {
+                                  if(format.test(data)){
+                                     return '<span>'+data.replace('-', '')+'</span>';
+                                       }else{
+                                          return '<span>'+data+'</span>';
+                                        }
+                                          
+                                       }
+                              },
+                            
+                        ],
+                "ajax": {
+                    'type': 'post',
+                    'url': '/orderhistorydatatable',
+                    'dataType': 'json',
+                    "contentType": "application/json", 
+                    "data": function (d) {
+                                console.log(d)
+                                d.gift_card_no    =    gift_card_no
+                                d.gift_card_value =    gift_card_value
+                                return JSON.stringify(d)
+                            }
+                            
+                    },
+                  "drawCallback": function(settings) {
+                                     initDP();
+
+                                    //  var new_money = '{{new_found_money}}'
+                                    //  console.log(new_money.length)
+
+                                    //  if (new_money.length != 0){
+
+                                    //       //function for round of the value upto 2 place decimal
+                                    //       function roundToTwo(num) {    
+                                    //          return +(Math.round(num + "e+2")  + "e-2");
+                                    //          }
+                                    //       var api = this.api()
+                                    //       //summation of column value
+                                    //       //var new_money = '{{new_found_money}}'
+                                    //       $( api.column( 6 ).footer() ).html('+'+ roundToTwo(new_money));
+
+
+                                    //  }
+
+                                     
+
+                                 }
+            });
+
+                //code for making the cell editable 
+            //https://datatables.net/reference/api/cell().data()
+            $('#orderHistoryTable tbody').on( 'click', 'td', function (ev) {
+
+               $('#orderHistoryTable td:not(:first-child,:nth-child(2),:nth-child(3),:nth-child(4),:nth-child(5),:nth-child(6),:nth-child(7))').editable( function( sValue, settings ) {
+                  /* Get the position of the current data from the node */
+                  var aPos = oTable.fnGetPosition( this );
+                  
+                  /* Get the data array for this row */
+                  var aData = oTable.fnGetData( aPos[0] );
+                  
+                  /* Update the data array and return the value */
+                  aData[ aPos[1] ] = sValue;
+
+                  // call this code only when previous value(prev val contain in this.revert) is not equal to current new value after change
+                  if (this.revert !== sValue) {
+                     // **UPDATE CODE TO CALL API TO UPDATE IN DATABASE**
+                     const cellIndex =  this.cellIndex; // used to identify cell - which cell is clicked
+                     // set column list to get cell name by index
+                     columnlist = [
+                           "checkbox",
+                           "order_purchase_date",
+                           "orderNumber",
+                           "order_purchase_total",
+                           "order_purchase_status",
+                           "amount",
+                           "balance",
+                     
+                     ]
+                     const cellName = columnlist[cellIndex]; // name of the column which is updated
+                     const id = aData.id; // get id of this row toidentify row
+                     const newValue = sValue; // new value of the coulmn updated by user from input
+                     const updateValue = { "cellName":cellName, "id":id, "newValue":newValue };
+
+                     $.ajax({
+                           type: "put",
+                           url: "/uporderhistoryamount",
+                           data: JSON.stringify(updateValue),
+                           success: function(d) {
+                              console.log('Success', d);
+                              showSnackbar('amount updated')
+                           },
+                           dataType: 'json',
+                           contentType: "application/json"
+                     });
+                     // **API CODE END**
+                  }
+                  return sValue;
+               }, { "onblur": 'submit' } ); /* Submit the form when bluring a field */
+
+               /* Init DataTables */
+               oTable = $('#orderHistoryTable').dataTable();
+
+               });
+    });
+</script>
+
+
+<!-- function for updating date from the datepicker -->
+<script>
+       function changeDate(selectedDate) {
+            //id of the selected date 
+            var selectedDateId = selectedDate.classList[2];
+            console.log(selectedDateId)
+            //getting a selected date from the date-picker
+            var newDate = selectedDate.value;
+            console.log(newDate)
+            const updateValue = {"cellName":"order_purchase_date", "selectedDateId":selectedDateId, "newDate":newDate };
+            // call API here to update date in database
+            $.ajax({
+                type: "put",
+                url: "/uporderhistorydate",
+                data: JSON.stringify(updateValue),
+                success: function(d) {
+                    console.log('Success', d);
+                    showSnackbar('date updated')
+
+                },
+                dataType: 'json',
+                contentType: "application/json"
+            });
+         }
+
+</script>
+
+<!-- function for deleting the row -->
+<script>
+        
+   function deleteRow(){
+      var checkboxes = document.getElementsByName("check[]");
+      var checkboxesArray = [];
+      var trSelectorArray = [];
+      // loop over them all
+      for (var i=0; i<checkboxes.length; i++) {
+         // And stick the checked ones onto an array...
+         if (checkboxes[i].checked) {
+            checkboxesArray.push(checkboxes[i].value);
+            const id = checkboxes[i].value;
+
+            const tr = checkboxes[i].parentElement.parentElement;
+            trSelectorArray.push(tr);
+         }
+      }
+
+ 
+      var data = {"checkboxesArray":checkboxesArray}
+
+      if (data.checkboxesArray.length != 0) {
+
+          // console.log(data)
+            swal({
+                     title: "Are you sure?",
+                     text: "Once deleted, you will not be able to recover this data!",
+                     icon: "warning",
+                     buttons: true,
+                     dangerMode: true,
+                  }).then((willDelete) =>{
+                     if (willDelete) {
+
+                           $.ajax({
+                                    type: "DELETE",
+                                    url: "/deleteorderhistoryrows",
+                                    data: JSON.stringify(data),
+                                    success: function(d) {
+                                       console.log('Success', d);
+                                       // remove row from view
+                                       orderHistoryTable.rows(trSelectorArray).remove().draw(false);
+                                       //make checkbox display header none
+                                       document.getElementById("showselectedbox").style.display= 'none';
+                                       //make uppercheckbox none
+                                       $(".cb-tab").prop("checked", false);
+                                       if(checkboxesArray.length == 1){
+                                        showSnackbar(checkboxesArray.length + " item is deleted");
+                                       }else{
+                                          showSnackbar(checkboxesArray.length + " items are deleted");
+                                       }
+ 
+                                    },
+                                    dataType: 'json',
+                                    contentType: "application/json"
+                           });
+                     }
+
+                  }) 
+
+      }else{
+         showSnackbar('Please select an item')
+
+      }
+     
+
+   }
+   //-------------------------function end deleting row --------------------//
+</script>
+
+
+    
+    
+{% endblock %}

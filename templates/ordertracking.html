@@ -1,0 +1,3156 @@
+{% extends "extend.html" %}
+{% block tittle %}Order Tracking- ECOMMFLOW{% endblock tittle %}
+{% block css %}
+ <!-- Plugins css -->
+      <!-- <link href="static/libs/flatpickr/flatpickr.min.css" rel="stylesheet" type="text/css" />
+      <link href="static/libs/bootstrap-colorpicker/bootstrap-colorpicker.min.css" rel="stylesheet" type="text/css" />
+      <link href="static/libs/clockpicker/bootstrap-clockpicker.min.css" rel="stylesheet" type="text/css" />
+      <link href="static/libs/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" /> -->
+
+       <!-- third party css -->
+       <link href="static/libs/datatables/dataTables.bootstrap4.css" rel="stylesheet" type="text/css" />
+       <link href="static/libs/datatables/responsive.bootstrap4.css" rel="stylesheet" type="text/css" />
+       <link href="static/libs/datatables/buttons.bootstrap4.css" rel="stylesheet" type="text/css" />
+       <link href="static/libs/datatables/select.bootstrap4.css" rel="stylesheet" type="text/css" />
+       <!-- third party css end -->
+
+      <!-- editable table datepicker css -->
+      <link href="static/libs/flatpickr/flatpickr.min.css" rel="stylesheet" type="text/css" />
+
+      <!-- upper dropdown datepicker css -->
+      <link href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+
+      <!-- custom css -->
+      <link rel="stylesheet" type="text/css" href="static/css/giftcard.css">
+
+      <link href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+    <style>
+   .DataNotEditable{
+   background: #ececec !important;}
+   .select2-selection__rendered {
+      line-height: 36px !important;
+   }
+   .select2-container .select2-selection--single {
+      height: 38px !important;
+   }
+   .select2-selection__arrow {
+      height: 34px !important;
+   }
+    .p-datepicker {
+        border: none !important;
+    }
+    .p-datepicker:focus {
+        border: 1px solid;
+    }
+
+   select {
+         border: none;
+   }
+    
+   #snackbar {
+     visibility: hidden;
+     min-width: 250px;
+     margin-left: -125px;
+     background: #f7b84b !important;
+     z-index: 999 !important;
+     color: #000 !important;
+     text-align: center;
+     border-radius: 2px;
+     padding: 16px;
+     position: fixed;
+     z-index: 1;
+     left: 50%;
+     top: 30px;
+     font-size: 17px;
+   }
+
+   #snackbar.show {
+     visibility: visible;
+     -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+     animation: fadein 0.5s, fadeout 0.5s 2.5s;
+   }
+
+   .AdminLoginBtn{
+    background: #0046be;
+    color: #ffff;
+    }
+  .AdminLoginBtn:hover{
+    background: #003899;
+    color: #ffff;
+  }
+  .inputIcon , .inputIcon2{
+    position: relative;
+}
+.inputIcon i , .inputIcon2 i{
+    position: absolute;
+  display: block;
+  transform: translate(0, -50%);
+  top: 50%;
+  pointer-events: none;
+  width: 25px;
+  text-align: center;
+    font-style: normal;
+}
+.inputIcon2 i{
+  right: 4px;
+}
+.inputIcon > input {
+  padding-left: 22px;
+    padding-right: 0;
+}
+hr {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border: 0;
+    border-top: 1.6px solid rgb(111, 120, 133,.24);
+}
+  .close_button{
+    position: absolute;
+    color: white !important;
+    background: red !important;
+    opacity: 1;
+    border-radius: .15rem;
+}
+.closebtn-MT1{
+padding: 7px 15px !important;
+right: 33px;
+margin-top: 28px !important;
+}
+.closebtn-MT2{
+padding: 7px 15px !important;
+right: 33px;
+margin-top: 54px !important;
+}
+.AddOrderFormHeading{
+  color: rgb(57, 64, 74,.30);
+    font-size: 20px;
+    font-weight: 700;
+    padding: 12px 0;
+}
+.close_button:hover{color:red ;
+    background:#f91849 !important;
+    opacity: 1 !important;
+}
+
+   @-webkit-keyframes fadein {
+     from {top: 0; opacity: 0;}
+     to {top: 30px; opacity: 1;}
+   }
+
+   @keyframes fadein {
+     from {top: 0; opacity: 0;}
+     to {top: 30px; opacity: 1;}
+   }
+
+   @-webkit-keyframes fadeout {
+     from {top: 30px; opacity: 1;}
+     to {top: 0; opacity: 0;}
+   }
+
+   @keyframes fadeout {
+     from {top: 30px; opacity: 1;}
+     to {top: 0; opacity: 0;}
+   }
+
+   .bootstrap-select .inner {
+    overflow-y: auto !important;
+}
+.AdditemBtn1{
+  color: #25BD9C;
+  background: transparent;
+  border: transparent;
+  font-weight: 800;
+  padding: 0;
+}
+.CheckBoxHeadingclr{
+  color: #6F7885;
+  font-size: 15px !important;
+  font-weight: 700!important;
+}
+.AddFreeitemBtn1{
+  color: #6596EB;
+  background: transparent;
+  border: transparent;
+  font-weight: 800;
+  padding: 0;
+}
+.AdditemBtn1:hover{
+  color: #009574;
+}
+.AddFreeitemBtn1:hover{
+  color:  #2E3FE3;
+}
+.AdditemBtn1:focus , .AddFreeitemBtn1:focus{
+box-shadow: none;
+}
+.FreeTextcss{
+  color: #6596EB;
+    font-size: 17px;
+    font-weight: 700;
+}
+.flashes {
+    visibility: hidden;
+    color: #000 !important;
+    border-radius: 2px;
+    padding: 16px;
+    position: fixed;
+    z-index: 999 !important;;
+    left: 35%;
+    top: 120px;
+    font-size: 17px;
+   }
+
+.flashes.show{
+     visibility: visible;
+     -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+     animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+ 
+}
+@media (max-width: 991px){
+  .closebtn-MT1 {
+    padding: 7px 8px !important;
+    right: 30px;
+    margin-top: 30px !important;
+}
+.CardDesignMobViewWidth
+{
+  width: 97%;
+}
+.closebtn-MT2 {
+    padding: 7px 10px !important;
+}
+}
+@media (max-width: 768px){
+  .closebtn-MT1 {
+    padding: 7px 10px !important;
+}
+.closebtn-MT2 {
+  right: 37px;
+    padding: 7px 10px !important;
+}
+.CardDesignMobViewWidth{
+  width: 98%;
+}
+}
+@media (max-width: 576px){
+  .modal-cusm {
+     margin-top: 0px; 
+    margin-bottom: 25px;
+}
+.closebtn-MT1 {
+  padding: 2px 8px !important;
+    margin-top: -2px !important;
+}
+.close_button {
+    right: 37px;
+  }
+.CardDesignMobViewWidth{
+  width: 83%;
+}
+.closebtn-MT2 {
+   padding: 7px 10px !important;
+    margin-top: 107px !important;
+}  
+}
+#showcustomdate{
+    position: relative;
+    left: 11rem;
+    top: 25px;
+    border: 1px solid;
+    padding: 5px;
+    border-radius: 5px;
+    display:none;
+}
+
+#showselectedbox{
+    position: relative;
+    left: 12rem;
+    top: 25px;
+    border: 1px solid;
+    border-radius: 5px;
+    padding: 4px;
+    display:none;
+}
+/* CSS FOR upperdropdown datepicker */
+.ui-widget-header {
+  border: none !important;
+  background: transparent !important;
+}
+
+.ui-state-default,
+.ui-widget-content .ui-state-default {
+  border-radius: 4px !important;
+  border: none !important;
+}
+
+/*
+.ui-state-highlight,
+.ui-widget-content .ui-state-highlight {
+  background: #6658dd!important;
+  color: #fff;
+}*/
+
+.ui-datepicker td a {
+  text-align: center;
+}
+
+.ui-widget-content {
+  border: none;
+  background: #ffffff;
+  color: #212529;
+  font-size: 16px;
+  font-weight: initial;
+  line-height: 1.5;
+}
+
+.ui-widget {
+  font-family: Nunito, sans-serif;
+}
+
+.ui-widget.ui-widget-content {
+  border: none;
+}
+
+.ui-datepicker {
+  width: 13em;
+}
+/*popover*/
+.PopverdesignChnge{
+  position: absolute;
+    top: 8px;
+    left: 150px;
+}
+.PopverdesignChnge1{
+  position: absolute;
+    top: 8px;
+    left: 90px;
+}
+.CopyIcon{
+  position: absolute;
+    top: 11px;
+    left: 150px;
+    cursor: pointer;
+}
+.popover{
+  background-color: #ECECEC;
+  color: #757C8C;
+  font-size: 16px;
+  padding: 10px 8px;
+  font-weight: 600;
+}
+.bs-popover-bottom>.arrow::after ,.bs-popover-bottom>.arrow::before{
+ border-bottom-color: #ECECEC; 
+}
+
+.PopDropLink a:hover{
+   color: green !important;
+}
+
+.PasswordI i {
+   position:absolute;
+   top: 42px;
+   right: 23px;
+   z-index: 2;
+   cursor: pointer;
+}
+.bootstrap-select .inner {
+    overflow-y: auto !important;
+}
+
+/* Show Loader CSS */
+.dataTables_processing {
+        top: 0px !important;
+        left: 0px !important;
+        width: 100% !important;
+        margin-left: 0px !important;
+        margin-top: 0px !important;
+        z-index: 80 !important;
+        padding: 27em 0 !important;
+        overflow-y: hidden;
+}
+@keyframes spinner {
+  to {transform: rotate(360deg);}
+}
+
+.spinner{
+    width:100px !important;
+    height:100px !important;
+    top: -150px !important;
+}
+
+.spinner:before {
+  box-sizing: border-box;
+  position: absolute;
+
+  left: 50%;
+  width:100%;
+  height: 20px;
+  margin-top: -10px;
+  margin-left: -10px;
+  border-radius: 50%;
+  border: 2px solid #ccc;
+  border-top-color: #333;
+  z-index:9999;
+  animation: spinner .6s linear infinite;
+}
+/* Show Loader CSS CLOSED */
+</style>
+{% endblock css %}
+
+{% block js %}
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+      <!-- Bootstrap Tables js -->
+      <!-- <script src="static/libs/bootstrap-table/bootstrap-table.min.js"></script> -->
+      <!-- Init js -->
+      <!-- <script src="static/js/pages/bootstrap-tables.init.js"></script> -->
+
+      <!-- bootstrap filter js -->
+      <script src="static/libs/bootstrap-select/bootstrap-select.min.js"></script>
+
+
+        <!---------- cell editable js ---------------->
+       <!-- https://stackoverflow.com/questions/35869054/using-jeditable-and-getting-typeerror-editable-is-not-a-function-what-t -->
+        <script src="http://www.appelsiini.net/download/jquery.jeditable.mini.js"></script>
+
+        <!-- third party js -->
+        <script src="static/libs/datatables/jquery.dataTables.min.js"></script>
+        <script src="static/libs/datatables/dataTables.bootstrap4.js"></script>
+        <script src="static/libs/datatables/dataTables.responsive.min.js"></script>
+        <script src="static/libs/datatables/responsive.bootstrap4.min.js"></script>
+        <script src="static/libs/datatables/dataTables.buttons.min.js"></script>
+        <script src="static/libs/datatables/buttons.bootstrap4.min.js"></script>
+        <script src="static/libs/datatables/buttons.html5.min.js"></script>
+        <script src="static/libs/datatables/dataTables.keyTable.min.js"></script>
+
+        
+
+        <!-- third party js ends -->
+
+        <!-- Datatables init -->
+        <script src="static/js/pages/datatables.init.js"></script>
+
+        <!-- App js -->
+        <script src="static/js/app.min.js"></script>
+
+          <!-- Sweetalert -->
+      <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+        
+
+        <!-- editable table datepicker js -->
+        <script src="static/libs/flatpickr/flatpickr.min.js"></script>
+
+        <!-- upper dropdown datepicker js -->
+        <script src="static/libs/jquery-ui/jquery-ui.min.js"></script>
+
+{% endblock js %}
+{% block body %}
+
+<div id="snackbar">Some text some message..</div>
+         <!-- ============================================================== -->
+         <!-- Start Page Content here -->
+         <!-- ============================================================== -->
+         <div class="content-page">
+            <div class="content">
+               <!-- Start Content-->
+               <div class="container-fluid">
+                  <!-- start page title -->
+
+                  <div class="row">
+                     <div class="col-12">
+                        <div class="page-title-box">
+                           <h4 class="page-title">Order Tracking</h4>
+                            <!-- Add orders Start -->
+                            <div id="addOrderTracking" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                        <div class="modal-dialog modal-lg" >
+                           <div class="modal-content" >
+                              <div class="modal-header">
+                                 <h4 class="modal-title">Add Order</h4>
+                                 <button type="button" class="close" data-dismiss="modal" onclick="closemodal()" aria-hidden="true">×</button>
+                              </div>
+
+                             
+                              <form id="form1" method="post" action="/addtrackingorder">
+                                 <div class="modal-body p-4" id="loaderMain">
+                                 <div class="row">
+                                    <div class="col-md-12">
+                                       <div class="form-group">
+                                             <label for="datePickerId">Purchase Date</label>
+                                             <input class="form-control"  id="datePickerId"  data-provide="datepicker" name="purchase_date"   placeholder="mm-dd-yyyy" required autocomplete="off">
+                                          </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                       <div class="form-group mb-3">
+                                          <!-- this work when there is active retailer -->
+                                             {% if buying_data|length > 0 %}
+                                             <label for="example-select" class="select_buy">Select A Buy</label>
+                                                <select name='select_buy' onchange="activeBuy_function(this.value)"; class="form-control"  id="select_buy-select">
+                                                      <option value="">Select an Active Buy</option> 
+                                                         {% for by_data in buying_data %}
+                                                            <option value = "{{buying_data[by_data],by_data}}">{{buying_data[by_data]}}</option>
+                                                         {% endfor %}
+                                                </select>
+                                          <!-- this work when there is no_active retailers-->
+                                             {% else%}
+                                             <label for="example-select">Select A Buy</label>
+                                                <select name='select_buy' class="form-control"  id="select_buy-select" disabled style="color:#be46ba; font-weight: bold">
+                                                   <option value="" >No Active Buys</option>
+                                                </select>
+                                             {% endif %}
+                                          </div>
+                                    </div>
+
+
+                                    <div class="col-md-12" style="display: none;" id = 'userelement'>
+                                       <div class="form-group mb-3">
+                                          <!-- this work when there is active retailer -->
+                                             <label for="example-select" class="select_users"  id='select_users_id' style="color:red;">Select A User *</label>
+                                                <select name='active_userid'; class="form-control"  onchange="selectuser_function()" id="select_user">
+                                                      <option value="">Please Select Linked User</option>        
+                                                </select>
+                                          </div>
+                                    </div>
+                                    <input  type="hidden" name='active_userid' id="userelementhiddeninput">
+
+
+                                    <div class="col-md-9">
+                                       <div class="form-group mb-3">
+                                                         <label for="example-select">Affiliate</label>
+                                                            <select name='affiliate' class="form-control"  id="vendor_select" required >
+                                                               <option value="">Affiliate</option>
+                                                               <option value="Mrrebates">Mr Rebates</option>
+                                                               <option value="Befrugal">BeFrugal</option>
+                                                               <option value="iconsumer">iConsumer</option>
+                                                               <option value="rakuten">Rakuten</option>
+                                                            </select>
+                                                      </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                       <div class="form-group">
+                                             <label for="Cashback" class="control-label">Cashback  </label>
+                                             <div class="inputIcon2">
+                                                <input class="form-control noscroll" type="number" step="any" name="cashback" id="Cashback"  placeholder="0.00">
+                                             <i>%</i>
+                                             </div>
+                                          </div>
+                                    </div>
+                                    <div class="col-md-6" id = 'retailerelement'>
+                                       <div class="form-group mb-3">
+                                          <label for="example-select"> Retailers</label>
+                                             <select onchange="changeretailer(this)" name='retailers' class="form-control" id="retailer_select"  required>
+                                                <option value = "">Retailer</option>
+                                                {% for ret in distinct_retailer %}
+                                                   <option>{{ret.0}}</option>
+                                                   {% endfor %}
+                                             </select>
+                                       </div>
+                                      </div>
+
+
+                                      <div class="col-md-6" id = 'emailelement'>
+                                       <div class="form-group mb-3">
+                                          <label for="example-select" id ='emailadd'> Email (Account)</label>
+                                             <select onchange="changeemail()" name = 'emailId' id="emailId" class="form-control">
+                                                <option value="">Email</option>
+                                             </select>
+                                       </div>
+                                      </div>
+
+
+                                      <div class="col-md-6" id = 'inputemaildiv' style="display: none;">
+                                       <div class="form-group mb-3">
+                                          <label for="example-select" id ='inputemaillabel' style="color: red;">Email Not Found</label>
+                                          <input type="text" onchange="changeemailinput()" class="form-control" id="inputemailbox" name="inputemailbox"  placeholder="Please Type Email">
+                                       </div>
+                                      </div>
+
+
+
+                                    <!-- <div class="col-md-6">
+                                       <div class="form-group mb-3">
+                                             <label for="example-select" id ='emailadd'>Email (Account)</label>
+                                                <select onchange="changeemail()" name = 'emailId' id="emailId" required>
+                                                   <option value="">Email</option>
+                                                </select>
+                                          </div>
+                                       </div> -->
+
+                                    <div class="col-md-6" style="display: none;" id = 'passwordelement'>
+                                       <div class="form-group mb-3 PasswordI">
+                                          <label for="example-select" id='pwdrq'  style="color:red;"> Password required *</label>
+                                          <input type="password" onchange="changepassword()" class="form-control" id="pwd" name="pwd" placeholder="Minimum 6 digit">
+                                          <i class="far fa-eye" id="togglePassword"></i>
+                                       </div>
+                                      </div>  
+
+                                 </div>
+                                 <div id="order-items">
+                                       <div class="row">
+                                       <div class="col-md-3">
+                                          <div class="form-group">
+                                             <label for="Sku-1" class="control-label">Sku</label>
+                                             <input required type="text" class="form-control" id="Sku-1" name="sku-1" placeholder="#3452">
+                                          </div>
+                                       </div>
+                                       <div class="col-md-5">
+                                          <div class="form-group">
+                                             <label for="itemtitle-1" class="control-label">Item title</label>
+                                             <input required type="text" class="form-control" id="itemtitle-1" name="itemtitle-1"  placeholder="Enter Item title ">
+                                          </div>
+                                       </div>
+                                       <div class="col-md-2">
+                                          <div class="form-group">
+                                             <label for="Price-1" class="control-label">Price </label>
+                                             <div class="inputIcon">
+                                             <input  required type="number" min="0" step="any" class="form-control noscroll" name="price-1" id="Price-1" onkeyup="cal_total(id)" placeholder="0.00">
+                                             <i>$</i>
+                                          </div>
+                                          </div>
+                                       </div>
+                                       <div class="col-md-2">
+                                          <div class="form-group">
+                                             <label for="TotalQty-1" class="control-label">Qty</label>
+                                             <input  required type="number" min="1" step="number" class="form-control noscroll" name="totalqty-1" id="TotalQty-1" onkeyup="cal_total(id)" placeholder="1">
+                                          </div>
+                                       </div>
+                                    </div>
+                                       <h5><span style="color:red" id="warning-1"></span></h5>
+                                 </div>
+                                 <div class="row">
+                                      <!-- Add Item Button -->
+                                      <div class="col-md-2 BtnAddItem  mt-1">
+                                       <button type="button" id="add_field_button" onclick="AddFieldRow(this.id)" type="button"  class="btn AdditemBtn1 waves-effect waves-light" ><i class="fa fa-plus pr-1" aria-hidden="true"></i>Add Item</button>
+                                    </div>
+                                    <div class="col-md-3 BtnAddItem  mt-1">
+                                       <button type="button" id="add_free_field_button" onclick="AddFieldRow(this.id)" type="button"  class="btn AddFreeitemBtn1 waves-effect waves-light" ><i class="fa fa-plus pr-1" aria-hidden="true"></i>Add Free Item</button>
+                                    </div>
+                                 </div>
+                                 <h3 class="AddOrderFormHeading">Summary</h3>
+                                 <div class="row">
+                                    
+                                       <div class="col-md-6">
+                                          <div class="form-group">
+                                             <label for="cal_subtotal" class="control-label">Subtotal</label>
+                                             <input required type="number" min="0" step="any" class="form-control noscroll" id="cal_subtotal" name="subtotal"  placeholder="$0.00">
+                                          </div>
+                                       </div>
+                                       <div class="col-md-6">
+                                          <div class="form-group">
+                                             <label for="rewards" class="control-label">Rewards</label>
+                                             <input type="number" class="form-control noscroll" id="rewards" name="rewards"  placeholder="0">
+                                          </div>
+                                       </div>
+                                       <div class="col-md-6">
+                                          <div class="form-group">
+                                             <label for="coupon" class="control-label">Coupon</label>
+                                             <input type="number" class="form-control noscroll" id="coupon" name="coupon"  placeholder="0">
+                                          </div>
+                                       </div>
+                                       <div class="col-md-6">
+                                          <div class="form-group">
+                                                <label for="Discount" class="control-label">Discount  </label>
+                                             <div class="inputIcon2">
+                                                <input class="form-control noscroll" step="any" type="number"  name='discount' id="Discount"  placeholder="0.00">
+                                                <i>%</i>
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="col-md-6">
+                                          <div class="form-group">
+                                             <label for="tax" class="control-label">Tax</label>
+                                             <input  onkeyup="cal_finaltotal(id)" type="number" step="any" class="form-control noscroll" id="tax" name="tax"  placeholder="$0.00">
+                                          </div>
+                                       </div>
+                                       <div class="col-md-6">
+                                          <div class="form-group">
+                                             <label for="shipping" class="control-label">Shipping</label>
+                                             <input onkeyup="cal_finaltotal(id)" type="number" step="any" class="form-control noscroll" id="shipping" name="shipping"  placeholder="$0.00">
+                                          </div>
+                                       </div>
+                                       <div class="col-md-12">
+                                          <div class="form-group">
+                                             <label for="cart_total" class="control-label">Total</label>
+                                             <input type="number" min="0" step="any" class="form-control noscroll" id="cart_total" name="total"  placeholder="$0.00">
+                                          </div>
+                                       </div>
+                                       </div>
+                                       <h3 class="AddOrderFormHeading">Customer Info</h3>
+                                       <div class="row">
+                                       <div class="col-md-12">
+                                          <div class="form-group">
+                                             <h5><span id="shipwarning" style="color:red"></span></h5>                                                   
+                                             <label for="example-select" id ='shippinglabel'>Shipping Address </label>
+                                                         <select onclick = 'associatecards(this)' class="form-control" id="shipadress"  name='shipadress' required>
+                                                               <option>Shipping Address</option>
+                                                         </select>
+                                          </div>
+                                       </div>
+                                       <div class="col-md-12">
+                                          <div class="form-group">
+                                             <label for="example-select">Phone</label>
+                                                         <select class="form-control" id="example-select">
+                                                               <option>Select Phone</option>
+                                                         </select>
+                                          </div>
+                                       </div>
+                                       </div>
+                                       <h3 class="AddOrderFormHeading">Payment</h3>
+                                       <div class="row">
+                                       <div class="col-md-6">
+                                          <div class="form-group">
+                                             <label for="example-select">Payment Type</label>
+                                             <div class="form-control">
+                                                <p>Credit Card</p>
+                                          </div>
+                                          </div>
+                                       </div>
+                                       <div class="col-md-6">
+                                          <div class="form-group">
+                                             <label for="amount" class="control-label">Amount </label>
+                                             <input type="number" class="form-control noscroll" step="any" id="amount" name="cc_amount"  placeholder="$100">
+                                          </div>
+                                       </div>
+                                       <div class="col-md-12">
+                                          <div class="form-group">
+                                             <select class="js-example-basic-single" id="cc_select" name = 'cc_num' width=100px>
+                                                   <option value='Credit_Cards'>Credit Cards</option>
+                                                   {% for cred in distinct_creditCard %}
+                                                <option>{{cred.0}}</option>
+                                                      {% endfor %}
+                                             </select>
+                                          </div>
+                                       </div>
+                                       </div>
+                                       <div id="addMorecard-items">
+                                          <hr>
+                                          <div class="row">
+                                             <div class="col-md-6">
+                                                <div class="form-group">
+                                                               <div class="form-control">
+                                                                     <p>Gift Card</p>
+                                                               </div>
+                                                </div>
+                                             </div>
+                                             <div class="col-md-6">
+                                                <div class="form-group">
+                                                   <!-- <label for="Amount -1" class="control-label">Amount </label> -->
+                                                   <input type="number" class="form-control noscroll"  onfocusout="checkamount(this)" step="any" id="Gc_amount-1" name="gc_amount-1"  placeholder="$100">
+                                                   <h5><span id="Warring-1" style="color:red"></span></h5>                                                   
+                                                </div>
+                                             </div>
+                                             <div class="col-md-6">
+                                                <div class="form-group">
+                                                <select class="js-example-basic-single" id="gcards-1" name 
+                                                = 'gc_number-1' onchange="giftcards_function(this);">
+                                                  <option>Gift Cards</option>
+                                                  </select>
+                                                </div>
+                                             </div>
+                                              <div class="col-md-3">
+                                                <div class="form-group">
+                                                  <input type="text"  class="form-control" id="Gc_balance-1" placeholder="Balance" name='gc_balance-1'>
+                                                  <a href="javascript:void(0);" class="PopverdesignChnge" role="button" data-toggle="popover"><img src="static/images/material-report.png"></a>
+                                               </div>
+                                             </div>
+                                              <div class="col-md-3">
+                                                <div class="form-group">
+                                                  <input type="text" class="form-control"  id="Gc_pin-1" placeholder="Pin" name='gc_pin-1'>
+                                                  <i onclick="copyPin(this.id)" id="Gc_pin-1" class="fa fa-clone CopyIcon" aria-hidden="true"></i>
+                                               </div>
+                                              </div>
+                                          </div>
+                                    </div>
+                                    
+                                    <div class="col-md-2 BtnAddItem mb-1 mt-1">
+                                       <button type="button" onclick = "cardadding(this)" id="add_more_cards" type="button"  class="btn AdditemBtn1 waves-effect waves-light" ><i class="fa fa-plus pr-1" aria-hidden="true"></i>Add Card</button>
+                                    </div>
+
+
+                                    <div class="row">
+                                       <div class="col-md-6">
+                                          <div class="form-group">
+                                             <label for="orderno" class="control-label">Order No.</label>
+                                             <input required type="text" class="form-control" id="orderno" name="orderno"  placeholder="B0123">
+                                          </div>
+                                       </div>
+                                       <div class="col-md-6 mt-4">
+                                          <div class="checkbox form-check-inline">
+                                                   <input type="checkbox" id="inlineCheckbox1" value= '1' name = "option1">
+                                                   <label for="inlineCheckbox1" class="CheckBoxHeadingclr"> Office Expense</label>
+                                             </div>
+                                       </div>
+                                    </div>
+                                    <!-- <h5><span style="color:red" id="displayTotal"></span></h5>
+                                    <h5><span id="total"></span></h5> -->
+                                       <input  type="hidden" name="norow" id="noRow" value="1" >
+                                       <input  type="hidden" name="gnoRow" id="gnoRow" value="1" >
+                                       <input  type="hidden" name="cart_id" id="cart_id" value="">
+
+
+                                    </div>
+                                    <!--<div style="display:none;" id="updateMsg"><h5 style="color:#1abc9c;">Successfully Record inserted</h5></div>-->
+                        </form>
+                        <div class="modal-footer">
+                           <button type="submit" form="form1" class="btn btn-info waves-effect waves-light">Submit</button>
+                        </div>
+
+                           </div>
+                        </div>
+                     </div>
+
+
+                     <div id="addAttemptOrderTracking" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                        <div class="modal-dialog modal-lg" >
+                           <div class="modal-content" >
+                              <div class="modal-header">
+                                 <h4 class="modal-title">Order Log</h4>
+                                 <button type="button" class="close" data-dismiss="modal" onclick="closemodal()" aria-hidden="true">×</button>
+                              </div>
+
+
+                              <form id="attemptForm01"  >
+                                 <div class="modal-body p-4" id="attemptloaderMain">
+                                 <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group mb-3">
+                                          <!-- this work when there is active retailer -->
+                                             {% if buying_data|length > 0 %}
+                                             <label for="example-select" class="select_buy">Select A Buy</label>
+                                                <select name='select_buy' onchange="attemptOrder_function(this.value)"; class="form-control"  id="attempt-select">
+                                                      <option value="">Select A Attempt Order</option>
+                                                         {% for by_data in attempt_data %}
+                                                            <option value = "{{by_data}}">{{attempt_data[by_data]}}</option>
+                                                         {% endfor %}
+                                                </select>
+                                          <!-- this work when there is no_active retailers-->
+                                             {% else%}
+                                             <label for="example-select">Select A Attempt Order</label>
+                                                <select name='select_buy' class="form-control"  id="attempt-select" disabled style="color:#be46ba; font-weight: bold">
+                                                   <option value="" >No Recent Attempt order</option>
+                                                </select>
+                                             {% endif %}
+                                        </div>
+                                    </div>
+                                 </div>
+                                 <div id='showAttemptOrders' hidden>
+                                 <div class="row">
+                                    <div class="col-md-6">
+                                       <div class="form-group mb-3">
+                                           <label for="example-select">Retailers</label>
+                                           <input readonly class="form-control noscroll DataNotEditable" type="text" name="Retailers" id="Retailers">
+                                       </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                       <div class="form-group">
+                                          <label for="Cashback" class="control-label">Cashback</label>
+                                          <div class="inputIcon2">
+                                            <input readonly class="form-control noscroll DataNotEditable" type="number" step="any" name="cashback" id="CashbackVal"  placeholder="0.00">
+                                            <i>%</i>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <div id="attemptOrder-items">
+
+                                 </div>
+                                 <h3 class="AddOrderFormHeading">Summary</h3>
+                                 <div class="row">
+                                       <div class="col-md-6">
+                                          <div class="form-group">
+                                             <label for="cal_subtotal" class="control-label">Subtotal</label>
+                                             <input readonly  type="number" min="0" step="any" class="form-control noscroll DataNotEditable" id="attempt_subtotal" name="subtotal"  placeholder="$0.00">
+                                          </div>
+                                       </div>
+                                       <div class="col-md-6">
+                                          <div class="form-group">
+                                             <label for="tax" class="control-label">Tax</label>
+                                             <input  readonly type="number" step="any" class="form-control noscroll DataNotEditable" id="attempt_tax" name="tax"  placeholder="$0.00">
+                                          </div>
+                                       </div>
+                                       <div class="col-md-6">
+                                          <div class="form-group">
+                                             <label for="shipping" class="control-label">Shipping</label>
+                                             <input type="number" step="any" class="form-control noscroll DataNotEditable" id="attempt_shipping" name="shipping"  placeholder="$0.00">
+                                          </div>
+                                       </div>
+                                       <div class="col-md-6">
+                                          <div class="form-group">
+                                             <label for="cart_total" class="control-label">Total</label>
+                                             <input type="number" min="0" step="any" class="form-control noscroll" id="attempt_cart_total" name="total"  placeholder="$0.00">
+                                          </div>
+                                       </div>
+                                       </div>
+                                       <h3 class="AddOrderFormHeading">Customer Info</h3>
+                                       <div class="row">
+                                       <div class="col-md-12">
+                                          <div class="form-group">
+                                             <h5><span id="shipwarning" style="color:red"></span></h5>
+                                             <label for="example-select" id ='shippinglabel'>Shipping Address </label>
+                                                  <input type="text" min="0" step="any" class="form-control noscroll" id="attempt_address" name="attempt_address">
+                                          </div>
+                                       </div>
+                                       </div>
+                                       <h3 class="AddOrderFormHeading">Payment</h3>
+                                       <div id="multipleGiftCards">
+                                       </div>
+                                       <div class="row">
+                                       <div class="col-md-6">
+                                          <div class="form-group">
+                                             <label for="orderno" class="control-label">Order No.</label>
+                                             <input required type="text" class="form-control" id="attemptOrderno" name="attemptOrderno"  placeholder="B0123">
+                                             <input required hidden type="text" class="form-control" id="oldAttemptOrderno" name="attemptOrderno"  placeholder="B0123">
+                                          </div>
+                                          <small id="orderNumberError" class="text-danger"></small>
+                                       </div>
+                                       </div>
+                                 </div>
+                                    </div>
+                        </form>
+                        <div class="modal-footer">
+                           <button disabled type="submit" form="attemptForm" id="attemptOrderBtn" onclick="saveDataToMain()" class="btn btn-info waves-effect waves-light attempt">Submit</button>
+                        </div>
+
+                           </div>
+                        </div>
+                     </div>
+
+                     <div class="float-right modal-cusm ml-2 ">
+                        <button type="button" class="btn AdminLoginBtn waves-effect waves-light" data-toggle="modal" data-target="#addOrderTracking"
+                        data-backdrop="static" data-keyboard="false">Add Order</button>
+                     </div>
+
+                     <div class="float-right modal-cusm ml-2 ">
+                        <button type="button" class="btn AdminLoginBtn waves-effect waves-light" data-toggle="modal" data-target="#addAttemptOrderTracking"
+                        data-backdrop="static" data-keyboard="false">Order Log</button>
+                     </div>
+                     <!-- Add orders End -->
+                     <!-- Import Orders Start -->
+                           <div id="con-close-modal" class="modal fade mt-2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                              <div class="modal-dialog">
+                                 <div class="modal-content">
+                                    <div class="modal-header">
+                                       <h4 class="modal-title">Import Orders</h4>
+                                       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                    </div>
+                                    <div class="modal-body">
+                                       <div class="form-group">
+                                        <label>Upload File</label>
+                                        <form action = "/uploadFile" method = "post" enctype="multipart/form-data">
+                                          <div class="input-group">
+                                             <div class="custom-file">
+                                                <input type="file" class="custom-file-input" accept=".xlsx" name="uploadFile" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01" required>
+                                                <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                                             </div>
+                                             <button  class="btn ml-2 btn-info waves-effect waves-light">Upload File</button>
+                                          </div>
+                                        </form>
+                                       </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                       <form action = "/downloadcsv" method = "post" >
+                                          <input type="hidden" name="download" value="2">
+                                          <button  class="btn btn-info waves-effect waves-light">Download CSV List Template</button>
+                                       </form>
+                                     <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Close</button>
+                                  </div>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="float-right modal-cusm">
+                              <button type="button" class="btn btn-success waves-effect waves-light" data-toggle="modal" data-target="#con-close-modal">Import Orders</button>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <!-- end page title -->
+                  <div class="row">
+                     <div class="col-md-12">
+                        {% for message in get_flashed_messages() %}
+                           <div class="alert alert-danger">
+                              <button type="button" class="close" data-dismiss="alert">&times;</button>
+                              {{ message }}
+                           </div>
+                        {% endfor %}
+                     </div>
+                 </div>
+                  <div class="row">
+                     <div id="modal-date-custom" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                        <div class="modal-dialog">
+                           <div class="modal-content">
+                              <div class="modal-header">
+                                 <h4 class="modal-title">Select Date Range</h4>
+                                 <button type="button" class="close" data-dismiss="modal" onclick="closemodal()" aria-hidden="true">×</button>
+                              </div>
+                              <div class="modal-body p-4">
+                                 <div class="form-group mb-0">
+                                    <div class="input-group">
+                                       <div class="form-group">
+                                          <div class="row">
+                                             <div class="col-md-6">
+                                                <label>From:</label>
+                                                <input type="text" id="dp-from" class="form-control" data-provide="datepicker"  placeholder="Start Date">
+                                             </div>
+                                             <div class="col-md-6">
+                                                <label>To:</label>
+                                                <input type="text" id="dp-to" class="form-control" data-provide="datepicker" placeholder="End Date">
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="modal-footer">
+                                 <button type="button" id = 'dateButton' class="btn btn-info waves-effect waves-light" onclick="customDate()">Submit</button>
+                                 <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal" onclick="closemodal()">Close</button>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <!-- /.modal -->
+                  <div class="row">
+                     <div class="col-sm-12">
+                        <div class="card-box">
+                           <div class="form-inline mb-2">
+<!--                              <div class="form-group mr-2">-->
+<!--                                 <div class="btn-group btn-block">-->
+<!--                                    <button type="button" class="btn btn-info dropdown-toggle " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Bulk Action <i class="mdi mdi-chevron-down"></i></button>-->
+<!--                                    <div class="dropdown-menu">-->
+<!--                                       &lt;!&ndash; <a class="dropdown-item" href="#">Bulk Action</a> &ndash;&gt;-->
+<!--                                        &lt;!&ndash; <a class="dropdown-item" id='EditStatus' href="#">Edit Status  </a> &ndash;&gt;-->
+<!--                                       <a class="dropdown-item" id='DeleteStatus' onclick="changedata(this.id)" href="#">Delete Status </a>-->
+<!--                                    </div>-->
+<!--                                 </div>-->
+<!--                              </div>-->
+                              <!-- /btn-group -->
+                              <div class="form-group mr-2 boxline1">    
+                                 <button type="button" id="Delete" onclick='deleteRow()'  class="btn btn-danger waves-effect waves-light btn-block ">Delete</button>
+                              </div>
+                              <div class="form-group mr-2">
+                                 <select class="selectpicker" id="timefilter" onchange="dateFilter(this)">
+                                    <option value="Date Range">Date Range</option>
+                                    <option value="Last7days">Last 7 days</option>
+                                    <option value="ThisWeek">This Week</option>
+                                    <option value="Last30days">Last 30 days</option>
+                                    <option value="LastMonth">Last Month</option>
+                                    <option value="ThisMonth">This Month</option>
+                                    <option value="Custom">Custom</option>
+                                 </select>
+                              </div>
+                              <div class="form-group mr-2">
+                                 <select class="selectpicker" onchange="statusFilter(this)">
+                                      <option value="Status">Status</option>
+                                    <option value="Processing">Processing</option>
+                                    <option value="Ordered">Ordered</option>
+                                    <option value="Cancelled">Cancelled</option>
+                                    <option value="Shipped">Shipped</option>
+                                    <option value="Delivered">Delivered</option>
+                                    <option value="Received">Received</option>
+                                 </select>
+                              </div>
+                              <div class="form-group mr-2">
+                                 <select class="selectpicker" id="retailersFilter"  onchange="retailerFilter(this)" data-size="10">
+                                    <option>Retailers</option>
+                                       {% for ret in distinct_retailer %}
+                                    <option value="{{ret.0}}">{{ret.0}}</option>
+                                       {% endfor %}
+                                    <!-- <option value="Cabela''s">Cabela’s</option> --> 
+                                 </select>
+                              </div>
+                           </div>
+                           <div class=" row">
+                              <div class="col-md-12" style='overflow-x: auto'>
+                                <table id="orderTrackingTable" class="table w-100 nowrap table-bordered table-hover">
+                                    <span id="showcustomdate"></span>
+                                    <span id="showselectedbox"></span>
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th class="no-sort"><input type="checkbox" name="check1" id="cb-bulk" class="cb-tab"></th>
+                                            <th>Date</th>
+                                            <th>Order #</th>
+                                            <th>Status</th>
+                                            <th>Retailer</th>
+                                            <th># of Items</th>
+                                            <th>Cart Total</th>
+                                            <th>View</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                              </div>
+                           </div>
+                           <!-- end .table-responsive-->                                
+                        </div>
+                     </div>
+                     <!-- end card-box -->
+                  </div>
+                  <!-- end col -->
+               </div>
+            </div>
+            <!-- container -->
+         </div>
+         <!-- content -->
+dx         <!-- Footer Start -->
+         <footer class="footer">
+            <div class="container-fluid">
+               <div class="row">
+                  <div class="col-md-6">
+                     2020 &copy; Prime Electronics, LLC
+                  </div>
+                  <div class="col-md-6">
+                     <div class="text-md-right footer-links d-none d-sm-block">
+                        <a href="javascript:void(0);">About Us</a>
+                        <a href="javascript:void(0);">Help</a>
+                        <a href="javascript:void(0);">Contact Us</a>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </footer>
+         <!-- end Footer -->
+      </div>
+      <!-- ============================================================== -->
+      <!-- End Page content -->
+      <!-- ============================================================== -->
+      </div>
+      <!-- END wrapper -->
+      <!-- Right Sidebar -->
+      <div class="right-bar">
+         <div class="rightbar-title">
+            <a href="javascript:void(0);" class="right-bar-toggle float-right">
+            <i class="dripicons-cross noti-icon"></i>
+            </a>
+            <h5 class="m-0 text-white">Settings</h5>
+         </div>
+         <div class="slimscroll-menu">
+            <!-- User box -->
+            <div class="user-box">
+               <div class="user-img">
+                  <img src="static/images/users/user-1.jpg" alt="user-img" title="Mat Helme" class="rounded-circle img-fluid">
+                  <a href="javascript:void(0);" class="user-edit"><i class="mdi mdi-pencil"></i></a>
+               </div>
+               <h5><a href="javascript: void(0);">Geneva Kennedy</a> </h5>
+               <p class="text-muted mb-0"><small>Admin Head</small></p>
+            </div>
+            <!-- Settings -->
+            <hr class="mt-0" />
+            <h5 class="pl-3">Basic Settings</h5>
+            <hr class="mb-0" />
+            <div class="p-3">
+               <div class="checkbox checkbox-primary mb-2">
+                  <input id="Rcheckbox1" type="checkbox" checked>
+                  <label for="Rcheckbox1">
+                  Notifications
+                  </label>
+               </div>
+               <div class="checkbox checkbox-primary mb-2">
+                  <input id="Rcheckbox2" type="checkbox" checked>
+                  <label for="Rcheckbox2">
+                  API Access
+                  </label>
+               </div>
+               <div class="checkbox checkbox-primary mb-2">
+                  <input id="Rcheckbox3" type="checkbox">
+                  <label for="Rcheckbox3">
+                  Auto Updates
+                  </label>
+               </div>
+               <div class="checkbox checkbox-primary mb-2">
+                  <input id="Rcheckbox4" type="checkbox" checked>
+                  <label for="Rcheckbox4">
+                  Online Status
+                  </label>
+               </div>
+               <div class="checkbox checkbox-primary mb-0">
+                  <input id="Rcheckbox5" type="checkbox" checked>
+                  <label for="Rcheckbox5">
+                  Auto Payout
+                  </label>
+               </div>
+            </div>
+            <!-- Timeline -->
+            <hr class="mt-0" />
+            <h5 class="px-3">Messages <span class="float-right badge badge-pill badge-danger">25</span></h5>
+            <hr class="mb-0" />
+            <div class="p-3">
+               <div class="inbox-widget">
+                  <div class="inbox-item">
+                     <div class="inbox-item-img"><img src="static/images/users/user-2.jpg" class="rounded-circle" alt=""></div>
+                     <p class="inbox-item-author"><a href="javascript: void(0);" class="text-dark">Tomaslau</a></p>
+                     <p class="inbox-item-text">I've finished it! See you so...</p>
+                  </div>
+                  <div class="inbox-item">
+                     <div class="inbox-item-img"><img src="static/images/users/user-3.jpg" class="rounded-circle" alt=""></div>
+                     <p class="inbox-item-author"><a href="javascript: void(0);" class="text-dark">Stillnotdavid</a></p>
+                     <p class="inbox-item-text">This theme is awesome!</p>
+                  </div>
+                  <div class="inbox-item">
+                     <div class="inbox-item-img"><img src="static/images/users/user-4.jpg" class="rounded-circle" alt=""></div>
+                     <p class="inbox-item-author"><a href="javascript: void(0);" class="text-dark">Kurafire</a></p>
+                     <p class="inbox-item-text">Nice to meet you</p>
+                  </div>
+                  <div class="inbox-item">
+                     <div class="inbox-item-img"><img src="static/images/users/user-5.jpg" class="rounded-circle" alt=""></div>
+                     <p class="inbox-item-author"><a href="javascript: void(0);" class="text-dark">Shahedk</a></p>
+                     <p class="inbox-item-text">Hey! there I'm available...</p>
+                  </div>
+                  <div class="inbox-item">
+                     <div class="inbox-item-img"><img src="static/images/users/user-6.jpg" class="rounded-circle" alt=""></div>
+                     <p class="inbox-item-author"><a href="javascript: void(0);" class="text-dark">Adhamdannaway</a></p>
+                     <p class="inbox-item-text">This theme is awesome!</p>
+                  </div>
+               </div>
+               <!-- end inbox-widget -->
+            </div>
+            <!-- end .p-3-->
+         </div>
+         <!-- end slimscroll-menu-->
+      </div>
+      <!-- /Right-bar -->
+      <!-- Right bar overlay-->
+      <div class="rightbar-overlay"></div>
+      <!-- Vendor js -->
+      <script src="static/js/vendor.min.js"></script>
+      
+
+<script type="text/javascript">
+
+//initializing select 2 
+   $(document).ready(function() {
+    $('.js-example-basic-single').select2();
+    $(".js-example-basic-single").select2({width: '100%', tags: true});
+    
+
+});
+
+   function closemodal(){
+            // get modals
+            const modals = document.getElementsByClassName('modal');
+   
+            // on every modal change state like in hidden modal
+            for(let i=0; i<modals.length; i++) {
+               modals[i].classList.remove('show');
+               modals[i].setAttribute('aria-hidden', 'true');
+               modals[i].setAttribute('style', 'display: none');
+            }
+            
+   }
+</script>
+
+<script>
+   function showTableLoader(){
+      $(".dataTables_processing").show(0);
+      return true;
+   }
+   function hideTableLoader(){
+     $(".dataTables_processing").hide(0);
+     return false;
+   }
+</script>
+
+<script>
+
+document.addEventListener("wheel", function(event) {
+  if (document.activeElement.type === "number" &&
+    document.activeElement.classList.contains("noscroll")) {
+    document.activeElement.blur();
+  }
+});
+
+</script>
+<!----- Add more filed in add button -------->
+<script type="text/javascript">
+
+  var wrapper = $("#order-items"); //Fields wrapper
+  var x = 1;
+
+  function AddFieldRow(btn_id){
+    let priceElement;
+    x++;
+    var item_len = $("#order-items > div.row").length + 1;
+    if (x>item_len){
+        x = item_len
+    }
+    document.getElementById("noRow").value=x;
+
+    if(btn_id == "add_field_button"){
+      priceElement = '<input required type="number" min="0" step="any" class="form-control noscroll" name="price-'+x+'" id="Price-'+x+'" onkeyup="cal_total(id)" placeholder="0.00">'
+    }
+    else if(btn_id == "add_free_field_button"){
+      priceElement = '<h5 class="FreeTextcss">FREE</h5>' + '<input type="hidden" name="price-'+x+'" id="Price-'+x+'" value="0" >'
+
+    }
+     $(wrapper).append('<div class="row">'+
+        "<button type='button' class='close  close_button btnRadiusRounded closebtn-MT1' id='"+x+"' onclick='close_sku_item(id,this);'>×</button>"+
+         '<div class="col-md-3">'+
+           '<div class="form-group">'+
+              '<label for="Sku-'+x+'" class="control-label">Sku </label>'+
+              '<input required type="text" class="form-control"  name="sku-'+x+'" id="Sku-'+x+'" placeholder="#3452">'+
+           '</div>'+
+         '</div>'+
+         '<div class="col-md-4">'+
+           '<div class="form-group">'+
+              '<label for="itemtitle-'+x+'" class="control-label">Item title  </label>'+
+              '<input required type="text" class="form-control"  name="itemtitle-'+x+'" id="itemtitle-'+x+'" placeholder="Enter Item title ">'+
+           '</div>'+
+         '</div>'+
+         '<div class="col-md-2">'+
+            '<div class="form-group">'+
+               '<label for="Price-'+x+'" class="control-label">Price </label>'+
+                  '<div class="inputIcon">'+
+                     priceElement+
+                     '<i>$</i>'+
+                  '</div>'+
+            '</div>'+
+         '</div>'+
+         '<div class="col-md-2">'+
+            '<div class="form-group">'+
+               '<label for="TotalQty-'+x+'" class="control-label">Qty</label>'+
+               '<input required type="number" min="0" step="number" class="form-control noscroll" name="totalqty-'+x+'" id="TotalQty-'+x+'" onkeyup="cal_total(id)" placeholder="1">'+
+            '</div>'+
+         '</div>'+
+        '<h5><span style="color:red" id="warning-'+x+'"></span></h5>'+
+     '</div>');
+
+  }
+
+</script>
+<!----- Add more filed in add button closed -------->
+<!----- Add more card filed in add button -------->
+<script type="text/javascript">
+// Add more filed in add button
+$(document).ready(function() {
+var wrapper       = $("#addMorecard-items"); //Fields wrapper
+var add_button    = $("#add_more_cards"); //Add button ID
+var x = 1; //initlal text box count
+$(add_button).click(function(e){ //on add input button click
+    e.preventDefault();
+    x++; //text box increment
+    var item_len = $("#addMorecard-items > div.row").length + 1;
+    if (x>item_len){
+        x = item_len
+    }
+    document.getElementById("gnoRow").value=x
+      $(wrapper).append('<div class="row">'+
+        "<button type='button' class='close  close_button btnRadiusRounded closebtn-MT2' id='"+x+"' onclick='close_giftcard_item(id,this);'>×</button>"+
+         '<div class="col-md-6">'+
+           '<div class="form-group">'+
+               '<div class="form-control">'+
+               ' <p>Gift Card</p>'+
+               '</div>'+
+           '</div>'+
+         '</div>'+
+         '<div class="col-md-6">'+
+            '<div class="form-group">'+
+              '<input type="text" step="any" class="form-control noscroll" onfocusout="checkamount(this)" id="Gc_amount-'+x+'" name ="gc_amount-'+x+'"  placeholder="$100">'+
+              '<h5><span id="Warring-'+x+'" style="color:red"></span></h5>'+                                                   
+            '</div>'+
+         '</div>'+
+         '<div class="col-md-6">'+
+            '<div class="form-group">'+
+               '<select class="js-example-basic-single" id="gcards-'+x+'" name="gc_number-'+x+'" onchange="giftcards_function(this);">'+
+               '<option value=' + 'Gift_Cards' + '>' + 'Please Select Linked Giftcard' + '</option>'+
+               '</select>'+
+            '</div>'+
+         '</div>'+
+          '<div class="col-md-2">'+
+            '<div class="form-group">'+
+              '<input type="text"  class="form-control" id="Gc_balance-'+x+'" name="gc_balance-'+x+'"  placeholder="Balance">'+
+              '<a href="javascript:void(0);" class="PopverdesignChnge1"  role="button" data-toggle="popover"  data-trigger="focus" ><img src="static/images/material-report.png"></a>'+
+            '</div>'+
+          '</div>'+
+          '<div class="col-md-3">'+
+            '<div class="form-group">'+
+              '<input type="text" class="form-control" id="Gc_pin-'+x+'" placeholder="Pin" name="gc_pin-'+x+'">'+
+              '<i  onclick="copyPin(this.id)" id="Gc_pin-'+x+'" class="fa fa-clone CopyIcon" aria-hidden="true"></i>'+
+            '</div>'+
+          '</div>'+
+        '<h5><span style="color:red" id="warning-'+x+'"></span></h5>'+
+     '</div>');
+     showSnackbar("Added");
+      $('[data-toggle="popover"]').popover({
+                           container: 'body',
+                           html: true,
+                           placement: 'bottom',
+                           sanitize: false,
+                           content:
+                              '<div id="PopoverContent">'+
+                                  '<div class="PopDropLink">'+
+                                    '<a class="d-block popover-close" id="not_worked-'+x+'" style="cursor:pointer;" onclick="cardhealth(this)">Card Not Working</a>'+
+                                    '<a class="d-block popover-close" id="no_balance-'+x+'" style="cursor:pointer;" onclick="cardhealth(this)">No Balance</a>'+
+                                  '</div>'+
+                             '</div>'
+                        });
+                        $(document).on("click", ".popover .popover-close" , function(){
+                $(this).parents(".popover").popover('hide');
+            });
+         
+
+  });
+
+            
+});
+</script>
+<!----- Add card filed in add Card closed -------->
+<!-- Popover Start -->
+<script type="text/javascript">
+
+               function copyPin(id) {
+                           console.log(id)
+                           var copyText = document.getElementById(id);
+                           copyText.select();
+                           document.execCommand("Copy");
+                           // alert("Copied the text: " + copyText.value);
+                        }
+   
+
+   console.log('aaaaaaaaaaaaaaaaaaaa')
+
+   $('[data-toggle="popover"]').popover({
+              container: 'body',
+              html: true,
+              placement: 'bottom',
+              sanitize: false,
+              content: 
+                  '<div id="PopoverContent">'+
+                  '<div class="PopDropLink">'+
+                    '<a class="d-block popover-close" id="not_worked-1" style="cursor:pointer;" onclick="cardhealth(this)">Card Not Working</a>'+
+                    '<a class="d-block popover-close" id="no_balance-1" style="cursor:pointer;" onclick="cardhealth(this)">No Balance</a>'+
+                  '</div>'
+            })
+
+            $(document).on("click", ".popover .popover-close" , function(){
+                $(this).parents(".popover").popover('hide');
+            });
+       
+</script>
+<!-- Popover End -->
+<!-- Add the following code if you want the name of the file appear on select -->
+<script>
+   $(".custom-file-input").on("change", function() {
+     var fileName = $(this).val().split("\\").pop();
+     $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+   });
+   </script>
+
+
+
+<script>
+   const togglePassword = document.querySelector('#togglePassword');
+   const password = document.querySelector('#pwd');
+
+   togglePassword.addEventListener('click', function (e) {
+    // toggle the type attribute
+    const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+    password.setAttribute('type', type);
+    // toggle the eye slash icon
+    this.classList.toggle('fa-eye-slash');
+});
+</script>
+
+<!-- select and chnage multiple status in one time -->
+    <script type="text/javascript">
+        function changedata(status){
+            var checkboxes = document.getElementsByName("check[]");
+            var checkboxesChecked = [];
+            var checkboxesType = [];
+            var checkedRows={}
+            checkedRows['status'] = status;
+          // loop over them all
+          for (var i=0; i<checkboxes.length; i++) {
+             // And stick the checked ones onto an array...
+             if (checkboxes[i].checked) {
+                checkboxesChecked.push(checkboxes[i].value);
+                checkboxesType.push(checkboxes[i].getAttribute("data-type"));
+             }
+         }
+         len=checkboxesChecked.length
+         for(var i = 0; i < checkboxesChecked.length; i++){
+            checkedRows['id'+i] = checkboxesChecked[i];
+            //<!--alert(checkboxesChecked[i])-->
+         }
+         //console.log(checkedRows)
+
+         $.ajax({
+            type:'POST',
+            url:'/selectordertrackingtable/'+len,
+            data:checkedRows,
+            success:function(response){
+                //console.log(response);
+                var data = JSON.parse(response)
+                updateMsg = data.message
+                showSnackbar(updateMsg);
+                setTimeout(function(){
+                    location.reload();
+                  },1000)
+            },
+            error:function(error) {
+                console.log(error);
+            }
+         });
+         }
+     </script>
+    <!-- select and chnage multiple status in one time closed -->
+    <!-- Hide upper and down arrow from first column in datatable -->
+    <script type="text/javascript">
+       $(document).ready(function(){
+            function checkfirstcolumn(){
+                if($(".no-sort").hasClass("sorting_asc")){
+                    $(".no-sort").removeClass("sorting_asc");
+                }
+                setTimeout(function(){
+                checkfirstcolumn();
+                },1000)}
+           checkfirstcolumn();
+        });
+    </script>
+<!------- toast functionality  ------->     
+<script>
+    function showSnackbar(text) {
+    var x = document.getElementById("snackbar");
+    x.innerHTML = text;
+    x.className = "show";
+    setTimeout(function(){ x.className = x.className.replace("show", ''); }, 3000);
+    }
+</script>
+
+<script>
+    setTimeout(function(){
+        $('.flashes').addClass('show')
+        if ($('.flashes').hasClass('show')){
+            $('.flashes').removeClass('show')
+        }
+      },5000)
+</script>
+
+ <!-- checkbox functionality ------------>
+ <script type="text/javascript">
+   $(document).on("click", "#cb-bulk", function(){
+      $(".cb-single").prop("checked", $(this).prop("checked"));
+      if($(this).prop("checked")) {
+         let total_checked =  "You’ve Selected "+ $(".cb-single").length + " Items"
+         document.getElementById("showselectedbox").innerHTML = total_checked;
+         document.getElementById("showselectedbox").style.display= 'inline';
+      } else  {
+         document.getElementById("showselectedbox").style.display= 'none';
+      }
+   });
+
+   $(document).on("click", ".cb-single", function(){
+      var all = $(".cb-single").length;
+
+      var checked = $(".cb-single:checked").length;
+      //this works for selecting each check-box
+
+      let total_checked =  "You’ve Selected "+ checked + " Items"
+      document.getElementById("showselectedbox").innerHTML = total_checked;
+      document.getElementById("showselectedbox").style.display= 'inline';
+
+      if(all == checked){
+         $(".cb-tab").prop("checked", true);
+      }else{
+         $(".cb-tab").prop("checked", false);
+         // if select checkbox become zero then it will hide
+         if (checked == 0){
+            document.getElementById("showselectedbox").style.display= 'none';
+         }
+      }
+   });
+</script>
+
+<!----- upper dropdown custom date picker functionality -------->
+<script type="text/javascript">
+   $(function(){
+      $("#dp-from").datepicker({
+              dateFormat: "mm-dd-yy",
+               "endDate": "today",
+                maxDate: 0,
+                onSelect: function(selected) {
+                  $("#dp-to").datepicker("option","minDate", selected)
+                }
+           });
+             $("#dp-to").datepicker({
+                dateFormat: "mm-dd-yy",
+                "endDate": "today",
+                maxDate: 0,
+                onSelect: function(selected) {
+                   $("#dp-from").datepicker("option","maxDate", selected)
+                }
+           });
+
+       $("#datePickerId").datepicker({
+          todayHighlight: true,
+          format: "mm-dd-yyyy",
+          "endDate": "today",
+           maxDate: 0,
+          autoclose: true,
+
+       });
+       $('#datePickerId').datepicker('setDate', 'now');
+   });
+    $('#dp-from').keydown(function(e) {
+       e.preventDefault();
+       return false;
+    });
+    $('#dp-to').keydown(function(e) {
+       e.preventDefault();
+       return false;
+    });
+   </script>
+
+
+   <!-- append status -->
+   <script>
+   function  getStatusSelectFilter(data, row) {
+      let htmlString   =  '<select onchange="changeStatus(this)" class="hd3">'+
+            '<option value='+row.order_number+'>'+data+'</option>';
+
+            if (data !== "Processing")
+            htmlString = htmlString + "<option value='" + row.order_number +"'>Processing</option>";
+
+            if (data !== "Ordered")
+            htmlString = htmlString + "<option value='" + row.order_number +"'>Ordered</option>";
+
+            if (data !== "Cancelled")
+            htmlString = htmlString + "<option value='" + row.order_number +"'>Cancelled</option>";
+
+            if (data !== "Shipped")
+            htmlString = htmlString + "<option value='" + row.order_number +"'>Shipped</option>";
+
+            if (data !== "Delivered")
+            htmlString = htmlString + "<option value='" + row.order_number +"'>Delivered</option>";
+
+            if (data !== "Received")
+            htmlString = htmlString + "<option value='" + row.order_number +"'>Received</option>";
+
+      htmlString = htmlString + '</select>';
+      return htmlString
+   }
+   </script>
+
+   <script>
+      var orderTrackingTable = undefined;
+      $(document).ready(function(){
+         //this code work when you refresh the page
+         if (performance.navigation.type != 2){ 
+         //checks if page is accessed through a link or refresh
+         orderTrackingTable = $('#orderTrackingTable').DataTable();
+         orderTrackingTable.state.clear();
+         orderTrackingTable.destroy(); // need to destroy the table, I don't know why..
+      }
+
+        // table initialization code
+
+       orderTrackingTable = $('#orderTrackingTable').DataTable({
+         stateSave: true,
+               serverSide: true,
+               ordering: true,
+               searching: true,
+               processing: true,
+               'language': {
+                    'loadingRecords': '&nbsp;',
+                    'processing': '<div class="spinner"></div>'
+               },
+              columns: [  
+                       {   
+                    data:"", orderable: false,
+                    "render": function ( data, type, row, meta ) {
+                        return '<input type="checkbox" name="check[]" value="' + row.order_number + '" class="cb-single">'}
+                    },
+                {"data": "Date_creation"},
+                {"data": "order_number"},
+                {"data": "tracking_status",
+                  "render": function( data, type, row, meta ) {
+                              return getStatusSelectFilter(data, row);
+                           }
+                },
+                {"data": "retailer"},
+                {"data": "qty_cart"},
+                {"data": "cart_total"},
+                {"data": "orderdetails", orderable: false,
+                "render": function ( data, type, row, meta ) {
+                                return '<a href="/orderdetails?id='+ row.order_number +'">View</a>'}
+                                }
+            ],
+              
+       "ajax": {
+            'type': 'post',
+            'url': '/otdatatable',
+            'dataType': 'json',
+            "contentType": "application/json",
+             error: function (jqXHR, textStatus, errorThrown) {
+                console.log(textStatus, "Server Busy, Loading data, Please try again...")
+               },
+             "data": function ( d ) {
+                        console.log(d)
+                        showTableLoader();
+                        return JSON.stringify(d)
+                 }
+          },
+          "drawCallback": function( settings ) {
+               hideTableLoader();
+                //make checkbox display header none
+                document.getElementById("showselectedbox").style.display= 'none';
+               //make uppercheckbox none
+               $(".cb-tab").prop("checked", false);   
+           }
+      });
+   });
+   </script>
+
+      
+          <!-- function for deleting the row -->  
+   <script>
+      function deleteRow(){
+         var checkboxes = document.getElementsByName("check[]");
+         var checkboxesArray = [];
+         var trSelectorArray = [];
+         // loop over them all
+         for (var i=0; i<checkboxes.length; i++) {
+            // And stick the checked ones onto an array...
+            if (checkboxes[i].checked) {
+               checkboxesArray.push(checkboxes[i].value);
+               const id = checkboxes[i].value;
+
+               const tr = checkboxes[i].parentElement.parentElement;
+               trSelectorArray.push(tr);
+            }
+         }
+         if(checkboxesArray.length !== 0){
+            swal({
+               title: "Are you sure?",
+               text: "Once deleted, you will not be able to recover this data!",
+               icon: "warning",
+               buttons: true,
+               dangerMode: true,
+            }).then((willDelete) => {
+               if (willDelete) {
+               var data = {"checkboxesArray":checkboxesArray}
+               // console.log(data)
+      
+               $.ajax({
+                        type: "DELETE",
+                        url: "/deletetrackingrows",
+                        data: JSON.stringify(data),
+                        success: function(d) {
+                           console.log('Success', d);
+                           // remove row from view
+                           if(d.status=='OK'){
+                                    orderTrackingTable.rows(trSelectorArray).remove().draw(false);
+                                    //make checkbox display header none
+                                    document.getElementById("showselectedbox").style.display= 'none';
+                                    //make uppercheckbox none
+                                    $(".cb-tab").prop("checked", false);
+                                    if(checkboxesArray.length == 1){
+                                        showSnackbar(checkboxesArray.length + " item is deleted");
+                                    }else{
+                                       showSnackbar(checkboxesArray.length + " items are deleted");
+                                    }
+                           }else{
+                           showSnackbar("Can't Deleted")
+                           }
+                        },
+                        dataType: 'json',
+                        contentType: "application/json"
+                  });
+                  }
+            });
+           }else{
+               showSnackbar("Please select at least one item.");
+           }
+       }
+      </script>
+
+
+<!-- code for removing sku element -->
+<script>
+   function close_sku_item(id,element){
+       let sku_item_len = $("#order-items > div.row").length;
+      //  if(id == sku_item_len){
+             price=Number(document.getElementById("Price-"+id).value)
+             Qty=document.getElementById("TotalQty-"+id).value
+             var total=price*Qty
+             var subtotal = price*Qty
+            //  var subtotalAmount+=subtotal
+            //  var totalAmount+=total
+
+            //on removing sku we also subtract subtotal & total
+            var remov_subtotal = document.getElementById('cal_subtotal').value
+            var remov_total    = document.getElementById('cart_total').value
+            rem_val    = remov_subtotal - subtotal
+            rem_val    = Math.round((Number(rem_val) + Number.EPSILON) * 100) / 100
+            $("#cal_subtotal").val(rem_val);
+            $("#cart_total").val(rem_val);
+
+            //make tax & shipping 0 on removing element
+            document.getElementById("tax").value = ''
+            document.getElementById("shipping").value =''
+           document.getElementById("noRow").value=sku_item_len-1;
+           $(element).parent().remove();
+
+           //this cod eis used for removing row fron any element
+           //so it dynamic change the id number & its name
+            if(sku_item_len > id){
+                  for(i=sku_item_len; i<= sku_item_len; i--) {
+                     if( i > id){
+                           document.getElementById('Sku-'+i).name       = 'sku-'+ (i-1);
+                           document.getElementById('Sku-'+i).parentElement.parentElement.parentElement.firstChild.id = i-1;
+                           document.getElementById('Sku-'+i).id         = 'Sku-'+ (i-1);
+                           document.getElementById('itemtitle-'+i).name  = 'itemtitle-'+ (i-1);
+                           document.getElementById('itemtitle-'+i).id    = 'itemtitle-'+ (i-1);
+                           document.getElementById('Price-'+i).name      = 'price-'+ (i-1);
+                           document.getElementById('Price-'+i).id        = 'Price-'+ (i-1);
+                           document.getElementById('TotalQty-'+i).name   = 'totalqty-'+ (i-1);
+                           document.getElementById('TotalQty-'+i).id     = 'TotalQty-'+ (i-1);
+                           
+                        
+                     }else{
+                        break;
+                     }
+                  }
+            }
+
+           
+      //  }else{
+      //      showSnackbar("Not allowed, Please remove from last block.");
+      //  }
+   }
+</script>
+
+
+<!-- code for removing giftcard element -->
+<script>
+   var activeLengthOfGiftCard;
+   function close_giftcard_item(id,element){
+       let giftcard_item_len = $("#addMorecard-items > div.row").length;
+            document.getElementById("gnoRow").value=giftcard_item_len-1;
+            $(element).parent().remove();
+            activeLengthOfGiftCard = giftcard_item_len;
+         //on deletion adding id on the element
+         if(giftcard_item_len > id){
+               for(i=giftcard_item_len; i<= giftcard_item_len; i--) {
+                  if( i > id){
+                        document.getElementById('gcards-'+i).name       = 'gc_number-'+ (i-1);
+                        document.getElementById('gcards-'+i).parentElement.parentElement.parentElement.firstChild.id = i-1;
+                        document.getElementById('gcards-'+i).id         = 'gcards-'+ (i-1);
+                        document.getElementById('Gc_amount-'+i).name    = 'gc_amount-'+ (i-1);
+                        document.getElementById('Gc_amount-'+i).id      = 'Gc_amount-'+ (i-1);
+                        
+                  }else{
+                     break;
+                  }
+               }
+         }
+
+
+
+   }
+</script>
+
+   <!------------------------------ all top select filters comes here --------------------------------------->
+   <script>
+   //function for the filtering the retailer from the upperdropdown
+   this.retailer = '';
+   function retailerFilter(selectedRetailer) {
+      this.retailer = selectedRetailer.value;
+      console.log('selectedRetailer', this.retailer);
+
+      orderTrackingTable.columns(4).search(this.retailer).draw();
+   }
+   //---------function end retailerFilter-------------// 
+
+   //---------function end retailerFilter-------------// 
+
+   //function for the filtering the status from the upperdropdown
+   this.status = '';
+   function statusFilter(selectedStatus){
+   this.status = selectedStatus.value;
+   console.log('selectedStatus', this.status)
+   orderTrackingTable.columns(3).search(this.status).draw();
+   }
+   //---------function end statusFilter-------------// 
+
+   //function for the filtering the date from the upperdropdown
+   this.dateValue='';
+   function dateFilter(filteredDate){
+        //get value of vendor from the filter
+         this.dateValue = filteredDate.value;
+         console.log(this.dateValue)
+         if (this.dateValue != 'Custom'){
+             // console.log('selectedStatus',  this.dateValue)
+            //this is used for hiding the custom date
+            document.getElementById("showcustomdate").style.display= 'none';
+            orderTrackingTable.columns(1).search(this.dateValue).draw();
+         }
+         else{
+            if (this.dateValue == 'Custom'){
+         $("#timefilter").find('option[value="Custom"]').prop("selected", true);
+         $("#modal-date-custom").modal("show");
+            }
+         }
+   }
+
+   //get model pop date range and send to the datatable through search value
+   function customDate(){
+     let date1=document.getElementById("dp-from").value
+     let date2=document.getElementById("dp-to").value
+     if(date1 == "" || date2 == ""){
+      return 
+     }else{
+      $('#dateButton').attr("data-dismiss","modal"); 
+     }
+   //   console.log(date1)
+   //   console.log(date2)
+     this.dateValue = ["Custom", date1, date2]
+      //this is used for displaying the custom date range
+      let customdate = ["<b>Date Range</b>: " + date1 + " to " + date2];
+     document.getElementById("showcustomdate").innerHTML = customdate;
+     document.getElementById("showcustomdate").style.display= 'inline';
+     //this is used for date table code
+     orderTrackingTable.columns(1).search([this.dateValue]).draw()
+   }
+
+   //-------------------------function end dateFilter --------------------//
+   </script>
+
+
+<!-- function for geeting list of all email on change of retailers -->
+<script>
+   this.selectedretailer = ''
+   function changeretailer(selectretailer){
+       console.log(selectretailer)
+
+      //resetting the password on change of retailer dropdown
+      //making password field & input email field invisisble on change of active buy
+      hideInputPasswordEmail()
+
+
+       //getting a selected giftcard cost
+      this.selectedretailer = selectretailer.value;
+      console.log(this.selectedretailer)
+      var data = {"selectedretailer":this.selectedretailer}
+
+      //empty the email list of the email
+      var select = document.getElementById("emailId");
+      select.options.length = 0;
+
+      document.getElementById("shipadress").options.length                = 0;
+      $('#shipadress').append('<option value=' + 'address' + '>' + 'Shipping Address' + '</option>');
+
+
+       //---------Ajax Call---------//
+   
+      //Initialize xhr request
+      var xhr = new XMLHttpRequest();
+   
+      //open xhr object
+      //open(method, url, async)
+      xhr.open("POST", '/getordertrackingemail', true);
+   
+      xhr.setRequestHeader("Content-type", "application/json;charset=UTF-8");
+      xhr.send(JSON.stringify(data))
+
+      xhr.onreadystatechange = function() {
+      if (xhr.readyState == 4 &&  xhr.status == 200) {
+          
+            var response = JSON.parse(xhr.responseText)
+
+          
+            
+            if (response.code == "409" && response.message.length != 0){ 
+               $(document).ready(function()
+                  
+                  {
+                     //for giving email option
+                     $('#emailId').append('<option value=' + 'email' + '>' + 'Please Select Linked Email' + '</option>');
+
+                     for (let key in response.message) {
+                        var value = response.message[key]
+                        console.log(value)
+
+                     $('#emailId').append('<option value=' + value.email + '>' + value.email + '</option>');
+
+                  }
+
+                  });
+               }else if(selectedretailer == ""){
+                  //this work when be click default retailer option e.g Retailers
+                  document.getElementById("emailId").options.length                = 0;
+                  $('#emailId').append('<option value=' + 'email' + '>' + 'Email' + '</option>');
+                  document.getElementById("shipadress").options.length                = 0;
+                  $('#shipadress').append('<option value=' + 'address' + '>' + 'Shipping Address' + '</option>');
+
+                  //resetting the giftcards
+                  resetgiftcards();
+
+               }
+            else{
+                     //make password & email field visible if email is not there
+                     showInputPasswordEmail()   
+
+               }
+           
+           }
+      };
+
+   }
+</script>
+
+
+
+<!-- function for geting list of all address on change of retailers -->
+<script>
+   function changeemail(){
+      //getting a selected giftcard cost
+      let selected_userid      = document.getElementById('select_user').value
+      let selected_retailer   =  document.getElementById('retailer_select').value
+      let selected_email      =  document.getElementById('emailId').value;
+
+      if (selected_email == 'email'){
+         document.getElementById("shipadress").options.length                = 0;
+         $('#shipadress').append('<option value=' + 'address' + '>' + 'Shipping Address' + '</option>');
+
+         //resetting the giftcards
+         resetgiftcards();
+         return false
+      }
+
+
+     
+
+      var data = {"associate_ret":selected_retailer, "associate_email":selected_email, "associate_user":selected_userid}
+
+      //---------Ajax Call---------//
+   
+      //Initialize xhr request
+      var xhr = new XMLHttpRequest();
+   
+      //open xhr object
+      //open(method, url, async)
+      xhr.open("POST", '/getordertrackingaddress', true);
+   
+      xhr.setRequestHeader("Content-type", "application/json;charset=UTF-8");
+      xhr.send(JSON.stringify(data))
+
+      xhr.onreadystatechange = function() {
+      if (xhr.readyState == 4 &&  xhr.status == 200) {
+          
+            var response = JSON.parse(xhr.responseText)
+
+           
+            if (response.code == "409" && response.message.length != 0){ 
+               $(document).ready(function()
+
+                  { 
+        
+                     document.getElementById('shipwarning').innerText = 'Please select address before selecting giftcards '
+
+                     //empty the  list of the ship address
+                     var select = document.getElementById("shipadress");
+                     select.options.length = 0;
+                     $('#shipadress').append('<option value=' + 'address' + '>' + 'Please Select Linked Address' + '</option>');
+
+
+                        for (let key in response.message) {
+                           var value = response.message[key]
+                           console.log(value)
+
+                        $('#shipadress').append('<option>' + value.address + '</option>');
+
+                     }
+
+
+                  });
+               }
+            else{
+                
+               document.getElementById('shipwarning').innerText = 'Please select address before selecting giftcards '
+
+               //empty the  list of the ship address
+               var select = document.getElementById("shipadress");
+               select.options.length = 0;
+               $('#shipadress').append('<option value=' + 'address' + '>' + 'Please Select Linked Address' + '</option>');
+
+               $('#shipadress').append('<option value=' + 'Null' + '>' + 'No address available' + '</option>');
+            }
+           
+           }
+      };
+
+
+   }
+</script>
+
+<script>
+   function changeemailinput(){
+      document.getElementById('inputemaillabel').innerText = 'Email (Account)'
+      document.getElementById('inputemaillabel').style.color = '#6c757d';
+
+      //getting a selected giftcard cost
+      let selected_userid      = document.getElementById('select_user').value
+      let selected_retailer   =  document.getElementById('retailer_select').value
+      let selected_email      =  document.getElementById('emailId').value;
+     
+
+      var data = {"associate_ret":selected_retailer, "associate_email":selected_email, "associate_user":selected_userid}
+
+      //---------Ajax Call---------//
+   
+      //Initialize xhr request
+      var xhr = new XMLHttpRequest();
+   
+      //open xhr object
+      //open(method, url, async)
+      xhr.open("POST", '/getordertrackingaddress', true);
+   
+      xhr.setRequestHeader("Content-type", "application/json;charset=UTF-8");
+      xhr.send(JSON.stringify(data))
+
+      xhr.onreadystatechange = function() {
+      if (xhr.readyState == 4 &&  xhr.status == 200) {
+          
+            var response = JSON.parse(xhr.responseText)
+
+            
+         
+
+            if (response.code == "409" && response.message.length != 0){ 
+               $(document).ready(function()
+
+                  { 
+                        document.getElementById('shipwarning').innerText = 'Please select address before selecting giftcards '
+                        //empty the  list of the ship address
+                        var select = document.getElementById("shipadress");
+                        select.options.length = 0;
+                        
+                        $('#shipadress').append('<option value=' + 'address' + '>' + 'Please Select Linked Address' + '</option>');
+                        for (let key in response.message) {
+                        var value = response.message[key]
+                        console.log(value)
+
+                     $('#shipadress').append('<option>' + value.address + '</option>');
+
+                  }
+
+                  });
+               }
+            else{
+                 
+               document.getElementById('shipwarning').innerText = 'Please select address before selecting giftcards '
+
+               //empty the  list of the ship address
+               var select = document.getElementById("shipadress");
+               select.options.length = 0;
+               $('#shipadress').append('<option value=' + 'address' + '>' + 'Please Select Linked Address' + '</option>');
+
+               $('#shipadress').append('<option value=' + 'Null' + '>' + 'No address available' + '</option>');
+            }
+           
+           }
+      };
+   }
+      
+</script>
+
+
+<script>
+   function changepassword(){
+       //getting a selected giftcard cost
+      let selected_retailer   =  document.getElementById('retailer_select').value
+      let selected_email      =  document.getElementById('emailId').value;
+      let selected_password   =  document.getElementById('pwd').value;
+      if (selected_password.length == 0 && selected_email == 'email'){
+         document.getElementById("passwordelement").style.display     = 'none';
+         document.getElementById('pwd').value = "";
+         return false
+
+      }
+
+      if (selected_password.length >= 6){
+         document.getElementById('pwdrq').innerText = 'Password'
+         document.getElementById('pwdrq').style.color = '#6c757d';
+         return false
+
+      }else if (selected_password.length >1 && selected_password.length < 6){
+         document.getElementById('pwdrq').innerText = 'Password must be 6 digit'
+         document.getElementById('pwdrq').style.color = 'red';
+         return false
+      }
+
+   }
+</script>
+
+<!-- this code is for hiding & showing of input email box -->
+<script>
+   function showInputPasswordEmail(){
+      document.getElementById("retailerelement").className       = "col-md-12";
+      document.getElementById("emailelement").style.display      = 'none';
+      document.getElementById("inputemaildiv").style.display     = 'block';
+      document.getElementById("passwordelement").style.display   = 'block';
+      document.getElementById('pwd').required                     = true;
+      document.getElementById('inputemailbox').required           = true;
+      document.getElementById('emailId').required                 = false;
+      document.getElementById('shipwarning').innerText            =  "" ;     
+   }
+
+
+   function hideInputPasswordEmail(){
+      document.getElementById("inputemaildiv").style.display      = 'none';
+      document.getElementById("passwordelement").style.display    = 'none';
+      document.getElementById("retailerelement").className        = "col-md-6";
+      document.getElementById("emailelement").style.display       = 'block';
+      document.getElementById('pwd').value                        = "";
+      document.getElementById('pwd').required                     = false;
+      document.getElementById('inputemailbox').value              = ""; 
+      document.getElementById('inputemailbox').required           = false;
+      document.getElementById('emailId').required                 = true;
+      document.getElementById('shipwarning').innerText            =  "" ;   
+        
+
+      //document.getElementById('select_users_id').style.color      = 'red';
+   }
+
+   function resetgiftcards(){
+           //resetting giftcards
+           let activeLengthOfGiftCard= $("#addMorecard-items > div.row").length
+            for (let k = activeLengthOfGiftCard; k <= activeLengthOfGiftCard; k--){
+               if (k!=0 && k!=1){
+                  let rem_ele = document.getElementById(k);
+                  $(rem_ele).parent().remove();
+               }else{
+                  document.getElementById("gnoRow").value                          ="1";
+                  document.getElementById("Gc_amount-1").required = false;
+                  document.getElementById("Gc_balance-1").value = "";
+                  document.getElementById("Gc_pin-1").value = "";
+                  document.getElementById("gcards-1").options.length                = 0;
+                  $('#gcards-1').append('<option value=' + 'Gift_Cards' + '>' + 'Please Select Linked Giftcard' + '</option>');
+                  getallgiftcard = []
+                  getallgiftcard_copy = []
+                  break;
+               }
+               
+            } 
+   }
+</script>
+
+<!-- this function run on the change of the user -->
+<script>
+   function selectuser_function(){
+
+      let selecteduserid = document.getElementById('select_user').value
+      let selectedretailer = document.getElementById('retailer_select').value
+      console.log(selecteduserid)
+      console.log(selectedretailer)
+
+      if (selecteduserid == ""){
+          //making password field & input email field invisisble on change of active buy
+            hideInputPasswordEmail()
+            document.getElementById("emailId").options.length                = 0;
+            $('#emailId').append('<option value=' + 'email' + '>' + 'Email' + '</option>');
+            document.getElementById('select_users_id').style.color      = 'red'
+            return false
+      }
+
+      data = {'selecteduserid':selecteduserid, "selectedretailer":selectedretailer}
+
+      $.ajax({
+          type: "post",
+          url: "/addorderselectuser",
+          data: JSON.stringify(data),
+          success: function(d) {
+             console.log('Success', d);
+
+            //when user is selected it change the label color
+            document.getElementById('select_users_id').style.color  = '#6c757d';
+
+            document.getElementById("emailId").options.length                = 0;
+            $('#emailId').append('<option value=' + 'email' + '>' + 'Please Select Linked Email' + '</option>');
+
+            //reinitilallizing shipping box
+            // document.getElementById('emailId').onchange = "";  
+            document.getElementById("shipadress").options.length                = 0;
+            $('#shipadress').append('<option value=' + 'address' + '>' + 'Please Select Linked Address' + '</option>');
+
+               if (d.selecteduser_email.length != 0 ){
+                     //when more than 1 email is there
+                     if (d.selecteduser_email.length > 1){
+                        //making password field & input email field invisisble on change of active buy
+                        hideInputPasswordEmail()
+                        for (let key in d.selecteduser_email){
+                              var value = d.selecteduser_email[key] 
+                              //console.log(value)
+                              $('#emailId').append('<option value=' + value.email + '>' + value.email + '</option>');
+                              
+                        } 
+                     // when single email is there
+                     }else{
+                           //making password field & input email field invisisble on change of active buy
+                           document.getElementById("emailId").options.length                = 0;
+                           hideInputPasswordEmail()
+                           for (let key in d.selecteduser_email){
+                                 var value = d.selecteduser_email[key] 
+                                 //console.log(value)
+                                 $('#emailId').append('<option value=' + value.email + '>' + value.email + '</option>');
+                                 
+                           } 
+                           //this call the shipping address if single email is there
+                           changeemail()
+
+
+                     }
+  
+                  
+               }else{
+                  //make password & email field visible if email is not there
+                  showInputPasswordEmail()   
+               } 
+               //resetting giftcards
+               resetgiftcards()     
+            },
+            
+          dataType: 'json',
+          contentType: "application/json"
+    });
+
+
+   }
+</script>
+
+
+<!-- this code is operated from change of shipping address -->
+<script>
+var getallgiftcard = []
+var getallgiftcard_copy = []
+
+ function associatecards(ev){
+
+      if (ev.id =="shipadress"){
+         add_no = 1;
+      }else{
+         add_no = ev
+
+      }
+
+      let selected_retailer = document.getElementById('retailer_select').value
+      let selected_email =  document.getElementById('emailId').value;
+      //adding associate retailer
+      var data = {"associate_ret":selected_retailer, "associate_email":selected_email}
+
+      // //empty the email list of the email
+      // var select = document.getElementById("gcards-"+add_no);
+      // select.options.length = 0;
+
+         //resetting giftcards
+         resetgiftcards()
+         var select = document.getElementById("gcards-"+add_no);
+         select.options.length = 0;
+
+         
+
+         
+
+
+       //---------Ajax Call---------//
+   
+      //Initialize xhr request
+      var xhr = new XMLHttpRequest();
+   
+      //open xhr object
+      //open(method, url, async)
+      xhr.open("POST", '/trackingcards', true);
+   
+      xhr.setRequestHeader("Content-type", "application/json;charset=UTF-8");
+      xhr.send(JSON.stringify(data))
+
+      xhr.onreadystatechange = function() {
+      if (xhr.readyState == 4 &&  xhr.status == 200) {
+          
+            var response = JSON.parse(xhr.responseText)
+
+            //for later use
+            getallgiftcard.push(response.message)
+            getallgiftcard_copy.push(response.message)
+            
+
+            if (response.code == "409" && response.message.length != 0){ 
+               $(document).ready(function()
+                  
+
+                  { 
+
+                     $('#gcards-'+add_no).append('<option value=' + 'Gift_Cards' + '>' + 'Please Select Linked Giftcard' + '</option>');
+
+                     for (let key in response.message) {
+                        var value = response.message[key]
+                        console.log(value)
+
+                        $('#gcards-'+add_no).append('<option value=' + value.gift + '>' + value.gift+  "\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0"+"Balance          "  + value.balance + '</option>');
+
+                  }
+
+                  });
+               }
+            else{
+               $('#gcards-'+add_no).append('<option value=' + 'Null' + '>' + 'No gift card available' + '</option>');
+            }
+           
+           }
+      };
+      return
+
+ }
+</script>
+
+<script>
+   var getallgiftcard = []
+   function giftcards_function(event){
+      //console.log(getallgiftcard)
+      let g_event_id = event.id
+      let g_event_value = event.value
+      // console.log(getallgiftcard)
+
+      getallgiftcard_iter = getallgiftcard_copy[0]
+   
+      //console.log(getallgiftcard_iter)
+      for (let key in getallgiftcard_iter) {
+         var value = getallgiftcard_iter[key]
+         console.log(value)
+         //getting giftcard count
+         gcr_count = g_event_id.slice(7,)
+
+         if (g_event_value == "Gift_Cards"){
+            document.getElementById("Gc_amount-"+gcr_count).required = false;
+            document.getElementById("Gc_balance-"+gcr_count).value = "";
+            document.getElementById("Gc_pin-"+gcr_count).value = "";
+
+         }else if (g_event_value == value.gift){
+            document.getElementById("Gc_amount-"+gcr_count).required = true;
+            document.getElementById("Gc_balance-"+gcr_count).value = value.balance;
+            document.getElementById("Gc_pin-"+gcr_count).value = value.pin;
+
+         }else if (g_event_value == 'undefined'){
+            document.getElementById("Gc_amount-"+gcr_count).required = false;
+            document.getElementById("Gc_balance-"+gcr_count).value = "";
+            document.getElementById("Gc_pin-"+gcr_count).value = "";
+         }
+      
+      }
+
+      nextall_giftcard = getallgiftcard.flatMap(x => Object.values(x));
+      const giftcardToRemove = g_event_value;
+      nextall_giftcard = nextall_giftcard.filter((item) => item.gift !== giftcardToRemove);
+      getallgiftcard = []
+      getallgiftcard.push(nextall_giftcard)
+   
+   }
+   </script>
+
+
+   <!-- this function is called when user select active buy -->
+   <script>
+      var temp_reailer = []
+      var active_length;
+      function activeBuy_function(event){
+
+         active_buy_data = event
+         //this code when when we reselect select a buy option
+         if (active_buy_data == ""){
+            document.getElementById("select_user").required                            = false;
+            // $("#emailId").on('change',changeemail);
+                  for (let k = active_length; k <= active_length; k--){
+                     if (k!=0 && k!=1){
+                        let rem_ele = document.getElementById(k);
+                        $(rem_ele).parent().remove();
+                     }else{
+                        break;
+                     }
+                   
+                  } 
+            //making row value to 1    
+            document.getElementById("noRow").value                          ="1";
+            //make tax & shipping 0 on removing element
+            document.getElementById("tax").value                            = ""
+            document.getElementById("shipping").value                       = ""
+            document.getElementById("Sku-1").value                          = ""
+            document.getElementById('itemtitle-1').value                    = "";
+            document.getElementById("Price-1").value                        = ""
+            document.getElementById("TotalQty-1").value                     = ""
+            document.getElementById("cal_subtotal").value                   = ""
+            document.getElementById("cart_total").value                     = ""
+            document.getElementById("cart_id").value                        = ""
+            document.getElementById("rewards").value                        = ""
+            document.getElementById("coupon").value                         = ""
+            document.getElementById("Discount").value                       = ""
+
+
+            //resetting giftcards
+            resetgiftcards()
+
+
+            //re- adding vendor
+            document.getElementById("vendor_select").name                    = "affiliate"
+            document.getElementById("vendor_select").options[0].innerText    = "Affiliate"
+            $('#vendor_select').append('<option value=' + 'Mrrebates' + '>' + 'Mr Rebates' + '</option>');
+            $('#vendor_select').append('<option value=' + 'Befrugal' + '>' + 'BeFrugal' + '</option>');
+            $('#vendor_select').append('<option value=' + 'iconsumer' + '>' + 'iConsumer' + '</option>');
+            $('#vendor_select').append('<option value=' + 'rakuten' + '>' + 'Rakuten' + '</option>');
+
+            //re adding retailer
+            document.getElementById("retailer_select").options.length                = 0;
+            for (var i = 0; i < temp_reailer.length; i++) {
+               $('#retailer_select').append("<option value='"+temp_reailer[i]+"'>" + temp_reailer[i] + "</option>");
+                  }
+            document.getElementById("emailId").options.length                = 0;
+            $('#emailId').append('<option value=' + 'email' + '>' + 'Email' + '</option>');
+            document.getElementById("shipadress").options.length                = 0;
+            $('#shipadress').append('<option value=' + 'address' + '>' + 'Shipping Address' + '</option>');
+
+               //making user field invisisble on change of active buy
+               document.getElementById("userelement").style.display = 'none';
+               document.getElementById("select_user").value = '';
+
+                //making password field & input email field invisisble on change of active buy
+                hideInputPasswordEmail()
+
+         }else{
+               temp_re = document.getElementById('retailer_select');
+               for (var i = 0; i < temp_re.length; i++) {
+                  temp_reailer.push(temp_re[i].text)
+                  
+                  }
+               $.ajax({
+               type:"post",
+               url:"/getactivebuydetail",
+               data:JSON.stringify(active_buy_data),
+               success: function(d) {
+                  console.log('active_buy_details', d);
+                  active_length = d.active_buy_details.length
+
+
+                  // //this code work when comany id is 2 means when it login by the admin
+                  // if (d.user_list.length !=0){
+                  //       //this line executes when login by admin & user is more than 1
+                  //       if (d.user_list[0].companyid == 2 && (d.user_list.length > 1)){
+                  //          document.getElementById("select_user").options.length                      = 0;
+                  //          $('#select_user').append('<option value=' + '>' + 'Please Select Linked User' + '</option>');
+                  //          document.getElementById("select_user").required                            = true;
+                  //          document.getElementById("userelement").style.display                       = 'block';
+                  //          document.getElementById('select_users_id').style.color                     = 'red';
+                  //          for (let key in d.user_list){
+                  //                   let Uservalue = d.user_list[key] 
+                  //                   //console.log(value)
+                  //                   $('#select_user').append('<option value=' + Uservalue.userid + '>' + Uservalue.contactName + '</option>');
+                  //          }
+                  //       //this line executes when login by admin & there is 1 user
+                  //       }else{
+                  //          document.getElementById("select_user").options.length                      = 0;
+                  //          document.getElementById("select_user").required                            = true;
+                  //          document.getElementById("userelement").style.display                       = 'block';
+                  //          // document.getElementById('select_users_id').style.color                     = '#6c757d';
+                  //          for (let key in d.user_list){
+                  //                   let Uservalue = d.user_list[key] 
+                  //                   //console.log(value)
+                  //                   $('#select_user').append('<option value=' + Uservalue.userid + '>' + Uservalue.contactName + '</option>');
+                  //          }
+                  //          //In case of admin if single user is there it call selectuser function
+                  //          // so giving the linked email
+                  //             //re adding retailer
+                  //          selectuser_function()
+                  //       }
+                  // //this code work when we login by other user 
+                  // }else{
+                  //    //making user field invisisble on change of active buy
+                  //    document.getElementById("userelement").style.display = 'none';
+                  //    document.getElementById("select_user").value = '';
+
+                  //    //making password field & input email field invisisble on change of active buy
+                  //    hideInputPasswordEmail()
+                  //    }
+
+
+                  // this code is used for increasing the no. of row
+                  let chan_row_count = document.getElementById("noRow").value
+                  document.getElementById("noRow").value                         =active_length;
+                   //make tax & shipping 0 on removing element
+                  document.getElementById("tax").value                            = ""
+                  document.getElementById("shipping").value                       = ""
+                  document.getElementById("cart_total").value                     = ""
+                  document.getElementById('itemtitle-1').value                    = ""
+                  document.getElementById("rewards").value                        = ""
+                  document.getElementById("coupon").value                         = ""
+                  document.getElementById("Discount").value                       = ""
+
+
+
+                  // this code work when we select active buy 3 sku to 2 sku or (2 sku to 3 sku)
+                  if(chan_row_count!=1){
+                     for (let k = chan_row_count; k <= chan_row_count; k--){
+                        if (k!=0 && k!=1){
+                           let rem_e = document.getElementById(k);
+                           $(rem_e).parent().remove();
+                        }else{
+                           break;
+                        }
+                     }
+
+                  }
+
+
+
+                  if (active_length != 0){
+                     for (let i = 0; i < active_length; i++){
+
+                     let buying_item_sku     = d.active_buy_details[i].item_sku
+                     let buying_price        = d.active_buy_details[i].price
+                     let buying_qty_percart  = d.active_buy_details[i].qty_percart
+                     let buying_cart_total   = d.active_buy_details[i].cart_total
+                     let cart_id             = d.active_buy_details[i].cart_id
+                     let buy_affliate        = d.active_buy_details[i].affliate
+                     let buy_retailler       = d.active_buy_details[i].retailler
+
+
+                     
+                     let j = i + 1
+
+                     if (j > 1){
+                              let priceElement = '<input required type="number" min="0" step="any" class="form-control noscroll" name="price-'+j+'" id="Price-'+j+'" onkeyup="cal_total(id)" placeholder="0.00">';
+                              $(wrapper).append('<div class="row">'+
+                                 "<button type='button' class='close  close_button btnRadiusRounded closebtn-MT1' id='"+j+"' onclick='close_sku_item(id,this);'>×</button>"+
+                                    '<div class="col-md-3">'+
+                                    '<div class="form-group">'+
+                                       '<label for="Sku-'+j+'" class="control-label">Sku </label>'+
+                                       '<input required type="text" class="form-control"  name="sku-'+j+'" id="Sku-'+j+'" placeholder="#3452">'+
+                                    '</div>'+
+                                    '</div>'+
+                                    '<div class="col-md-4">'+
+                                    '<div class="form-group">'+
+                                       '<label for="itemtitle-'+j+'" class="control-label">Item title  </label>'+
+                                       '<input required type="text" class="form-control"  name="itemtitle-'+j+'" id="itemtitle-'+j+'" placeholder="Enter Item title ">'+
+                                    '</div>'+
+                                    '</div>'+
+                                    '<div class="col-md-2">'+
+                                       '<div class="form-group">'+
+                                          '<label for="Price-'+j+'" class="control-label">Price </label>'+priceElement
+                                          +
+                                       '</div>'+
+                                    '</div>'+
+                                    '<div class="col-md-2">'+
+                                       '<div class="form-group">'+
+                                          '<label for="TotalQty-'+j+'" class="control-label">Qty</label>'+
+                                          '<input required type="number" min="0" step="number" class="form-control noscroll" name="totalqty-'+j+'" id="TotalQty-'+j+'" onkeyup="cal_total(id)" placeholder="1">'+
+                                       '</div>'+
+                                    '</div>'+
+                                 '<h5><span style="color:red" id="warning-'+j+'"></span></h5>'+
+                              '</div>');
+                           
+                        }
+
+                     document.getElementById("Sku-"+j).value                           = buying_item_sku
+                     document.getElementById("Price-"+j).value                         = buying_price
+                     document.getElementById("TotalQty-"+j).value                      = buying_qty_percart
+                     document.getElementById("cal_subtotal").value                     = buying_cart_total
+                     document.getElementById("cart_total").value                       = buying_cart_total
+                     document.getElementById("cart_id").value                          = cart_id
+                     document.getElementById("vendor_select").options.length                = 0;
+                     $('#vendor_select').append('<option value=' + buy_affliate + '>' + buy_affliate + '</option>');
+                     document.getElementById("retailer_select").options.length                = 0;
+                     $('#retailer_select').append("<option value='"+buy_retailler+"'>" + buy_retailler + "</option>");
+
+                      //this code work when comany id is 2 means when it login by the admin
+                     if (d.user_list.length !=0){
+                           //this line executes when login by admin & user is more than 1
+                           if (d.user_list[0].companyid == 2 && (d.user_list.length > 1)){
+                              document.getElementById("select_user").options.length                      = 0;
+                              $('#select_user').append('<option value=' + '>' + 'Please Select Linked User' + '</option>');
+                              document.getElementById("select_user").required                            = true;
+                              document.getElementById("userelement").style.display                       = 'block';
+                              document.getElementById('select_users_id').style.color                     = 'red';
+                              for (let key in d.user_list){
+                                       let Uservalue = d.user_list[key] 
+                                       //console.log(value)
+                                       $('#select_user').append('<option value=' + Uservalue.userid + '>' + Uservalue.contactName + '</option>');
+                              }
+                           //this line executes when login by admin & there is 1 user
+                           }else{
+                              document.getElementById("select_user").options.length                      = 0;
+                              document.getElementById("select_user").required                            = true;
+                              document.getElementById("userelement").style.display                       = 'block';
+                              // document.getElementById('select_users_id').style.color                     = '#6c757d';
+                              for (let key in d.user_list){
+                                       let Uservalue = d.user_list[key] 
+                                       //console.log(value)
+                                       $('#select_user').append('<option value=' + Uservalue.userid + '>' + Uservalue.contactName + '</option>');
+                              }
+                              //In case of admin if single user is there it call selectuser function
+                              // so giving the linked email
+                                 //re adding retailer
+                              selectuser_function()
+                           }
+                     //this code work when we login by other user 
+                     }else{
+                        //making user field invisisble on change of active buy
+                        document.getElementById("userelement").style.display = 'none';
+                        document.getElementById("select_user").value = '';
+
+                        //making password field & input email field invisisble on change of active buy
+                        hideInputPasswordEmail()
+                        }
+
+                     //reinitilallizing email box
+                     // document.getElementById('emailId').onchange = "";  
+
+                     document.getElementById("emailId").options.length                = 0;
+                     $('#emailId').append('<option value=' + 'email' + '>' + 'Email' + '</option>');
+
+                     //reinitilallizing shipping box
+                     // document.getElementById('emailId').onchange = "";  
+                     document.getElementById("shipadress").options.length                = 0;
+                     $('#shipadress').append('<option value=' + 'address' + '>' + 'Please Select Linked Address' + '</option>');
+
+
+
+                        // for (let key in d.active_buy_email){
+                        //       var value = d.active_buy_email[key] 
+                        //       //console.log(value)
+                        //       $('#emailId').append('<option value=' + value.email + '>' + value.email + '</option>');
+                              
+                        // }  
+
+                        // for (let key in d.active_buy_address){
+                        //       var value = d.active_buy_address[key] 
+                        //       //console.log(value)
+                        //       $('#shipadress').append('<option>' + value.address + '</option>');
+
+                        // }  
+
+                        if (d.active_buy_email != 0){
+                           //this condition work when it login by other user
+                           //& there are more than 1 email
+                           if (d.active_buy_email.length > 1 && (d.user_list.length == 1 || d.user_list.length == 0)){
+                                 //making password field & input email field invisisble on change of active buy
+                                 hideInputPasswordEmail()
+                                 document.getElementById("emailId").options.length                = 0;
+                                 $('#emailId').append('<option value=' + 'email' + '>' + 'Please Select Linked Email' + '</option>');
+                                 for (let key in d.active_buy_email){
+                                       var value = d.active_buy_email[key] 
+                                       //console.log(value)
+                                        $('#emailId').append('<option value=' + value.email + '>' + value.email + '</option>');
+                                 } 
+                           
+                           //this condition when login by other user 
+                           // & there is single email
+                           }else if(d.active_buy_email.length == 1){
+                                 document.getElementById("emailId").options.length                = 0;
+                                 //making password field & input email field invisisble on change of active buy
+                                 hideInputPasswordEmail()
+                                 for (let key in d.active_buy_email){
+                                       var value = d.active_buy_email[key] 
+                                       //console.log(value)
+                                        $('#emailId').append('<option value=' + value.email + '>' + value.email + '</option>');
+                                 }
+                                 //this call the change address function
+                                 changeemail() 
+
+                              }
+                        
+                        }else{
+                           
+                           //make password & email field visible if email is not there
+                           showInputPasswordEmail()   
+                        } 
+
+                         //resetting giftcards
+                         resetgiftcards()
+
+                     }
+                     
+                  }
+                  
+               },
+               dataType: 'json',
+               contentType: "application/json"
+            });
+
+         }
+
+        
+  
+   }
+   </script>
+
+
+<!-- this function is used for adding extra giftcard -->
+<script>
+   function cardadding(selectadding){
+
+      //getting array of all the giftcards
+      var u = getallgiftcard[0]
+
+      $(document).ready(function()
+         {   
+      
+            //again initializing select 2 on add card functionality
+            $('.js-example-basic-single').select2();
+            $(".js-example-basic-single").select2({width: '100%', tags: true});
+
+            //getting giftcard count
+            gcr_count = document.getElementById("gnoRow").value
+
+            // $('#gcards-2').append('<option value=' + 'Gift_Cards' + '>' + 'Please Select Linked Giftcard' + '</option>');
+
+            for (let gift_key in u) {
+               var value_gift    =u[gift_key].gift
+               var value_balance =u[gift_key].balance
+
+            $('#gcards-'+gcr_count).append('<option value=' + value_gift + '>' + value_gift+  "\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0"+"Balance          "  + value_balance + '</option>');
+
+         }
+
+         });
+
+   }
+</script>
+
+
+
+   <script>
+   function changeStatus(selectedObject) {
+    //id of the selected retailer
+    var id = selectedObject.value;
+    //name of the retailer
+    var selectedStatus =  selectedObject.options[selectedObject.selectedIndex].text;
+    console.log(id)
+    console.log(selectedStatus)
+
+    const updateValue = {"cellName":"tracking_status", "id":id, "newValue":selectedStatus};
+    // call API here to update date in database
+    $.ajax({
+          type: "put",
+          url: "/updatetrackingrows",
+          data: JSON.stringify(updateValue),
+          success: function(d) {
+             //console.log('Success', d);
+             showSnackbar('status updated')
+             orderTrackingTable.draw();
+          },
+          dataType: 'json',
+          contentType: "application/json"
+    });
+    // **API CODE END**
+ }
+</script>
+
+<script type="text/javascript">
+   
+     function cal_total(id){
+        
+      var totalAmount=0
+         var subtotalAmount=0
+         var loopValue=0
+         data=document.getElementById("noRow").value
+         Qty1=document.getElementById("TotalQty-1").value
+         if (Qty1 > 0 || Qty1 == ''){
+  
+               for(var x=1;x<=Number(data);x++){
+                  price=Number(document.getElementById("Price-"+String(x)).value)
+                  Qty=document.getElementById("TotalQty-"+String(x)).value
+                  var total=price*Qty
+                  var subtotal = price*Qty
+                  subtotalAmount+=subtotal
+                  totalAmount+=total
+      
+               }
+               totalAmount = Math.round((totalAmount + Number.EPSILON) * 100) / 100
+               subtotalAmount = Math.round((subtotalAmount + Number.EPSILON) * 100) / 100
+               // document.getElementById("display_total_add").innerHTML = '   Total Amount: $'+String(totalAmount);
+               $("#cal_subtotal").val(subtotalAmount);
+               $("#cart_total").val(totalAmount);
+
+               document.getElementById("tax").value = ''
+               document.getElementById("shipping").value = ''
+         }else{
+            document.getElementById("TotalQty-1").value = ''
+            return
+         }
+       }
+
+    
+
+</script>
+
+<script>
+   var ship_amount = 0
+   var tax_amount  = 0
+   function cal_finaltotal(id){
+      var cal_subtotal = document.getElementById("cal_subtotal").value
+
+      if (id == 'tax'){
+            tax_amount = document.getElementById("tax").value
+            
+                if(tax_amount == 0 && ship_amount >= 1){
+                  tax_amount = 0
+                  total_with_tax = parseFloat(parseFloat(cal_subtotal).toFixed(2)) +  parseFloat(parseFloat(ship_amount).toFixed(2))
+                  total_with_tax = parseFloat(parseFloat(total_with_tax).toFixed(2))
+
+               }
+               else if(tax_amount >= 1 && ship_amount >= 1){
+                  cart_total = parseFloat(parseFloat(cal_subtotal).toFixed(2)) +  parseFloat(parseFloat(ship_amount).toFixed(2))
+                  total_with_tax = parseFloat(parseFloat(cart_total).toFixed(2)) +  parseFloat(parseFloat(tax_amount).toFixed(2))
+                  total_with_tax = parseFloat(parseFloat(total_with_tax).toFixed(2))
+
+
+               }else if(tax_amount == ""){
+                  tax_amount  = 0
+                  total_with_tax = parseFloat(parseFloat(cal_subtotal).toFixed(2)) +  parseFloat(parseFloat(tax_amount).toFixed(2))
+                  total_with_tax = parseFloat(parseFloat(total_with_tax).toFixed(2))
+
+               }
+               else if(tax_amount >= 1){
+                  total_with_tax = parseFloat(parseFloat(cal_subtotal).toFixed(2)) +  parseFloat(parseFloat(tax_amount).toFixed(2))
+                  total_with_tax = parseFloat(parseFloat(total_with_tax).toFixed(2))
+
+
+               } 
+         $("#cart_total").val(total_with_tax);
+
+      } else if (id == 'shipping') {
+         
+         ship_amount = document.getElementById("shipping").value
+         if (tax_amount > 0 && ship_amount ==0){
+               tax_amount = document.getElementById("tax").value
+               shipTotal = document.getElementById("cal_subtotal").value 
+               total_with_shipping  = parseFloat(parseFloat(shipTotal).toFixed(2)) +  parseFloat(parseFloat(tax_amount).toFixed(2))
+               total_with_shipping  = parseFloat(parseFloat(total_with_shipping).toFixed(2))
+               $("#cart_total").val(total_with_shipping);
+            }else if(tax_amount == 0 && ship_amount >= 1){
+                shipTotal = document.getElementById("cal_subtotal").value
+                total_with_shipping  = parseFloat(parseFloat(shipTotal).toFixed(2)) +  parseFloat(parseFloat(ship_amount).toFixed(2))
+                total_with_shipping  = parseFloat(parseFloat(total_with_shipping).toFixed(2))
+               $("#cart_total").val(total_with_shipping);
+
+             }else if(tax_amount >= 1 && ship_amount >= 1){
+                cart_total = parseFloat(parseFloat(cal_subtotal).toFixed(2)) +  parseFloat(parseFloat(tax_amount).toFixed(2))
+                total_with_shipping  = parseFloat(parseFloat(cart_total).toFixed(2)) +  parseFloat(parseFloat(ship_amount).toFixed(2))
+                total_with_shipping  = parseFloat(parseFloat(total_with_shipping).toFixed(2))
+               $("#cart_total").val(total_with_shipping);
+
+             }
+            else if(ship_amount == 0){
+               ship_amount = 0
+               shipTotal =  document.getElementById("cal_subtotal").value
+               total_with_shipping  = parseFloat(parseFloat(shipTotal).toFixed(2)) +  parseFloat(parseFloat(ship_amount).toFixed(2))
+               total_with_shipping  = parseFloat(parseFloat(total_with_shipping).toFixed(2))
+               $("#cart_total").val(total_with_shipping);
+
+             } else if(ship_amount == ""){
+            ship_amount = 0
+            total_with_shipping  = parseFloat(parseFloat(shipTotal).toFixed(2)) +  parseFloat(parseFloat(ship_amount).toFixed(2))
+            total_with_shipping  = parseFloat(parseFloat(total_with_shipping).toFixed(2))
+            $("#cart_total").val(total_with_shipping);
+               }
+        
+
+      }
+      
+   }
+</script>
+
+<script>
+   function checkamount(event){
+
+      gc_amount   = document.getElementById(event.id).value;
+      //the id gc_amount-1 comes from the above event
+      let event_str = event.id; 
+      // slice the string
+      let res = event_str.slice(10,);
+      gc_balance  = document.getElementById("Gc_balance-"+res).value;
+      if (gc_balance == ""){
+
+         let gc_balance = 0;
+
+      }
+
+
+      if (parseFloat(gc_amount) > parseFloat(gc_balance)) {
+         document.getElementById("Warring-"+res).innerHTML = '&#9888; amount will not be greater than balance';
+      }else{
+         document.getElementById("Warring-"+res).innerHTML = '';
+
+      }
+
+      
+   }
+</script>
+
+<script>
+   function cardhealth(ev){
+
+      console.log(ev)
+      let ev_str = ev.id; 
+      const ev_status =ev_str.slice(0,10);
+      // slice the string
+      let id_no = ev_str.slice(11,);
+      gcard_number  = document.getElementById("gcards-"+id_no).value;
+      
+      if (gcard_number != "Gift Cards"){
+
+         rm_data = {'gcard_number':gcard_number, 'ev_status':ev_status}
+
+         $.ajax({
+          type: "post",
+          url: "/otremovecards",
+          data: JSON.stringify(rm_data),
+          success: function(d) {
+             console.log('Success', d);
+             //the giftcards are reinitiallized
+               associatecards(id_no) 
+             // the giftcardpin & value are reinitiallized
+               // var select = document.getElementById("gcards-"+id_no);
+               // select.options.length = 0;
+               // $('#gcards-'+id_no).append('<option value=' + 'Gift_Cards' + '>' + 'Please Select Linked Giftcard' + '</option>');
+
+               document.getElementById("Gc_balance-"+id_no).value = "";
+               document.getElementById("Gc_pin-"+id_no).value = "";        
+            },
+          dataType: 'json',
+          contentType: "application/json"
+    });
+      }
+
+
+   }
+</script>
+<script>
+   function attemptOrder_function(val){
+       if (val != ""){
+           rm_data = {'order_number':val}
+           $.ajax({
+               type: "post",
+               url: "/attemptOrderCall",
+               data: JSON.stringify(rm_data),
+               success: function(d) {
+                  console.log('Success', d);
+                  if(d.data.length>0){
+                     document.getElementById('Retailers').value = d.data[0].retailer
+                     document.getElementById('CashbackVal').value = d.data[0].cashback
+                     document.getElementById('attempt_subtotal').value = d.data[0].Subtotal
+                     document.getElementById('attempt_tax').value = d.data[0].tax_cost
+                     document.getElementById('attempt_shipping').value = d.data[0].shipping_cost
+                     document.getElementById('attempt_address').value = d.data[0].shipping_address
+                     document.getElementById('attempt_cart_total').value = d.data[0].cart_total
+                     //document.getElementById('attemptOrderno').value = d.data[0].order_number
+                     document.getElementById('oldAttemptOrderno').value = d.data[0].order_number
+                     document.getElementById('orderNumberError').innerText=''
+                     document.getElementById('attemptOrderno').style.borderColor = '';
+
+                     document.getElementById('attemptOrder-items').innerHTML = ''
+                     for (let i = 0; i < d.data.length; i++){
+                     j=i+1
+
+                       document.getElementById('attemptOrder-items').innerHTML+=('<div class="row">'+
+                            '<div class="col-md-4">'+
+                            '<div class="form-group">'+
+                               '<label for="Sku-'+j+'" class="control-label">Sku </label>'+
+                               '<input readonly required type="text" class="form-control DataNotEditable" value='+ d.data[i].item_sku+'  name="sku-'+j+'" id="Sku-'+j+'" placeholder="#3452">'+
+                            '</div>'+
+                            '</div>'+
+
+                            '<div class="col-md-4">'+
+                               '<div class="form-group">'+
+                                  '<label for="Price-'+j+'" class="control-label">Price </label>'+
+                                  '<input readonly required type="number" min="0" value='+ d.data[i].price+' step="any" class="form-control noscroll DataNotEditable" name="price-'+j+'" id="Price-'+j+'" onkeyup="cal_total(id)" placeholder="0.00">'+
+                               '</div>'+
+                            '</div>'+
+                            '<div class="col-md-4">'+
+                               '<div class="form-group">'+
+                                  '<label for="TotalQty-'+j+'" class="control-label">Qty</label>'+
+                                  '<input readonly required type="number" value='+ d.data[i].qty_cart+' min="0" step="number" class="form-control noscroll DataNotEditable" name="totalqty-'+j+'" id="TotalQty-'+j+'" onkeyup="cal_total(id)" placeholder="1">'+
+                               '</div>'+
+                            '</div>'+
+                         '<h5><span style="color:red" id="warning-'+j+'"></span></h5>'+
+                      '</div>');
+                      }
+                    document.getElementById('multipleGiftCards').innerHTML=""
+                    for (let i = 0; i < d.giftCards.length; i++){
+                     j=i+1
+                       document.getElementById('multipleGiftCards').innerHTML+=('<div class="row">'+
+                           '<div class="col-md-6">'+
+                              '<div class="form-group">'+
+                                 '<label for="amount" class="control-label">Gift Card Number</label>'+
+                                 '<input readonly type="number" value="'+ d.giftCards[i].giftCard_number+'" class="form-control noscroll DataNotEditable" step="any" id="giftCardNumber" name="giftCardNumber"  placeholder="$100">'+
+                              '</div>'+
+                           '</div>'+
+                           '<div class="col-md-6">'+
+                              '<div class="form-group">'+
+                                ' <label for="amount" class="control-label">Amount </label>'+
+                                 '<input readonly type="number" value="'+ d.giftCards[i].amount+'" class="form-control noscroll DataNotEditable" step="any" id="gc_amount" name="gc_amount"  placeholder="$100">'+
+                             ' </div>'+
+                          ' </div>'+
+                          ' </div>'
+                            )}
+
+                    document.getElementById('showAttemptOrders').hidden=false
+                    document.getElementById('attemptOrderBtn').disabled=false
+                  }else{
+                    document.getElementById('showAttemptOrders').hidden=true
+                    document.getElementById('attemptOrderBtn').disabled=true
+                  }
+               },
+               dataType: 'json',
+               contentType: "application/json"
+           });
+       }else{
+           document.getElementById('showAttemptOrders').hidden=true
+           document.getElementById('attemptOrderBtn').disabled=true
+           document.getElementById('Retailers').value = ''
+           document.getElementById('CashbackVal').value = ''
+           document.getElementById('attempt_subtotal').value = ''
+           document.getElementById('attempt_tax').value = ''
+           document.getElementById('attempt_shipping').value = ''
+           document.getElementById('attempt_cart_total').value = ''
+           document.getElementById('attemptOrderno').value = ''
+           document.getElementById('attempt_address').value = ""
+           document.getElementById('attemptOrder-items').innerHTML = ''
+           document.getElementById('multipleGiftCards').innerHTML = ""
+
+       }
+   }
+
+   function saveDataToMain(){
+      cart_total = document.getElementById('attempt_cart_total').value
+      attemptOrderno = document.getElementById('attemptOrderno').value
+      oldAttemptOrderno = document.getElementById('oldAttemptOrderno').value
+      attempt_address = document.getElementById('attempt_address').value
+      if(attemptOrderno.trim().length > 0){
+         val={'cart_total':cart_total,
+               'oldAttemptOrderno':oldAttemptOrderno,
+               'attemptOrderno':attemptOrderno,
+               'attempt_address':attempt_address}
+
+         $.ajax({
+            type: "post",
+            url: "/saveDataAttemptToMain",
+            data: JSON.stringify(val),
+            success: function(d) {
+               console.log('Success', d);
+               if(d.code == 200){
+                  location.reload();
+               }
+            },
+            dataType: 'json',
+            contentType: "application/json"
+         })
+      }else{
+         document.getElementById('orderNumberError').innerText='Please Fill Out This Field'    
+         document.getElementById('attemptOrderno').style.borderColor = "red";    
+      }   
+
+
+
+   }
+</script>
+{% endblock %}
